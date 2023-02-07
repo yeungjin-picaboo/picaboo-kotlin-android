@@ -22,6 +22,12 @@
             android:textSize="20sp" />
 
         <Button
+            android:id="@+id/DiaryBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="일기쓰러가기" />
+
+        <Button
             android:id="@+id/requestBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
