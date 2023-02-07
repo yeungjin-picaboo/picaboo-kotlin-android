@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "23769592537",
+    "project_id": "picasso-eb069",
+    "storage_bucket": "picasso-eb069.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23769592537:android:c8708d9fde72ac274d44c8",
+        "android_client_info": {
+          "package_name": "com.example.picasso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23769592537-16qjdm5e1dcn8giqsnk17p4jqrq4i6g3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.picasso",
+            "certificate_hash": "1f81448a6a7474276fc0108e180c031e9b74b29e"
+          }
+        },
+        {
+          "client_id": "23769592537-tdbgv4cdj57mcbq83nfeh84bfi0cfqcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApNQWe33JFxm0tIUgXPQjPCAfFMN_rxYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23769592537-n3th2l53tpom07bvipkeavrdlq5e7f3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
