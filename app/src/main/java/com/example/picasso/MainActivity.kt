@@ -50,7 +50,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             //http 호출
             httpConnection()
         }
-
+        binding.DiaryBtn.setOnClickListener{
+            val intent = Intent(this,DiaryActivity::class.java)
+            startActivity(intent)
+        }
         binding.LoginBtn.setOnClickListener(this)
         binding.Login2Button.setOnClickListener{
             try {
