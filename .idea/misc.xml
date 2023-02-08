@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/angle-down_24.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable-v24/angle_down_24.xml" value="0.177" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/solid_button.xml" value="0.219" />
+        <entry key="app/src/main/res/drawable/x_button.xml" value="0.219" />
+        <entry key="app/src/main/res/layout/activity_diary.xml" value="0.2906092829597644" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.36372070312500004" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32028198242187506" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.48299255371093747" />
