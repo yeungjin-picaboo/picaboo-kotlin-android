@@ -8,14 +8,12 @@
 
     <Button
         android:id="@+id/btn_exit"
-        android:layout_width="39dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="26dp"
+        android:layout_width="44dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="52dp"
-        android:layout_marginEnd="6dp"
         android:background="@drawable/solid_button"
         android:text="X"
-        app:layout_constraintEnd_toStartOf="@+id/editTextDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,28 +21,12 @@
         android:id="@+id/showCal"
         android:layout_width="39dp"
         android:layout_height="42dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="52dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginEnd="28dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/angle_small_up_18"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/editTextDate"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="251dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="49dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_exit"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
@@ -52,24 +34,52 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="328dp"
         android:layout_height="23dp"
-        android:layout_marginStart="26dp"
+        android:layout_marginStart="57dp"
         android:layout_marginEnd="57dp"
         android:layout_marginBottom="692dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.387"
         app:layout_constraintStart_toStartOf="parent" />
 
     <CalendarView
-        android:id="@+id/testView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="284dp"
+        android:id="@+id/calendarView"
+        android:layout_width="271dp"
+        android:layout_height="326dp"
+        android:layout_marginBottom="364dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+
+    <View
+        android:id="@+id/WhiteView"
+        android:layout_width="343dp"
+        android:layout_height="339dp"
+        android:layout_marginTop="68dp"
+        android:background="#FBFBFB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <EditText
+        android:id="@+id/EditText02"
+
+        android:layout_width="322dp"
+        android:layout_height="338dp"
+
+        android:layout_marginTop="80dp"
+        android:gravity="top|left"
+
+        android:inputType="textMultiLine"
+
+        android:lines="5"
+
+        android:maxWidth="5.0dip"
+        android:minWidth="10.0dip"
+        android:scrollHorizontally="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/calendarView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
