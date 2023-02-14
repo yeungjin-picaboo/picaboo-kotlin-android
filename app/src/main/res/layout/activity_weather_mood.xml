@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WeatherMoodActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="362dp"
+        android:layout_height="308dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="350dp"
+        android:layout_height="216dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButtonSnow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/btn_selector_background"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonCloudy"
+            app:layout_constraintHorizontal_bias="0.23"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonRainy"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/btn_selector_snow" />
+
+        <ImageButton
+            android:id="@+id/imageButtonRainy"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/btn_selector_background"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonSnow"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonSnow"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonSunny"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonSnow"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/btn_selector_rainy" />
+
+        <ImageButton
+            android:id="@+id/imageButtonWindy"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/btn_selector_background"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonCloudy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonCloudy"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/btn_selector_wind" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCloudy"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/btn_selector_background"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonSnow"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonWindy"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonSnow"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonSnow"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/btn_selector_cloudy" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSunny"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/btn_selector_background"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonRainy"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonRainy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonRainy"
+            app:srcCompat="@drawable/btn_selector_sun" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Weather"
+            app:layout_constraintBottom_toTopOf="@+id/imageButtonSunny"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.092"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.604" />
+
+        <TextView
+            android:id="@+id/textViewSunny"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="25dp"
+            android:gravity="center"
+            android:text="sunny"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewRainy"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSunny"
+            app:layout_constraintVertical_bias="0.194" />
+
+        <TextView
+            android:id="@+id/textViewRainy"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="rainy"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSnowy"
+            app:layout_constraintStart_toEndOf="@+id/textViewSunny"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSunny"
+            app:layout_constraintVertical_bias="0.194" />
+
+        <TextView
+            android:id="@+id/textViewSnowy"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="25dp"
+            android:gravity="center"
+            android:text="snow"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewCloudy"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewRainy"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSunny"
+            app:layout_constraintVertical_bias="0.194" />
+
+        <TextView
+            android:id="@+id/textViewCloudy"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="25dp"
+            android:gravity="center"
+            android:text="cloudy"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewSnowy"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSunny"
+            app:layout_constraintVertical_bias="0.194" />
+
+        <TextView
+            android:id="@+id/textViewWindy"
+            android:layout_width="38dp"
+            android:layout_height="15dp"
+            android:gravity="center"
+            android:text="windy"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewCloudy"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSunny"
+            app:layout_constraintVertical_bias="0.194" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
