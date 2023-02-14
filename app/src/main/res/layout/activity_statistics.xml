@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatisticsActivity"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/mood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mood Graph"
+        android:textAlignment="center"
+        android:textSize="20dp"/>
+    <include layout="@layout/activity_piechart" android:id="@+id/test1" />
+    <TextView
+        android:id="@+id/weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Weather Graph"
+        android:textAlignment="center"
+        android:textSize="20dp"/>
+    <include layout="@layout/activity_piechart" android:id="@+id/test2" />
+
+</LinearLayout>

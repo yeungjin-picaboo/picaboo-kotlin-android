@@ -5,14 +5,36 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/angle-down_24.xml" value="0.198" />
         <entry key="app/src/main/res/drawable-v24/angle_down_24.xml" value="0.177" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selecotr_cloudy.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/btn_selector2.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector_cloudy.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector_rainy.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector_snow.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector_sun.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector_wind.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/dark_round_btn.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_cloud.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_cloud_snow.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_cloud_snow__1_.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_cloud_snow__2_.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/ic_sun.xml" value="0.1485" />
+        <entry key="app/src/main/res/drawable/ic_sun__1_.xml" value="0.1485" />
+        <entry key="app/src/main/res/drawable/round_btn.xml" value="0.1485" />
         <entry key="app/src/main/res/drawable/solid_button.xml" value="0.219" />
+        <entry key="app/src/main/res/drawable/two.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/x_button.xml" value="0.219" />
         <entry key="app/src/main/res/layout/activity_diary.xml" value="0.2906092829597644" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.36372070312500004" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32028198242187506" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.48299255371093747" />
         <entry key="app/src/main/res/layout/activity_study_recommend.xml" value="0.17604166666666668" />
+        <entry key="app/src/main/res/layout/activity_weather_mood.xml" value="0.2809278350515464" />
+        <entry key="app/src/main/res/layout/item_image.xml" value="0.11820652173913043" />
+        <entry key="app/src/main/res/menu/hamburger.xml" value="0.1953125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/xml/http.xml" value="0.15729166666666666" />
       </map>
     </option>
