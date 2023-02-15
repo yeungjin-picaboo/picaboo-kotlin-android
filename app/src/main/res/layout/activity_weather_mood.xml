@@ -8,30 +8,266 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="362dp"
+        android:layout_width="350dp"
         android:layout_height="308dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="1dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/layout_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButtonAngry"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="38dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNervous"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonNervous"
+            app:srcCompat="@drawable/btn_selector_emotion_angry" />
+
+        <TextView
+            android:id="@+id/textViewSunny6"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="angry"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewSunny7"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonAngry"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonAngry"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonAngry" />
+
+        <TextView
+            android:id="@+id/textViewSunny10"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="happy"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonhappy"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonhappy"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonhappy" />
+
+        <ImageButton
+            android:id="@+id/imageButtonhappy"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toTopOf="@+id/textViewSunny10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonGood"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/btn_selector_emotion_happy" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSick"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonSad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonSad"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonSad"
+            app:srcCompat="@drawable/btn_selector_emotion_sick" />
+
+        <TextView
+            android:id="@+id/textViewSunny9"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="sick"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonSick"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonSick"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSick" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSad"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="38dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonNervous"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.738"
+            app:srcCompat="@drawable/btn_selector_emotion_sad" />
+
+        <TextView
+            android:id="@+id/textViewSunny8"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="sad"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonSad"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonSad"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonSad" />
+
+        <ImageButton
+            android:id="@+id/imageButtonNetural"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonBad"
+            app:layout_constraintHorizontal_bias="0.568"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonGood"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.399"
+            app:srcCompat="@drawable/btn_selector_emotion_netural" />
+
+        <TextView
+            android:id="@+id/textViewSunny2"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="neutral"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonNetural"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonNetural"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonNetural" />
+
+        <ImageButton
+            android:id="@+id/imageButtonNervous"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="38dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonAngry"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonSad"
+            app:srcCompat="@drawable/btn_selector_emotion_nervous" />
+
+        <TextView
+            android:id="@+id/textViewSunny7"
+            android:layout_width="60dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="nervous"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewSunny8"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonNervous"
+            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonNervous"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonNervous"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
+            android:id="@+id/imageButtonConfused"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonBad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonBad"
+            app:srcCompat="@drawable/btn_selector_emotion_confused" />
+
+        <TextView
+            android:id="@+id/textViewSunny5"
+            android:layout_width="58dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="confused"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonConfused"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonConfused"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonConfused" />
+
+        <TextView
+            android:id="@+id/textViewGood"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="good"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonGood"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonGood"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonGood" />
+
+        <ImageButton
+            android:id="@+id/imageButtonBad"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNetural"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonConfused"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonNetural"
+            app:srcCompat="@drawable/btn_selector_emotion_bad" />
+
+        <TextView
+            android:id="@+id/textViewSunny4"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="bad"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonBad"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonBad"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonBad" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="31dp"
+            android:gravity="center"
+            android:text="Weather"
+            app:layout_constraintBottom_toTopOf="@+id/imageButtonhappy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.092"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButtonGood"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNetural"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonhappy"
+            app:srcCompat="@drawable/btn_selector_emotion_good" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
+
         android:layout_width="350dp"
         android:layout_height="216dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/layout_border"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.785"
+        app:srcCompat="@drawable/btn_selector_emotion_happy">
 
         <ImageButton
             android:id="@+id/imageButtonSnow"
@@ -197,5 +433,14 @@
             app:layout_constraintVertical_bias="0.194" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:scaleY="2"
+        android:layout_width="350dp"
+        android:layout_height="20dp"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="83dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
