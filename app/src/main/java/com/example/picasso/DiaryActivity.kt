@@ -43,6 +43,7 @@ class DiaryActivity : AppCompatActivity() {
         showCal.bringToFront()
 
         fun updateWidgets(){
+            Log.d("what?","the fuck?")
             if(textView.text.toString().isNotEmpty())
                 progressBar.progress = 50
             else

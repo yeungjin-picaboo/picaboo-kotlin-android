@@ -437,10 +437,28 @@
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyleHorizontal"
-        android:scaleY="2"
+        android:progressDrawable="@drawable/progressbar"
         android:layout_width="350dp"
-        android:layout_height="20dp"
-        tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="83dp" />
+        android:layout_height="5dp"
+        android:scaleY="2"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.927" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="28dp"
+        android:background="#EEEEEE"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        app:srcCompat="@drawable/btn_left_arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
