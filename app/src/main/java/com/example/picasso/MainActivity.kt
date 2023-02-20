@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding:ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-//    private val binding:ActivityMainBinding by lazy {
+//    private val binding:ActivityMainBinding by lazy`` {
 //        ActivityMainBinding.inflate(layoutInflater)
 //    }
 
@@ -51,10 +51,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             httpConnection()
         }
         binding.DiaryBtn.setOnClickListener{
-            val intent = Intent(this,DiaryActivity::class.java)
-            startActivity(intent)
+            //val intent = Intent(this,DiaryActivity::class.java)
+            try{
+                val intent = Intent(this, StatisticsActivity::class.java)
+                startActivity(intent)
+            }catch (e: Throwable){
+                Log.d("test", "${e}")
+            }
         }
-        binding.LoginBtn.setOnClickListener(this)
+        binding.LoginBtn.setOnClickListener{
+            val intenttest = Intent(this, LoginPage::class.java)
+            startActivity(intenttest)
+        }
         binding.Login2Button.setOnClickListener{
             try {
                 val intent = Intent(this, signInActivity::class.java)

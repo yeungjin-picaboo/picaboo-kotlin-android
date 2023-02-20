@@ -1,8 +1,13 @@
 package com.example.picasso
 
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MotionEvent
+import android.widget.Button
 import com.example.picasso.databinding.ActivityStatisticsBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -12,7 +17,6 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.gson.Gson
 import org.json.JSONObject
-import java.util.Objects
 
 
 class StatisticsActivity : AppCompatActivity() {
@@ -20,9 +24,60 @@ class StatisticsActivity : AppCompatActivity() {
         ActivityStatisticsBinding.inflate(layoutInflater)
     }
 
+    private fun touchButton(touchedButton: Button,touchedButtonBackground: GradientDrawable, button: GradientDrawable){
+        touchedButtonBackground.setColor(Color.parseColor("#686D76"))
+        button.setColor(Color.parseColor("#EEEEEE"))
+        touchedButton.bringToFront()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        val monBackground = binding.monthBtn.background as GradientDrawable
+        val annualBackground = binding.annualBtn.background as GradientDrawable
+
+        val btnmonth = binding.monthBtn
+        val btnannual = binding.annualBtn
+        btnmonth.bringToFront()
+        monBackground.setColor(Color.parseColor("#686D76"))
+        btnmonth.setTextColor(Color.parseColor("#ffffff"))
+        btnannual.setTextColor(Color.parseColor("#5f5f5e"))
+        val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
+        setSupportActionBar(tb)
+        var currentButton = true
+
+        btnmonth.setOnTouchListener{
+            v, e ->
+            if(e.action == MotionEvent.ACTION_DOWN){
+                if(!currentButton){
+                    touchButton(btnmonth, monBackground, annualBackground)
+                    btnmonth.setTextColor(Color.parseColor("#ffffff"))
+                    btnannual.setTextColor(Color.parseColor("#5f5f5e"))
+                    currentButton = !currentButton
+                }
+                //데이터 불러오는 함수 그대로 사용하면 될 듯
+                true
+            }else{
+                false
+            }
+        }
+
+        btnannual.setOnTouchListener{
+                v, e ->
+            if(e.action == MotionEvent.ACTION_DOWN){
+                if(currentButton){
+                    touchButton(btnannual, annualBackground, monBackground)
+                    btnmonth.setTextColor(Color.parseColor("#5f5f5e"))
+                    btnannual.setTextColor(Color.parseColor("#ffffff"))
+                    currentButton = !currentButton
+                }
+                //데이터 불러오는 함수 그대로 사용하면 될 듯
+                true
+            }else{
+                false
+            }
+        }
 
 
 
@@ -42,13 +97,12 @@ class StatisticsActivity : AppCompatActivity() {
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
             legend.textSize = 17f
         }
+
         pieChart2.apply {
             data = makePieData("Weather")
             data.setDrawValues(false)
             setDrawSliceText(false)
             setHoleColor(Color.LTGRAY)
-            //색설명 없앰?
-            //이거 시발 내가 만들어야되는거같은데 아닌가
             description.isEnabled = false
             //legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             legend.orientation = Legend.LegendOrientation.VERTICAL
@@ -98,8 +152,8 @@ class StatisticsActivity : AppCompatActivity() {
             jsonData = makeDataJson(getDataWeather())
         }
 
-        for(i in list){
-            Piedata.add(PieEntry(jsonData.getString(i).toFloat(), i))
+        for(item in list){
+            Piedata.add(PieEntry(jsonData.getString(item).toFloat(), item))
         }
 
         val pieDataset = PieDataSet(Piedata, "")
@@ -117,5 +171,12 @@ class StatisticsActivity : AppCompatActivity() {
         }
         val pieData: PieData = PieData(pieDataset)
         return pieData
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflate: MenuInflater = menuInflater
+        inflate.inflate(R.menu.hamburger, menu)
+
+        return true
     }
 }
