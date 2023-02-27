@@ -28,23 +28,23 @@ class PicturesActivity : AppCompatActivity() {
 
 
 
-        binding.button.setOnClickListener{
-            if(currentSpan < 4){
-                currentSpan += 1
-
-                setNumOfSpan(currentSpan)
-                setLayoutManager(currentSpan)
-            }
-        }
-
-        binding.button2.setOnClickListener{
-            if(currentSpan > 1){
-                currentSpan -= 1
-
-                setNumOfSpan(currentSpan)
-                setLayoutManager(currentSpan)
-            }
-        }
+//        binding.button.setOnClickListener{
+//            if(currentSpan < 4){
+//                currentSpan += 1
+//
+//                setNumOfSpan(currentSpan)
+//                setLayoutManager(currentSpan)
+//            }
+//        }
+//
+//        binding.button2.setOnClickListener{
+//            if(currentSpan > 1){
+//                currentSpan -= 1
+//
+//                setNumOfSpan(currentSpan)
+//                setLayoutManager(currentSpan)
+//            }
+//        }
 
     }
 

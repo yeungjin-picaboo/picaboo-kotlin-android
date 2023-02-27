@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import com.android.volley.Request
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
         //초기화
         if(queue == null){
             queue = Volley.newRequestQueue(this)
@@ -65,7 +68,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         binding.Login2Button.setOnClickListener{
             try {
-                val intent = Intent(this, signInActivity::class.java)
+                val intent = Intent(this, gallery::class.java)
                 startActivity(intent)
             }catch (e: NumberFormatException){
 

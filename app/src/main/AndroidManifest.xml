@@ -17,6 +17,11 @@
         android:theme="@style/Theme.Picasso"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <activity
+            android:name=".PicturesActivity"
+            android:exported="false" />
+
         <activity
             android:name=".SignupPage"
             android:exported="false">

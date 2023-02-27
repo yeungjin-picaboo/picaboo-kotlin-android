@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainDark">#373A40</color>
     <color name="gray">#CCCCCC</color>
+    <color name="bottommenu">#373A40</color>
 </resources>

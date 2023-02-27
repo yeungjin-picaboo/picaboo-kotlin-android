@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -60,5 +61,4 @@
             android:text="유저 정보 가져오기" />
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
