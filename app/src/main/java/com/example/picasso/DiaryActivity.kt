@@ -31,7 +31,7 @@ class DiaryActivity : AppCompatActivity() {
         val animation2 = AnimationUtils.loadAnimation(this, R.anim.updonw_reverse)
         val rolling = AnimationUtils.loadAnimation(this, R.anim.rolling_btn)
         val rolling2 = AnimationUtils.loadAnimation(this, R.anim.rolling_btn_reverse)
-        val opacity_cal_reverse = AnimationUtils.loadAnimation(this,R.anim.opacity_cal_reverse)
+        val opacity_cal_reverse = AnimationUtils.loadAnimation(this, R.anim.opacity_cal_reverse)
 
         val showCal = binding.showCal
         val whiteView = binding.WhiteView
@@ -42,15 +42,18 @@ class DiaryActivity : AppCompatActivity() {
 
         showCal.bringToFront()
 
-        fun updateWidgets(){
-            Log.d("what?","the fuck?")
-            if(textView.text.toString().isNotEmpty())
+        fun updateWidgets() {
+            Log.d("what?", "the fuck?")
+            if (textView.text.toString().isNotEmpty()) {
                 progressBar.progress = 50
-            else
+                nextBtn.setEnabled(true)
+            } else {
                 progressBar.progress = -50
+                nextBtn.setEnabled(false)
+            }
         }
 
-        val textWatcher:TextWatcher = object:TextWatcher{ // editText에서 쓰이는 이벤트리스너 TextWatcher
+        val textWatcher: TextWatcher = object : TextWatcher { // editText에서 쓰이는 이벤트리스너 TextWatcher
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -78,15 +81,18 @@ class DiaryActivity : AppCompatActivity() {
 
                 whiteView.startAnimation(animation2) // 캘린더가 올라가는 것 처럼 보이는 애니메이션
                 binding.root.addView(textView) // textView를 보이게
-                whiteView.visibility = View.VISIBLE // 불투명했던 것을 보이게 하기 opacity값을 주지 않은 이유는 바로 올라간 것 처럼 보이기 위함
+                whiteView.visibility =
+                    View.VISIBLE // 불투명했던 것을 보이게 하기 opacity값을 주지 않은 이유는 바로 올라간 것 처럼 보이기 위함
 
             }
         }
-        nextBtn.setOnClickListener{
+        nextBtn.setOnClickListener {
             try {
                 val intent = Intent(this, WeatherMoodActivity::class.java)
+                intent.putExtra("progress", 50)
+                intent.putExtra("inputDiary", textView.text.toString())
                 startActivity(intent)
-            }catch (e: NumberFormatException){
+            } catch (e: NumberFormatException) {
 
             }
         }

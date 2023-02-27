@@ -6,15 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".WeatherMoodActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:theme="@style/ToolbarTheme"
+        app:title=" " >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picaboo"
+            android:fontFamily="@font/barriecito_regular"
+            android:textSize="30dp"
+            android:textColor="@color/black"/>
+    </androidx.appcompat.widget.Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/constraintLayoutMood"
         android:layout_width="350dp"
-        android:layout_height="308dp"
+        android:layout_height="260dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/layout_border"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtnWeatherMood"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent">
@@ -34,7 +52,7 @@
             android:id="@+id/textViewSunny6"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="angry"
             app:autoSizeTextType="uniform"
@@ -43,11 +61,22 @@
             app:layout_constraintStart_toStartOf="@+id/imageButtonAngry"
             app:layout_constraintTop_toBottomOf="@+id/imageButtonAngry" />
 
+        <ImageButton
+            android:id="@+id/imageButtonhappy"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/btn_selector_background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonGood"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonGood"
+            app:srcCompat="@drawable/btn_selector_emotion_happy" />
+
         <TextView
             android:id="@+id/textViewSunny10"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="happy"
             app:autoSizeTextType="uniform"
@@ -55,18 +84,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/imageButtonhappy"
             app:layout_constraintTop_toBottomOf="@+id/imageButtonhappy" />
-
-        <ImageButton
-            android:id="@+id/imageButtonhappy"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="24dp"
-            android:background="@drawable/btn_selector_background"
-            app:layout_constraintBottom_toTopOf="@+id/textViewSunny10"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageButtonGood"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/btn_selector_emotion_happy" />
 
         <ImageButton
             android:id="@+id/imageButtonSick"
@@ -85,7 +102,7 @@
             android:id="@+id/textViewSunny9"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="sick"
             app:autoSizeTextType="uniform"
@@ -110,7 +127,7 @@
             android:id="@+id/textViewSunny8"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="sad"
             app:autoSizeTextType="uniform"
@@ -125,7 +142,6 @@
             android:background="@drawable/btn_selector_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageButtonBad"
-            app:layout_constraintHorizontal_bias="0.568"
             app:layout_constraintStart_toEndOf="@+id/imageButtonGood"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.399"
@@ -135,7 +151,7 @@
             android:id="@+id/textViewSunny2"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="neutral"
             app:autoSizeTextType="uniform"
@@ -157,7 +173,7 @@
             android:id="@+id/textViewSunny7"
             android:layout_width="60dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="nervous"
             app:autoSizeTextType="uniform"
@@ -183,7 +199,7 @@
             android:id="@+id/textViewSunny5"
             android:layout_width="58dp"
             android:layout_height="15dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="confused"
             app:autoSizeTextType="uniform"
@@ -195,7 +211,7 @@
             android:id="@+id/textViewGood"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="good"
             app:autoSizeTextType="uniform"
@@ -218,7 +234,7 @@
             android:id="@+id/textViewSunny4"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="bad"
             app:autoSizeTextType="uniform"
@@ -253,20 +269,20 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/constraintLayoutWeahter"
 
         android:layout_width="350dp"
-        android:layout_height="216dp"
+        android:layout_height="200dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/layout_border"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMood"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.785"
+        app:layout_constraintVertical_bias="0.803"
         app:srcCompat="@drawable/btn_selector_emotion_happy">
 
         <ImageButton
@@ -435,13 +451,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/progressBarWeatherMood"
         style="?android:attr/progressBarStyleHorizontal"
         android:progressDrawable="@drawable/progressbar"
         android:layout_width="350dp"
         android:layout_height="5dp"
         android:scaleY="2"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutWeahter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -449,16 +465,27 @@
         app:layout_constraintVertical_bias="0.927" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
+        android:id="@+id/imageButtonBack"
+        android:layout_width="38dp"
+        android:layout_height="26dp"
         android:layout_marginStart="28dp"
-        android:background="#EEEEEE"
+        android:background="#FBFBFB"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
+        app:layout_constraintBottom_toTopOf="@+id/progressBarWeatherMood"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintVertical_bias="0.814"
         app:srcCompat="@drawable/btn_left_arrow" />
+
+    <Button
+        android:id="@+id/nextBtnWeatherMood"
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:enabled="false"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
