@@ -10,28 +10,68 @@
         <entry key="app/src/main/res/drawable/btn_selector.xml" value="0.1865" />
         <entry key="app/src/main/res/drawable/btn_selector2.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_selector_cloudy.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_bad.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_confused.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_good.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_happy.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_happy2.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_nervous.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_netural.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_sad.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/btn_selector_emotion_sick.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/btn_selector_rainy.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_selector_snow.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_selector_sun.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_selector_wind.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/dark_round_btn.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_android_black_24dp.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/ic_cloud.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_cloud_snow.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_cloud_snow__1_.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_cloud_snow__2_.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_emotion_angry.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/ic_emotion_angry_weak.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/ic_emotion_bad.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_bad_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_confused.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_confused_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_good.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_good_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_happy.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/ic_emotion_happy_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_nervous.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_netural.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_netural_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_sad.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_sad_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_sick.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_emotion_sick_weak.xml" value="0.301" />
+        <entry key="app/src/main/res/drawable/ic_iconmonstr_x_mark_8.xml" value="0.2215" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.21" />
         <entry key="app/src/main/res/drawable/ic_sun.xml" value="0.1485" />
         <entry key="app/src/main/res/drawable/ic_sun__1_.xml" value="0.1485" />
+        <entry key="app/src/main/res/drawable/layout_border.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/progress_bar_color.xml" value="0.1595" />
+        <entry key="app/src/main/res/drawable/progrssbar.xml" value="0.1595" />
         <entry key="app/src/main/res/drawable/round_btn.xml" value="0.1485" />
         <entry key="app/src/main/res/drawable/solid_button.xml" value="0.219" />
         <entry key="app/src/main/res/drawable/two.xml" value="0.16" />
+        <entry key="app/src/main/res/drawable/weather_ic_cloud.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/weather_ic_cloud__1_.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/weather_ic_sun.xml" value="0.2215" />
         <entry key="app/src/main/res/drawable/x_button.xml" value="0.219" />
-        <entry key="app/src/main/res/layout/activity_diary.xml" value="0.2906092829597644" />
+        <entry key="app/src/main/res/layout/activity_diary.xml" value="0.30718954248366015" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.36372070312500004" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32028198242187506" />
+        <entry key="app/src/main/res/layout/activity_main_munsick.xml" value="0.20260416666666667" />
+        <entry key="app/src/main/res/layout/activity_pictures.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/activity_piechart.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.48299255371093747" />
+        <entry key="app/src/main/res/layout/activity_statistics.xml" value="0.3987833658854167" />
         <entry key="app/src/main/res/layout/activity_study_recommend.xml" value="0.17604166666666668" />
-        <entry key="app/src/main/res/layout/activity_weather_mood.xml" value="0.2809278350515464" />
+        <entry key="app/src/main/res/layout/activity_user_info.xml" value="0.349594359466995" />
+        <entry key="app/src/main/res/layout/activity_weather_mood.xml" value="0.4157363891601563" />
+        <entry key="app/src/main/res/layout/item_chat_list.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/item_image.xml" value="0.11820652173913043" />
         <entry key="app/src/main/res/menu/hamburger.xml" value="0.1953125" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
