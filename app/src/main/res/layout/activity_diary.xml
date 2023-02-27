@@ -6,70 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".DiaryActivity">
 
-    <Button
-        android:id="@+id/btn_exit"
-        android:layout_width="44dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/solid_button"
-        android:text="X"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:theme="@style/ToolbarTheme"
+        app:title=" ">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/barriecito_regular"
+            android:text="Picaboo"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
+    </androidx.appcompat.widget.Toolbar>
+
 
     <ImageButton
         android:id="@+id/showCal"
-        android:layout_width="39dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="28dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/angle_small_up_18"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/calendarView"
+        app:layout_constraintTop_toTopOf="@+id/calendarView" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="334dp"
+        android:layout_height="9dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:progressDrawable="@drawable/progressbar"
-        android:layout_width="328dp"
-        android:layout_height="10dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="692dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.387"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/showCal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="271dp"
-        android:layout_height="326dp"
-        android:layout_marginBottom="364dp"
+        android:layout_width="332dp"
+        android:layout_height="321dp"
+        android:layout_marginBottom="340dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/WhiteView"
         android:layout_width="343dp"
         android:layout_height="339dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="72dp"
         android:background="#FBFBFB"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.411"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <EditText
         android:id="@+id/textView"
 
-        android:layout_width="322dp"
-        android:layout_height="338dp"
+        android:layout_width="332dp"
+        android:layout_height="517dp"
 
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="56dp"
         android:gravity="top|left"
 
         android:inputType="textMultiLine"
@@ -80,17 +92,31 @@
         android:minWidth="10.0dip"
         android:scrollHorizontally="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/calendarView" />
 
     <Button
         android:id="@+id/nextBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="28dp"
+        android:enabled="false"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/calendarView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:srcCompat="@drawable/ic_iconmonstr_x_mark_8" />
 </androidx.constraintlayout.widget.ConstraintLayout>
