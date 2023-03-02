@@ -30,9 +30,6 @@
         <activity
             android:name=".WeatherMoodActivity"
             android:exported="false" />
-        <activity
-            android:name=".ZoomLayout"
-            android:exported="false" />
 
         <activity
             android:name=".PicturesActivity"
