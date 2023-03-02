@@ -1,6 +1,7 @@
 package com.example.picasso
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,10 +9,12 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
+import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.picasso.databinding.ActivityMainBinding
@@ -51,21 +54,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         //버튼 클릭 이벤트
         requestBtn.setOnClickListener {
             //http 호출
-            try {
-                val intent = Intent(this, DiaryActivity::class.java)
-                startActivity(intent)
-            } catch (e: Throwable) {
-                Log.d("test", "${e}")
-            }
+            httpConnection()
+            //try {
+               // val intent = Intent(this, DiaryActivity::class.java)
+               // startActivity(intent)
+            //} catch (e: Throwable) {
+               // Log.d("test", "${e}")
+            //}
         }
         binding.DiaryBtn.setOnClickListener {
             //val intent = Intent(this,DiaryActivity::class.java)
-            try {
-                val intent = Intent(this, StatisticsActivity::class.java)
-                startActivity(intent)
-            } catch (e: Throwable) {
-                Log.d("test", "${e}")
-            }
+            httpConnection()
         }
         binding.LoginBtn.setOnClickListener {
             val intenttest = Intent(this, LoginPage::class.java)
@@ -84,8 +83,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             googleSignInClient?.signOut()
 
             var logoutIntent = Intent(this, MainActivity::class.java)
-            logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(logoutIntent)
+//            logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+//            startActivity(logoutIntent)
+            val intent = Intent(this,signInActivity::class.java)
+            startActivity(intent)
         }
         binding.importUserInfo.setOnClickListener {
             var auth = FirebaseAuth.getInstance().currentUser
@@ -108,22 +109,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun httpConnection() {
 
         //데이터 요청할 url 주소
-        val url: String = "http://10.0.2.2:3000"
-
-        val stringRequest: StringRequest = StringRequest(
-            Request.Method.GET,
-            url,
-            { response ->
-                //api 호출해서 받아온 값: response
-                dataText.text = "Response: $response"
+        val url: String = "http://10.0.2.2:8080/NFTtest"
+        val StringRequest = ImageRequest(url,
+            {
+                    bitmap ->
+                Log.d("test", "${bitmap}")
+                //image.setImageBitmap(bitmap)
             },
-            { error ->
-                //에러 발생시 실행
-                dataText.text = "Error: $error"
-            })
+            0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888,
+            {
+                    err->
+                Log.d("test", "${err}")
+            }
+        )
+        queue?.add(StringRequest)
 
         //url 호출 등록
-        queue?.add(stringRequest)
+        //queue?.add(stringRequest)
     }
 
     private fun postConnection(whatIwant: String) {

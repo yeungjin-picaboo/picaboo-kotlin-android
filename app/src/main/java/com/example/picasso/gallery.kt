@@ -2,6 +2,7 @@ package com.example.picasso
 
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
@@ -40,6 +41,11 @@ class gallery : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.stats.setOnClickListener{
+            var intent = Intent(this, StatisticsActivity::class.java)
+            startActivity(intent)
+        }
+
         //---------------------------------------
         // datePicker 꺼내는 함수
         binding.month.setOnClickListener{
@@ -57,7 +63,7 @@ class gallery : AppCompatActivity() {
 
         setLayoutManager(currentSpan)
         binding.pictureLayout.recycleView.adapter = adapter
-        adapter.setData(DataGenerator.get())
+        adapter.setData(DataGenerator.get(), this)
 
         val imagebutton = binding.imageButton
         imagebutton.setOnClickListener{
