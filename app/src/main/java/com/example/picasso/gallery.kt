@@ -46,6 +46,12 @@ class gallery : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.home.setOnClickListener{
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
         //---------------------------------------
         // datePicker 꺼내는 함수
         binding.month.setOnClickListener{

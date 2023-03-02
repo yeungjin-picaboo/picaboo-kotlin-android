@@ -1,6 +1,7 @@
 package com.example.picasso
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
+import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
 import java.io.File
 
@@ -21,6 +23,11 @@ class ChatAdapter:RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
 
     fun setData(data: MutableList<ImageInfo>, context: Context){
+        //여기서 데이터 받아옴 이미지
+        //그리고 데이터에 넣는다
+        //받아오는 것은 이미지 URL 이미지를 받아오는 것이 아님
+        //날짜로 범위 지정해서 해당 달에 적힌 이미지 이름과 URI를 가져옴 이름만 가져와도 될듯  URI = 특정URI + /이미지
+
         this.data = data
         this.context = context
         notifyDataSetChanged()
@@ -51,27 +58,27 @@ class ChatAdapter:RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     }
 
     private fun getImage(uri: String, image: ImageView){
+        //aixos를 쓰던 해서 비동기처리를 해보아라
         val path = Environment.getExternalStorageDirectory().path
-        val imgFile = File(path + "/Download/test.jpg")
+        val imgFile = File(path + "/Download/test.png")
         if (imgFile.exists()) {
             val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
             image.setImageBitmap(myBitmap)
         }else{
-            Log.d("test", "test image")
+            Log.d("test", "저장된 이미지 없음 서버에서 받아옴")
+            var StringRequest = ImageRequest(uri,
+                {
+                        bitmap ->
+                    Log.d("test", "${bitmap}")
+                    image.setImageBitmap(bitmap)
+                },
+                0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888,
+                {
+                        err->
+                    Log.d("test", "${err}")
+                }
+            )
+            queue?.add(StringRequest)
         }
-
-//        var StringRequest = ImageRequest(uri,
-//            {
-//                bitmap ->
-//                Log.d("test", "${bitmap}")
-//                image.setImageBitmap(bitmap)
-//            },
-//            0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888,
-//            {
-//                err->
-//                Log.d("test", "${err}")
-//            }
-//        )
-//        queue?.add(StringRequest)
     }
 }

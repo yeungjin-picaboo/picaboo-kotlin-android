@@ -1,5 +1,6 @@
 package com.example.picasso
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,16 @@ class StatisticsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.stats.setOnClickListener{
+            var intent = Intent(this, gallery::class.java)
+            startActivity(intent)
+        }
+
+        binding.home.setOnClickListener{
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val monBackground = binding.monthBtn.background as GradientDrawable
         val annualBackground = binding.annualBtn.background as GradientDrawable
 
@@ -41,8 +52,10 @@ class StatisticsActivity : AppCompatActivity() {
         val btnannual = binding.annualBtn
         btnmonth.bringToFront()
         monBackground.setColor(Color.parseColor("#686D76"))
+        annualBackground.setColor(Color.parseColor("#EEEEEE"))
         btnmonth.setTextColor(Color.parseColor("#ffffff"))
         btnannual.setTextColor(Color.parseColor("#5f5f5e"))
+
         val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
         setSupportActionBar(tb)
         var currentButton = true

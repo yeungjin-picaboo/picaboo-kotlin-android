@@ -18,8 +18,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Picaboo"
-            android:fontFamily="@font/barriecito_regular"
+            android:text="Pica"
+            android:fontFamily="@font/audiowide"
             android:textSize="30dp"
             android:textColor="@color/black"/>
     </androidx.appcompat.widget.Toolbar>
@@ -116,6 +116,7 @@
             android:layout_gravity="center"
             android:background="@drawable/round_btn"
             android:text="+"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
