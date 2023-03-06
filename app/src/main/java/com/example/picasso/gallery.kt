@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +43,11 @@ class gallery : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
+        setSupportActionBar(tb)
+
+
         binding.stats.setOnClickListener{
             var intent = Intent(this, StatisticsActivity::class.java)
             startActivity(intent)
@@ -94,5 +101,12 @@ class gallery : AppCompatActivity() {
     }
     private fun setLayoutManager(NumOfSpan: Int){
         binding.pictureLayout.recycleView.layoutManager = GridLayoutManager(this, NumOfSpan)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflate: MenuInflater = menuInflater
+        inflate.inflate(R.menu.hamburger, menu)
+
+        return true
     }
 }

@@ -2,13 +2,16 @@ package com.example.picasso
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import com.example.picasso.databinding.ActivityStatisticsBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -35,6 +38,13 @@ class StatisticsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
+        setSupportActionBar(tb)
+
+
+        binding.weather.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        binding.mood.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+
         binding.stats.setOnClickListener{
             var intent = Intent(this, gallery::class.java)
             startActivity(intent)
@@ -56,8 +66,6 @@ class StatisticsActivity : AppCompatActivity() {
         btnmonth.setTextColor(Color.parseColor("#ffffff"))
         btnannual.setTextColor(Color.parseColor("#5f5f5e"))
 
-        val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
-        setSupportActionBar(tb)
         var currentButton = true
 
         btnmonth.setOnTouchListener{
@@ -102,7 +110,7 @@ class StatisticsActivity : AppCompatActivity() {
             data = makePieData("Mood")
             data.setDrawValues(false)
             setDrawSliceText(false)
-            setHoleColor(Color.LTGRAY)
+            setHoleColor(Color.parseColor("#EEEEEE"))
 
             description.isEnabled = false
             legend.orientation = Legend.LegendOrientation.VERTICAL
@@ -115,7 +123,8 @@ class StatisticsActivity : AppCompatActivity() {
             data = makePieData("Weather")
             data.setDrawValues(false)
             setDrawSliceText(false)
-            setHoleColor(Color.LTGRAY)
+            setHoleColor(Color.parseColor("#EEEEEE"))
+
             description.isEnabled = false
             //legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             legend.orientation = Legend.LegendOrientation.VERTICAL
@@ -123,6 +132,7 @@ class StatisticsActivity : AppCompatActivity() {
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
             legend.textSize = 17f
         }
+
     }
 
 
@@ -170,13 +180,18 @@ class StatisticsActivity : AppCompatActivity() {
         }
 
         val pieDataset = PieDataSet(Piedata, "")
-        // add a lot of colors
+        // add colors
         val colorsItems = ArrayList<Int>()
-        for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
-        for (c in ColorTemplate.JOYFUL_COLORS) colorsItems.add(c)
-        for (c in ColorTemplate.COLORFUL_COLORS) colorsItems.add(c)
-        for (c in ColorTemplate.LIBERTY_COLORS) colorsItems.add(c)
-        for (c in ColorTemplate.PASTEL_COLORS) colorsItems.add(c)
+        colorsItems.add(Color.parseColor("#B33939"))
+        colorsItems.add(Color.parseColor("#CD6133"))
+        colorsItems.add(Color.parseColor("#CC8E35"))
+        colorsItems.add(Color.parseColor("#CCAE62"))
+        colorsItems.add(Color.parseColor("#218C74"))
+        colorsItems.add(Color.parseColor("#227093"))
+        colorsItems.add(Color.parseColor("#686D76"))
+        colorsItems.add(Color.parseColor("#474787"))
+        colorsItems.add(Color.parseColor("#2C2C54"))
+
         colorsItems.add(ColorTemplate.getHoloBlue())
 
         pieDataset.apply {

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Picasso</string>
+    <string name="Logout">
+         <font color='#ff0000'>Logout</font>
+    </string>
 </resources>
