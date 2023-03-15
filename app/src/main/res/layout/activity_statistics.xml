@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StatisticsActivity"
-    android:orientation="vertical"
-    android:weightSum="9">
+    android:orientation="vertical">
 
 
     <androidx.appcompat.widget.Toolbar
+        android:layout_weight="0"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -19,8 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarTheme"
-        app:title=" "
-        android:layout_weight="1">
+        app:title=" ">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="0">
 
         <Button
             android:layout_marginVertical="10dp"
@@ -71,16 +70,16 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:id="@+id/scroll"
-        android:layout_weight="6">
+        android:layout_weight="1"
+        android:fillViewport="true">
+
         <LinearLayout
+            android:layout_weight="1"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
 
             <TextView
                 android:id="@+id/weather"
@@ -90,7 +89,8 @@
                 android:fontFamily="@font/ubuntu"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:layout_marginBottom="14dp"/>
 
             <include
                 android:id="@+id/test1"
@@ -104,7 +104,8 @@
                 android:fontFamily="@font/ubuntu"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:layout_marginBottom="14dp"/>
 
             <include
                 android:id="@+id/test2"
@@ -114,6 +115,8 @@
     </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
+        android:layout_weight="0"
+
         android:id="@+id/bottomMenu"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -122,8 +125,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:theme="@style/ToolbarTheme"
-        android:layout_weight="1">
+        app:theme="@style/ToolbarTheme">
 
         <Button
             android:id="@+id/home"

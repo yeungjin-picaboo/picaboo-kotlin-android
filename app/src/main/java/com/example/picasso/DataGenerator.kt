@@ -1,31 +1,19 @@
 package com.example.picasso
 
-import kotlin.random.Random
-data class ChatRoomInfo(val name:String, val time:String){
-    override fun toString(): String {
-        return "$name, $time"
-    }
-}
+import android.util.Log
 
-data class ImageInfo(val image: Int){
-
-}
 
 class DataGenerator{
     companion object{
-        @JvmField
-        val images = arrayOf(
-            R.drawable.one, R.drawable.two , R.drawable.three,
-            R.drawable.four, R.drawable.five, R.drawable.six
-        )
-
         @JvmStatic
-        fun get():MutableList<ImageInfo>{
-            val list = MutableList(100){
-                val imageIndex = Random.nextInt(images.size)
-                ImageInfo(images[imageIndex])
+        fun get(type: String):MutableList<String>{
+            Log.d("test", type)
+            //여기서 이미지 URL전부 가져온다.
+            val list = MutableList(31){
+                "test"
             }
-
+//            val list = mutableListOf<String>()
+//            list.add("test")
             return list
         }
     }

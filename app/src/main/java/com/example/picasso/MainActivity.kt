@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.internal.InternalTokenProvider
 import java.lang.NumberFormatException
+import java.time.LocalDate
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
 //    private val binding:ActivityMainBinding by lazy`` {
 //        ActivityMainBinding.inflate(layoutInflater)
 //    }
@@ -40,7 +42,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
 
         //초기화
         if (queue == null) {
