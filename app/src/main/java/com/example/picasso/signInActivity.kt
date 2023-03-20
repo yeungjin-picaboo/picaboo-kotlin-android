@@ -56,7 +56,7 @@ class signInActivity : AppCompatActivity(),View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == GOOGLE_LOGIN_CODE) {
-            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            var result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
             if (result != null) {
                 if(result.isSuccess) {
                     var account = result.signInAccount

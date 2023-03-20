@@ -19,6 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.internal.InternalTokenProvider
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import org.json.JSONObject
 import java.lang.NumberFormatException
 import kotlin.math.log
 
@@ -43,7 +46,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (queue == null) {
             queue = Volley.newRequestQueue(this)
         }
-
 //        dataText = findViewById(R.id.dataText)
         dataText = binding.dataText
         val requestBtn: Button = findViewById(R.id.requestBtn)
@@ -59,9 +61,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         binding.DiaryBtn.setOnClickListener {
-            //val intent = Intent(this,DiaryActivity::class.java)
+
             try {
-                val intent = Intent(this, StatisticsActivity::class.java)
+                val intent = Intent(this,DiaryActivity::class.java)
+//                val intent = Intent(this, StatisticsActivity::class.java)
                 startActivity(intent)
             } catch (e: Throwable) {
                 Log.d("test", "${e}")
@@ -73,7 +76,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         binding.Login2Button.setOnClickListener {
             try {
-                val intent = Intent(this, gallery::class.java)
+//
+//                val intent = Intent(this, gallery::class.java)
+//                startActivity(intent)
+                val intent = Intent(this,LoginActivity::class.java)
                 startActivity(intent)
             } catch (e: NumberFormatException) {
 
@@ -101,7 +107,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             Log.d("UserInfo : ", "$uid")
             Log.d("UserInfo : ", "$email")
             Log.d("UserInfo : ", "$displayName")
-            postConnection("$email")
+
+            val jsonObject = JSONObject()
+            jsonObject.put("email", "$email")
+            jsonObject.put("nickName", "$displayName")
+//            val body = JsonParser.parseString(jsonObject.toString()) as JsonObject
+            postConnection(jsonObject)
+//            Log.d("jsonObj : " , jsonObject)
+
+
+
         }
     }
 
@@ -126,8 +141,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         queue?.add(stringRequest)
     }
 
-    private fun postConnection(whatIwant: String) {
-        val url: String = "http://10.0.2.2:3000"
+    private fun postConnection(whatIwant: JSONObject) {
+        val url: String = "http://10.0.2.2:3000/google-user"
 
         val request = object : StringRequest(
             Request.Method.POST,
@@ -137,19 +152,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }, Response.ErrorListener { error ->
                 dataText.text = "Error: $error"
             }) {
-            // request 시 key, value 보낼 때
-            override fun getParams(): Map<String, String> {
-                val params = mutableMapOf<String, String>()
-                params["email"] = "$whatIwant"
-                Log.d("params : ", "$params")
+//            // request 시 key, value 보낼 때
+//            override fun getParams(): Map<String, String> {
+//                val params = mutableMapOf<String, String>()
+//                params["email"] = "$whatIwant"
+//                Log.d("params : ", "$params")
+//                return params
+//            }
+            override fun getParams(): MutableMap<String, String>? {
+                val params = mutableMapOf<String,String>()
+                params["email"] = "${whatIwant["email"]}"
+                params["nick_name"] ="${whatIwant["nickName"]}"
+                Log.d("params","$params")
                 return params
             }
-
         }
-
+        Log.d("request","$request")
         queue?.add(request)
-
-
     }
 
     override fun onClick(v: View?) {
