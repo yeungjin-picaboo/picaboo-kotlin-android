@@ -25,12 +25,16 @@
             android:textColor="@color/black"
             android:textSize="30dp" />
     </androidx.appcompat.widget.Toolbar>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <ImageButton
         android:id="@+id/showCal"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="41dp"
+        android:layout_height="44dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
@@ -47,9 +51,9 @@
         android:layout_width="334dp"
         android:layout_height="9dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:progressDrawable="@drawable/progressbar"
         app:layout_constraintEnd_toEndOf="@+id/showCal"
+        app:layout_constraintStart_toStartOf="@+id/imageButton"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <CalendarView
@@ -59,7 +63,6 @@
         android:layout_marginBottom="340dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:layout_constraintVertical_bias="0.0" />
@@ -70,16 +73,17 @@
         android:layout_height="339dp"
         android:layout_marginTop="72dp"
         android:background="#FBFBFB"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.411"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/textView"
+        android:id="@+id/textViewContent"
 
-        android:layout_width="332dp"
-        android:layout_height="517dp"
+        android:layout_width="334dp"
+        android:layout_height="289dp"
 
         android:layout_marginTop="56dp"
         android:gravity="top|left"
@@ -91,9 +95,12 @@
         android:maxWidth="5.0dip"
         android:minWidth="10.0dip"
         android:scrollHorizontally="false"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/calendarView" />
+        app:layout_constraintTop_toTopOf="@+id/calendarView"
+        app:layout_constraintVertical_bias="0.61" />
 
     <Button
         android:id="@+id/nextBtn"
@@ -105,18 +112,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView"
+        app:layout_constraintVertical_bias="0.961" />
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toStartOf="@+id/calendarView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:srcCompat="@drawable/ic_iconmonstr_x_mark_8" />
+
+    <Button
+        android:id="@+id/buttonTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="17dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toEndOf="@+id/nextBtn"
+        app:layout_constraintTop_toBottomOf="@+id/nextBtn"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/textViewTitle"
+        android:layout_width="326dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/textViewContent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewContent"
+        app:layout_constraintStart_toStartOf="@+id/textViewContent"
+        app:layout_constraintTop_toTopOf="@+id/WhiteView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DiaryViewActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:theme="@style/ToolbarTheme"
+        app:title=" ">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/barriecito_regular"
+            android:text="Picaboo"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="184dp"
+        android:layout_height="164dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="114dp"
+        android:layout_marginBottom="146dp"
+        app:SpinKit_Color="#442123"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    <TextView
+        android:id="@+id/textView8"
+
+        android:layout_width="329dp"
+        android:layout_height="213dp"
+
+        android:gravity="top|left"
+
+        android:lines="5"
+
+        android:maxWidth="5.0dip"
+        android:minWidth="10.0dip"
+        android:scrollHorizontally="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+         />
+</androidx.constraintlayout.widget.ConstraintLayout>

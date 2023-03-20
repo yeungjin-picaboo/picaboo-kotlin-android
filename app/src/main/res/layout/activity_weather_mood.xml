@@ -136,7 +136,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageButtonSad" />
 
         <ImageButton
-            android:id="@+id/imageButtonNetural"
+            android:id="@+id/imageButtonNeutral"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/btn_selector_background"
@@ -145,7 +145,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageButtonGood"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.399"
-            app:srcCompat="@drawable/btn_selector_emotion_netural" />
+            app:srcCompat="@drawable/btn_selector_emotion_neutral" />
 
         <TextView
             android:id="@+id/textViewSunny2"
@@ -155,9 +155,9 @@
             android:gravity="center"
             android:text="neutral"
             app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toEndOf="@+id/imageButtonNetural"
-            app:layout_constraintStart_toStartOf="@+id/imageButtonNetural"
-            app:layout_constraintTop_toBottomOf="@+id/imageButtonNetural" />
+            app:layout_constraintEnd_toEndOf="@+id/imageButtonNeutral"
+            app:layout_constraintStart_toStartOf="@+id/imageButtonNeutral"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonNeutral" />
 
         <ImageButton
             android:id="@+id/imageButtonNervous"
@@ -225,9 +225,9 @@
             android:layout_height="40dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/btn_selector_background"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNetural"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNeutral"
             app:layout_constraintEnd_toStartOf="@+id/imageButtonConfused"
-            app:layout_constraintTop_toTopOf="@+id/imageButtonNetural"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonNeutral"
             app:srcCompat="@drawable/btn_selector_emotion_bad" />
 
         <TextView
@@ -262,7 +262,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="25dp"
             android:background="@drawable/btn_selector_background"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNetural"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonNeutral"
             app:layout_constraintStart_toEndOf="@+id/imageButtonhappy"
             app:srcCompat="@drawable/btn_selector_emotion_good" />
 
