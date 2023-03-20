@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" package="com.example.picasso">
-    <!-- 인터넷 권한 -->
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.picasso">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -16,26 +19,35 @@
         android:theme="@style/Theme.Picasso"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".DetailDiaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DiaryViewActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GpsActivity"
+            android:exported="false" />
         <activity
             android:name=".StudyRecommendActivity"
             android:exported="false" />
-
         <activity
             android:name=".UserInfoActivity"
             android:exported="false" />
-
         <activity
             android:name=".WeatherMoodActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ZoomLayout"
-            android:exported="false" />
-
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".ZoomLayout" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".PicturesActivity"
             android:exported="false" />
-
         <activity
             android:name=".SignupPage"
             android:exported="false">
@@ -60,11 +72,9 @@
         <activity
             android:name=".StatisticsActivity"
             android:exported="false" />
-
         <activity
             android:name=".DiaryActivity"
             android:exported="false" />
-
         <activity
             android:name=".signInActivity"
             android:exported="false" />
