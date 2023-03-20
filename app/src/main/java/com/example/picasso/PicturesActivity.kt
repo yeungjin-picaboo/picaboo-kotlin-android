@@ -23,8 +23,8 @@ class PicturesActivity : AppCompatActivity() {
 
         setLayoutManager(currentSpan)
         binding.recycleView.adapter = adapter
-
-        adapter.setData(DataGenerator.get())
+//
+//        adapter.setData(DataGenerator.get(1), this)
 
 
 

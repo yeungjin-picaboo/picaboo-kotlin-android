@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.picasso.databinding.ActivitySignupPageBinding
 
+data class validationResult(val state: Boolean, val message: String)
+
 class SignupPage : AppCompatActivity() {
     private val binding by lazy {
         ActivitySignupPageBinding.inflate(layoutInflater)
@@ -20,6 +22,9 @@ class SignupPage : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.editTextTextEmailAddress
+        binding.editTextTextPassword
+
 
         binding.signup.setOnClickListener{
             if(signup()){
@@ -31,7 +36,19 @@ class SignupPage : AppCompatActivity() {
             }
         }
     }
+    private fun validation(): validationResult{
+        val pwd = binding.editTextTextPassword
+        val pwdConfirm = binding.editTextTextPasswordConfirm
 
+        val email = binding.editTextTextEmailAddress
+        if(pwd != pwdConfirm){
+            return  validationResult(false, "비밀번호가 서로 다릅니다.")
+        }
+        // validation 조건 추가
+
+
+        return validationResult(true, "성공")
+    }
 
     //회원가입 함수
     private fun signup(): Boolean{

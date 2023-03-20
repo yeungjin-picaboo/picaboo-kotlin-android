@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gallery">
+    tools:context=".gallery"
+    android:orientation="vertical">
+
     <androidx.appcompat.widget.Toolbar
+        android:layout_weight="0"
+
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -18,13 +22,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Picaboo"
-            android:fontFamily="@font/barriecito_regular"
+            android:text="Pica"
+            android:fontFamily="@font/audiowide"
             android:textSize="30dp"
             android:textColor="@color/black"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_weight="0"
+
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,10 +43,11 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <TextView
+            android:fontFamily="@font/ubuntu_medium"
             android:id="@+id/month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="January"
+            android:text="Jan. "
             android:textColor="@color/black"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,6 +55,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:fontFamily="@font/ubuntu_medium"
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +76,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:layout_weight="1"
+
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="490dp"
@@ -86,9 +96,11 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.Toolbar
+        android:layout_weight="0"
+
         android:id="@+id/bottomMenu"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="70dp"
         android:background="@color/bottommenu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,10 +112,10 @@
 
         <Button
             android:id="@+id/home"
+            android:background="@drawable/home_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:text="홈"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
@@ -116,6 +128,7 @@
             android:layout_gravity="center"
             android:background="@drawable/round_btn"
             android:text="+"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
@@ -123,11 +136,11 @@
 
         <Button
             android:id="@+id/stats"
+            android:background="@drawable/statistics_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:layout_marginRight="13dp"
-            android:text="통계"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
@@ -135,4 +148,4 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

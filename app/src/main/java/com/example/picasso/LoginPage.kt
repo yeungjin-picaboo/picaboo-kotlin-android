@@ -34,10 +34,9 @@ class LoginPage : AppCompatActivity() {
             if(queue == null){
                 queue = Volley.newRequestQueue(this)
             }
-            Log.d("test", "123123")
-            postConnection("tt")
-            Log.d("test", "1testetstest")
+
             if(login()){
+                postConnection("test", "password")
                 //성공시
             }else{
                 //실패시
@@ -51,7 +50,7 @@ class LoginPage : AppCompatActivity() {
         return true
     }
 
-    private fun postConnection(whatIwant:String){
+    private fun postConnection(email: String, password: String){
         val url: String = "http://10.0.2.2:8080/post"
 
         val request = object : StringRequest(
@@ -68,8 +67,8 @@ class LoginPage : AppCompatActivity() {
             // request 시 key, value 보낼 때
             override fun getParams(): Map<String, String> {
                 val params = mutableMapOf<String,String>()
-                params["email"] = "$whatIwant"
-                Log.d("params : ","$params")
+                params["email"] = email
+                params["password"] = password
                 return params
             }
 

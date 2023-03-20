@@ -10,6 +10,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
+        android:layout_weight="0"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -18,79 +19,154 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarTheme"
-        app:title=" " >
+        app:title=" ">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Picaboo"
-            android:fontFamily="@font/barriecito_regular"
-            android:textSize="30dp"
-            android:textColor="@color/black"/>
+            android:text="Pica"
+            android:fontFamily="@font/audiowide"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/buttonLayout"
+        <Button
+            android:layout_marginVertical="10dp"
+            android:textAllCaps="false"
+
+            android:id="@+id/monthBtn"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/radius"
+            android:text="Monthly"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:layout_marginVertical="10dp"
+            android:textAllCaps="false"
+
+            android:id="@+id/annualBtn"
+            android:layout_width="172dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/radius"
+            android:text="Annual"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/selectdate"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="날짜"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/scroll"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_weight="1"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/monthBtn"
-                android:layout_width="170dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="50dp"
-                android:background="@drawable/radius"
+            <TextView
+                android:id="@+id/weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Weather Graph"
+                android:fontFamily="@font/ubuntu"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginBottom="14dp"/>
 
+            <include
+                android:id="@+id/test1"
+                layout="@layout/activity_piechart" />
 
-                android:text="Monthly"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/mood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mood Graph"
+                android:fontFamily="@font/ubuntu"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginBottom="14dp"/>
 
-            <Button
-                android:id="@+id/annualBtn"
-                android:layout_width="172dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="50dp"
-                android:background="@drawable/radius"
+            <include
+                android:id="@+id/test2"
+                layout="@layout/activity_piechart" />
 
-                android:text="Annual"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_weight="0"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"/>
+        android:id="@+id/bottomMenu"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/bottommenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:theme="@style/ToolbarTheme">
 
-        <TextView
-            android:id="@+id/weather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Weather Graph"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
-        <include layout="@layout/activity_piechart" android:id="@+id/test1" />
+        <Button
+            android:id="@+id/home"
+            android:background="@drawable/home_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-        <TextView
-            android:id="@+id/mood"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mood Graph"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_btn"
+            android:text="+"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-        <include layout="@layout/activity_piechart" android:id="@+id/test2" />
-    </LinearLayout>
+        <Button
+            android:id="@+id/stats"
+            android:background="@drawable/gallery_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+    </androidx.appcompat.widget.Toolbar>
 
 </LinearLayout>
