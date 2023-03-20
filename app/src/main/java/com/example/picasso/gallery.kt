@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.picasso.databinding.ActivityGalleryBinding
 import java.time.LocalDate
 import kotlin.reflect.typeOf
@@ -26,20 +27,14 @@ class gallery : AppCompatActivity() {
     val nameOfMonth = arrayOf("Jan. ", "Feb. ", "Mar. ", "Apr. ", "May. ", "Jun. ", "Jul. ", "Aug. ", "Sep. ", "Oct. ", "Nov. ", "Dec. ")
     private val adapter = ChatAdapter()
 
-
-    //
-    var dateSetListener: OnDateSetListener = object : OnDateSetListener {
-        override fun onDateSet(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+    var dateSetListener: OnDateSetListener =
+        OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             findViewById<TextView>(R.id.month).text = nameOfMonth[monthOfYear - 1] + " "
             findViewById<TextView>(R.id.year).text = year.toString()
-
             //통신하는 로직 추가한다
             adapter.setData(DataGenerator.get("${binding.month.text} + ${binding.year.text}"), this@gallery)
         }
-    }
-    //
-
-
+    
     private val sharedPreference by lazy{
         getSharedPreferences("image", Context.MODE_PRIVATE)
     }
@@ -48,13 +43,15 @@ class gallery : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
         setSupportActionBar(tb)
-
+        val galleryRecyclerView = binding.pictureLayout.recycleView
         var currentDate = LocalDate.now()
-        findViewById<TextView>(R.id.month).text = nameOfMonth[currentDate.monthValue - 1] + " "
-        findViewById<TextView>(R.id.year).text = currentDate.year.toString()
+        val monthTextView = binding.month
+        val yearTextView = binding.year
+        monthTextView.text = nameOfMonth[currentDate.monthValue - 1] + " "
+        yearTextView.text = currentDate.year.toString()
+
 
         binding.stats.setOnClickListener{
             var intent = Intent(this, StatisticsActivity::class.java)
@@ -67,39 +64,40 @@ class gallery : AppCompatActivity() {
         }
 
 
+        var currentSpan = sharedPreference.getInt("NumOfSpan", 2)
+        setLayoutManager(galleryRecyclerView, currentSpan)
+        adapter.setData(DataGenerator.get("${binding.month.text} + ${binding.year.text}"), this)
+        galleryRecyclerView.adapter = adapter
+
         //---------------------------------------
         // datePicker 꺼내는 함수
-        binding.month.setOnClickListener{
-            val pd = YearMonthPickerDialog()
-            pd.setListener(dateSetListener)
-            pd.show(supportFragmentManager, "YearMonthPickerTest")
+        monthTextView.setOnClickListener{
+            showDatePicker(dateSetListener)
         }
-        binding.year.setOnClickListener{
-            val pd = YearMonthPickerDialog()
-            pd.setListener(dateSetListener)
-            pd.show(supportFragmentManager, "YearMonthPickerTest")
+        yearTextView.setOnClickListener{
+            showDatePicker(dateSetListener)
         }
-
         //------------------------------------------
-        var currentSpan = sharedPreference.getInt("NumOfSpan", 2)
-
-        setLayoutManager(currentSpan)
-        binding.pictureLayout.recycleView.adapter = adapter
-        adapter.setData(DataGenerator.get("${binding.month.text} + ${binding.year.text}"), this)
 
         val imagebutton = binding.imageButton
         imagebutton.setOnClickListener{
             if(currentSpan >= 3){
                 currentSpan = 1
                 setNumOfSpan(currentSpan)
-                setLayoutManager(currentSpan)
+                setLayoutManager(galleryRecyclerView, currentSpan)
             }else{
                 currentSpan += 1
                 setNumOfSpan(currentSpan)
-                setLayoutManager(currentSpan)
+                setLayoutManager(galleryRecyclerView, currentSpan)
             }
         }
 
+    }
+
+    private fun showDatePicker(listenerFun:OnDateSetListener){
+        val pd = YearMonthPickerDialog()
+        pd.setListener(listenerFun)
+        pd.show(supportFragmentManager, "YearMonthPickerTest")
     }
 
     private fun setNumOfSpan(NumOfSpan: Int){
@@ -108,8 +106,9 @@ class gallery : AppCompatActivity() {
             apply()
         }
     }
-    private fun setLayoutManager(NumOfSpan: Int){
-        binding.pictureLayout.recycleView.layoutManager = GridLayoutManager(this, NumOfSpan)
+
+    private fun setLayoutManager(recyclerView: RecyclerView, NumOfSpan: Int){
+        recyclerView.layoutManager = GridLayoutManager(this, NumOfSpan)
     }
 
 

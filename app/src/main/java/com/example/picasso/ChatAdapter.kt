@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.ImageRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import java.io.File
 
@@ -46,11 +48,24 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
             queue = Volley.newRequestQueue(context)
         }
 
-
         holder.image.setOnClickListener{
             // 여기다 페이지 이동 구현하면 됨
+            val request = JsonObjectRequest(Request.Method.GET, "http://10.0.2.2:8080/testjson", null, { res ->
+
+                try {
+                    Log.d("test", "${res.javaClass.name}")
+                    //intent로 보냄 response 그대로 보내면 듯
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }, { error ->
+                Log.e("tes", "RESPONSE IS $error")
+            })
+            queue?.add(request)
             Log.d("test", "${position}")
         }
+
         //이미지 불러옴
         getImage(data[position], holder.image as AppCompatImageView, position)
     }

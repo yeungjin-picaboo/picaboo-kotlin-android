@@ -181,7 +181,11 @@ class StatisticsActivity : AppCompatActivity() {
                 else -> true
             }
         }
-
+        binding.selectdate.setOnClickListener{
+            val pd = YearMonthPickerDialog()
+            pd.setListener(dateSetListener)
+            pd.show(supportFragmentManager, "YearMonthPickerTest")
+        }
 
         applyDataToChart(pieChart1, "Mood")
         applyDataToChart(pieChart2, "Weather")
@@ -307,7 +311,7 @@ class StatisticsActivity : AppCompatActivity() {
         time = 0.0
         timer = kotlin.concurrent.timer(period = 5) {
             time++
-            sec = time/ 100
+            sec = time / 100
         }
     }
 

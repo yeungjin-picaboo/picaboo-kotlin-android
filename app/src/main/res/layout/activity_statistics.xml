@@ -65,7 +65,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <Button
+        android:id="@+id/selectdate"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="날짜"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="500dp"
@@ -129,10 +134,10 @@
 
         <Button
             android:id="@+id/home"
+            android:background="@drawable/home_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:text="홈"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
@@ -153,11 +158,11 @@
 
         <Button
             android:id="@+id/stats"
+            android:background="@drawable/gallery_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:layout_marginRight="13dp"
-            android:text="갤"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"

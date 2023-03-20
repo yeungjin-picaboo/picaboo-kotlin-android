@@ -112,10 +112,10 @@
 
         <Button
             android:id="@+id/home"
+            android:background="@drawable/home_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:text="홈"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
@@ -136,11 +136,11 @@
 
         <Button
             android:id="@+id/stats"
+            android:background="@drawable/statistics_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:layout_marginRight="13dp"
-            android:text="통계"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
