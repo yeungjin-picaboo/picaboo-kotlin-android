@@ -86,35 +86,47 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         binding.logoutButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            googleSignInClient?.signOut()
+//            FirebaseAuth.getInstance().signOut()
+//            googleSignInClient?.signOut()
+//
+//            var logoutIntent = Intent(this, MainActivity::class.java)
+//            logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+//            startActivity(logoutIntent)
+            var intent = Intent(this,gallery::class.java)
+            startActivity(intent)
 
-            var logoutIntent = Intent(this, MainActivity::class.java)
-            logoutIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(logoutIntent)
         }
         binding.importUserInfo.setOnClickListener {
-            var auth = FirebaseAuth.getInstance().currentUser
-            var uid = auth?.uid
-            var email = auth?.email
-            var displayName = auth?.displayName
-            Log.v("myDevice", "Build.VERSION.CODENAME = " + Build.VERSION.CODENAME);
-            Log.v("myDevice", "Build.VERSION.INCREMENTAL = " + Build.VERSION.INCREMENTAL);
-            Log.v("myDevice", "Build.VERSION.RELEASE = " + Build.VERSION.RELEASE);
-            Log.v("myDevice", "Build.VERSION.SDK = " + Build.VERSION.SDK);
-            Log.v("myDevice", "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
-            Log.d("UserInfo : ", "$auth")
-            Log.d("UserInfo : ", "$uid")
-            Log.d("UserInfo : ", "$email")
-            Log.d("UserInfo : ", "$displayName")
+//            var auth = FirebaseAuth.getInstance().currentUser
+//            var uid = auth?.uid
+//            var email = auth?.email
+//            var displayName = auth?.displayName
+//            Log.v("myDevice", "Build.VERSION.CODENAME = " + Build.VERSION.CODENAME);
+//            Log.v("myDevice", "Build.VERSION.INCREMENTAL = " + Build.VERSION.INCREMENTAL);
+//            Log.v("myDevice", "Build.VERSION.RELEASE = " + Build.VERSION.RELEASE);
+//            Log.v("myDevice", "Build.VERSION.SDK = " + Build.VERSION.SDK);
+//            Log.v("myDevice", "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT);
+//            Log.d("UserInfo : ", "$auth")
+//            Log.d("UserInfo : ", "$uid")
+//            Log.d("UserInfo : ", "$email")
+//            Log.d("UserInfo : ", "$displayName")
+//
+//            val jsonObject = JSONObject()
+//            jsonObject.put("email", "$email")
+//            jsonObject.put("nickName", "$displayName")
+////            val body = JsonParser.parseString(jsonObject.toString()) as JsonObject
+//            postConnection(jsonObject)
+////            Log.d("jsonObj : " , jsonObject)
 
-            val jsonObject = JSONObject()
-            jsonObject.put("email", "$email")
-            jsonObject.put("nickName", "$displayName")
-//            val body = JsonParser.parseString(jsonObject.toString()) as JsonObject
-            postConnection(jsonObject)
-//            Log.d("jsonObj : " , jsonObject)
+            val intent = Intent(this, DetailDiaryActivity::class.java)
+            intent.putExtra("title","title")
+            intent.putExtra("content","content")
+            intent.putExtra("date","January 2022 12")
+            intent.putExtra("mood","bad")
+            intent.putExtra("weather","Clear")
+            intent.putExtra("diaryId","12")
 
+            startActivity(intent)
 
 
         }
