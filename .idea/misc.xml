@@ -69,6 +69,7 @@
         <entry key="app/src/main/res/layout/activity_detail_diary.xml" value="0.3351851851851852" />
         <entry key="app/src/main/res/layout/activity_diary.xml" value="0.22123565673828124" />
         <entry key="app/src/main/res/layout/activity_diary_view.xml" value="0.17986145019531252" />
+        <entry key="app/src/main/res/layout/activity_edit_diary.xml" value="0.5230978260869565" />
         <entry key="app/src/main/res/layout/activity_gps.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.36372070312500004" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32028198242187506" />
@@ -89,7 +90,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

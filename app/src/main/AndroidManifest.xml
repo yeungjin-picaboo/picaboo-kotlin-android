@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.picasso">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 인터넷 권한 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!--        android:requestLegacyExternalStorage="true" storage권한 추가하기 -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,18 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Picasso"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name=".DetailDiaryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DiaryViewActivity"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
             android:name=".GpsActivity"
@@ -42,9 +41,10 @@
             android:exported="false" />
         <activity
             android:name=".WeatherMoodActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".ZoomLayout" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
+        <activity
+            android:name=".ZoomLayout"
+            android:exported="false" />
         <activity
             android:name=".PicturesActivity"
             android:exported="false" />
