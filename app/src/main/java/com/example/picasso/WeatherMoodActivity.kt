@@ -233,57 +233,32 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         try {
-            val snow = binding.imageButtonSnow
-            val rainy = binding.imageButtonRainy
-            val sunny = binding.imageButtonSunny
-            val cloudy = binding.imageButtonCloudy
-            val windy = binding.imageButtonWindy
-            val happy = binding.imageButtonhappy
-            val good = binding.imageButtonGood
-            val neutral = binding.imageButtonNeutral
-            val bad = binding.imageButtonBad
-            val confused = binding.imageButtonConfused
-            val angry = binding.imageButtonAngry
-            val nervous = binding.imageButtonNervous
-            val sad = binding.imageButtonSad
-            val sick = binding.imageButtonSick
-            val back = binding.imageButtonBack
-            val next = binding.nextBtnWeatherMood
-
-            val weatherImageArray = arrayOf<ImageButton>(
-                sunny, rainy, snow, cloudy, windy
+            val weatherImageArray = arrayOf(
+                binding.imageButtonSnow, binding.imageButtonRainy,
+                binding.imageButtonSunny, binding.imageButtonCloudy,
+                binding.imageButtonWindy
             )
-
-            val moodImageArray = arrayOf<ImageButton>(
-                happy, good, neutral, bad, confused, angry, nervous, sad, sick
+            val moodImageArray = arrayOf(
+                binding.imageButtonhappy, binding.imageButtonGood,
+                binding.imageButtonNeutral, binding.imageButtonBad,
+                binding.imageButtonConfused, binding.imageButtonAngry,
+                binding.imageButtonNervous, binding.imageButtonSad,
+                binding.imageButtonSick
             )
             when (v) {
-                snow -> isSelected(weatherImageArray, snow, "weather")
-                rainy -> isSelected(weatherImageArray, rainy, "weather")
-                sunny -> isSelected(weatherImageArray, sunny, "weather")
-                cloudy -> isSelected(weatherImageArray, cloudy, "weather")
-                windy -> isSelected(weatherImageArray, windy, "weather")
-
-                happy -> isSelected(moodImageArray, happy, "mood")
-                good -> isSelected(moodImageArray, good, "mood")
-                neutral -> isSelected(moodImageArray, neutral, "mood")
-                bad -> isSelected(moodImageArray, bad, "mood")
-                confused -> isSelected(moodImageArray, confused, "mood")
-                angry -> isSelected(moodImageArray, angry, "mood")
-                nervous -> isSelected(moodImageArray, nervous, "mood")
-                sad -> isSelected(moodImageArray, sad, "mood")
-                sick -> isSelected(moodImageArray, sick, "mood")
-                back -> {
+                in weatherImageArray -> isSelected(weatherImageArray, v as ImageButton, "weather")
+                in moodImageArray -> isSelected(moodImageArray, v as ImageButton, "mood")
+                binding.imageButtonBack -> {
                     Log.d("clicked", "success")
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
-                next -> {
+                binding.nextBtnWeatherMood -> {
                     Log.d("clicked next btn1", "clicked")
                     val auth = FirebaseAuth.getInstance().currentUser
                     if (isModify == true) {
-                        // 수정된경우
                         if (auth != null) {
+                            // 수정된 경우 && firebase 유저인 경우
                             val email = auth.email.toString()
                             Log.d("firebase email ", email)
 
@@ -294,14 +269,12 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
                             CoroutineScope(Dispatchers.IO).launch {
                                 val a = sendApiCreate(jsonObject, isModify!!)
                                 Log.d("result결과", "$a")
-                            } // firebase 유저인 경우
+                            }
                         } else {
-                            // 웹 로그인 유저인 경우
+                            // 수정된 경우 && JWT유저일 경우
                         }
-
-                    }
-
-                    if (auth != null) {
+                    } else if (auth != null) {
+                        // 수정되지 않을 경우
                         val email = auth.email.toString()
                         Log.d("clicked next btn2", "clicked")
                         Log.d("firebase email ", email)
@@ -315,32 +288,13 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
                     } else {
                         // 웹 로그인유저
                     }
-
-
                 }
             }
         } catch (e: NumberFormatException) {
             return
         }
-
     }
 
-    //    private suspend fun sendApiCreate(jsonObject: JSONObject, isModify: Boolean): Boolean? {
-//        return withContext(Dispatchers.IO) {
-//            var response: retrofit2.Response<Boolean>? = null
-//            response = if (isModify) {
-//                api.communicate().modifyDiary(jsonObject).execute()
-//            } else {
-//                api.communicate().createDiary(jsonObject).execute()
-//            }
-//            if (response?.isSuccessful!!) {
-//                return@withContext response.body()
-//            } else {
-//                Log.d("requestApi", "Failed with error code ${response.code()}")
-//                return@withContext response.body()
-//            }
-//        }
-//    }
     private suspend fun sendApiCreate(jsonObject: JSONObject, isModify: Boolean): Boolean? {
         return withContext(Dispatchers.IO) {
             val api = api.communicate()
@@ -362,25 +316,4 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun postConnection(whatIwant: JSONObject) {
-        val url: String = "http://10.0.2.2:3000/google-user"
-
-        val request = object : StringRequest(
-            Request.Method.POST,
-            url,
-            Response.Listener { response ->
-                dataText.text = "Response: $response"
-            }, Response.ErrorListener { error ->
-                dataText.text = "Error: $error"
-            }) {
-
-            override fun getParams(): MutableMap<String, String>? {
-                val params = mutableMapOf<String, String>()
-                params["email"] = "${whatIwant["email"]}"
-                params["nick_name"] = "${whatIwant["nickName"]}"
-                return params
-            }
-        }
-        queue?.add(request)
-    }
 }
