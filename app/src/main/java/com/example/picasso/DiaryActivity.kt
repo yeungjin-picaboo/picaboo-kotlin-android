@@ -10,6 +10,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
@@ -92,29 +95,83 @@ class DiaryActivity : AppCompatActivity() {
         val rolling2 = AnimationUtils.loadAnimation(this, R.anim.rolling_btn_reverse)
         val opacity_cal_reverse = AnimationUtils.loadAnimation(this, R.anim.opacity_cal_reverse)
 
+//        binding.showCal.setOnClickListener {
+//            if (state) {
+//                // code for when state is true
+//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling as AnimationSet)
+//                whiteView.startAnimation(fake_animation)
+//                binding.textViewTitle.startAnimation(opacity_cal_reverse)
+//                textViewContent.startAnimation(opacity_cal_reverse)
+//                Log.d("state", state.toString())
+//                if (textViewTitle.parent != null) {
+//                    (textViewTitle.parent as ViewGroup).removeView(textViewTitle)
+//                }
+//                if (textViewContent.parent != null) {
+//                    (textViewContent.parent as ViewGroup).removeView(textViewContent)
+//                }
+//
+//                // check if binding.textLayout is already attached to a parent
+//                if (binding.textLayout.parent != null) {
+//                    (binding.textLayout.parent as ViewGroup).removeView(binding.textLayout)
+//                }
+//            } else {
+//                // code for when state is false
+//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling2 as AnimationSet)
+//                whiteView.startAnimation(animation2)
+//                Log.d("state2", state.toString())
+//
+//                // check if binding.textLayout is already attached to a parent
+//                if (binding.textLayout.parent == null) {
+//                    binding.root.addView(binding.textLayout)
+//                }
+//                whiteView.visibility = View.VISIBLE
+//            }
+//        }
+//        binding.showCal.setOnClickListener {
+//            if (state) {
+////                var s = AnimationSet(false)
+////                s.addAnimation(opacity)
+////                s.addAnimation(animation)
+////                animationSet객체를 사용하면 xml의 fillAfter이 적용되지 않는 버그가 있음
+//
+//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling as AnimationSet)
+//                whiteView.startAnimation(fake_animation) // 캘린더가 내려오는 것 처럼 보이는 애니메이션
+//                textViewContent.startAnimation(opacity_cal_reverse) // textView를 불투명하게 만들기
+//                binding.root.removeView(binding.textLayout)  // 클릭을 방지하기 위해 textView삭제
+//
+//                Log.d("text : ", "${textViewContent.text.toString().isEmpty()}")
+//            } else {
+//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling2 as AnimationSet)
+//
+//                whiteView.startAnimation(animation2) // 캘린더가 올라가는 것 처럼 보이는 애니메이션
+//                binding.root.removeView(binding.textLayout)  // 클릭을 방지하기 위해 textView삭제
+//                binding.root.addView(binding.textLayout) // textView를 보이게
+//                whiteView.visibility =
+//                    View.VISIBLE // 불투명했던 것을 보이게 하기 opacity값을 주지 않은 이유는 바로 올라간 것 처럼 보이기 위함
+//            }
+//        }
+
         binding.showCal.setOnClickListener {
+            // 반응형 뷰를 위한 애니메이션
+            val alphaAnimation = AlphaAnimation(1f, 0f)
+            alphaAnimation.duration = 1000 // 1 second
+            val alpha2Animation = AlphaAnimation(0f,1f)
+            alpha2Animation.duration = 1500
+            state = rollingBtn(showCal as AppCompatImageButton, state, if (state) rolling else rolling2)
             if (state) {
-//                var s = AnimationSet(false)
-//                s.addAnimation(opacity)
-//                s.addAnimation(animation)
-//                animationSet객체를 사용하면 xml의 fillAfter이 적용되지 않는 버그가 있음
-
-                state = rollingBtn(showCal as AppCompatImageButton, state, rolling as AnimationSet)
-                whiteView.startAnimation(fake_animation) // 캘린더가 내려오는 것 처럼 보이는 애니메이션
-                textViewContent.startAnimation(opacity_cal_reverse) // textView를 불투명하게 만들기
-                binding.root.removeView(textViewContent)  // 클릭을 방지하기 위해 textView삭제
-
-                Log.d("text : ", "${textViewContent.text.toString().isEmpty()}")
+                whiteView.startAnimation(animation2) // 캘린더가 내려오는 것 처럼 보이는 애니메이션
+                binding.root.removeView(binding.textLayout)
+                binding.root.addView(binding.textLayout)
+                whiteView.visibility = View.VISIBLE
+                binding.textLayout.startAnimation(alpha2Animation)
             } else {
-                state = rollingBtn(showCal as AppCompatImageButton, state, rolling2 as AnimationSet)
+                whiteView.startAnimation(fake_animation)
+                textViewContent.startAnimation(opacity_cal_reverse) // textView를 불투명하게 만들기
+                binding.textLayout.startAnimation(alphaAnimation)
+                binding.root.removeView(binding.textLayout) // 클릭을 방지하기 위해 textView삭제
 
-                whiteView.startAnimation(animation2) // 캘린더가 올라가는 것 처럼 보이는 애니메이션
-                binding.root.addView(textViewContent) // textView를 보이게
-                whiteView.visibility =
-                    View.VISIBLE // 불투명했던 것을 보이게 하기 opacity값을 주지 않은 이유는 바로 올라간 것 처럼 보이기 위함
             }
         }
-
         if (queue == null) {
             queue = Volley.newRequestQueue(this)
         }
@@ -274,14 +331,14 @@ class DiaryActivity : AppCompatActivity() {
      * @return {Boolean} 불린값
      */
     fun rollingBtn(
-        wiget: AppCompatImageButton, state: Boolean, animation: AnimationSet
+        wiget: AppCompatImageButton, state: Boolean, animation: Animation
     ): Boolean {
-        if (state) {
+        return if (state) {
             wiget.startAnimation(animation)
-            return !state
+            !state
         } else {
             wiget.startAnimation(animation)
-            return !state
+            !state
         }
     }
 
