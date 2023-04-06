@@ -7,6 +7,21 @@
     tools:context=".SignupPage">
 
 
+    <com.developer.gbuttons.GoogleSignInButton
+        android:id="@+id/loginId"
+        android:layout_width="204dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="28dp"
+        android:text="Sign up with Google"
+        app:isDarkTheme="true"
+        app:layout_constraintBottom_toTopOf="@+id/gotoLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"

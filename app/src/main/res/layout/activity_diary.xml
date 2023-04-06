@@ -25,10 +25,15 @@
             android:textColor="@color/black"
             android:textSize="30dp" />
     </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageButton
@@ -36,12 +41,11 @@
         android:layout_width="41dp"
         android:layout_height="44dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/angle_small_up_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintHorizontal_bias="0.439"
         app:layout_constraintStart_toEndOf="@+id/calendarView"
         app:layout_constraintTop_toTopOf="@+id/calendarView" />
 
@@ -49,11 +53,14 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="334dp"
-        android:layout_height="9dp"
+        android:layout_height="15dp"
         android:layout_marginTop="8dp"
+        android:progressBackgroundTint="#EEEEEE"
         android:progressDrawable="@drawable/progressbar"
-        app:layout_constraintEnd_toEndOf="@+id/showCal"
-        app:layout_constraintStart_toStartOf="@+id/imageButton"
+        android:progressTint="#696D75"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <CalendarView
@@ -69,8 +76,8 @@
 
     <View
         android:id="@+id/WhiteView"
-        android:layout_width="343dp"
-        android:layout_height="339dp"
+        android:layout_width="370dp"
+        android:layout_height="357dp"
         android:layout_marginTop="72dp"
         android:background="#FBFBFB"
         app:layout_constraintBottom_toTopOf="@+id/nextBtn"
@@ -79,80 +86,145 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/textViewContent"
-
-        android:layout_width="334dp"
-        android:layout_height="289dp"
-
-        android:layout_marginTop="56dp"
-        android:gravity="top|left"
-
-        android:inputType="textMultiLine"
-
-        android:lines="5"
-
-        android:maxWidth="5.0dip"
-        android:minWidth="10.0dip"
-        android:scrollHorizontally="false"
-        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/calendarView"
-        app:layout_constraintVertical_bias="0.61" />
-
-    <Button
-        android:id="@+id/nextBtn"
-        android:layout_width="350dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="28dp"
-        android:enabled="false"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        app:layout_constraintVertical_bias="0.961" />
-
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toStartOf="@+id/calendarView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:srcCompat="@drawable/ic_iconmonstr_x_mark_8" />
 
-    <Button
-        android:id="@+id/buttonTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="17dp"
-        android:text="Button"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textLayout"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        android:background="@drawable/layout_border"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showCal">
+
+        <EditText
+            android:id="@+id/textViewTitle"
+            android:layout_width="364dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:text="Please input title"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.482"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/textViewContent"
+
+            android:layout_width="363dp"
+            android:layout_height="342dp"
+
+            android:layout_marginBottom="28dp"
+            android:background="@android:color/transparent"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:maxWidth="5.0dip"
+            android:minWidth="10.0dip"
+            android:padding="10dp"
+            android:scrollHorizontally="false"
+            android:text="please input content"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewTitle"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            app:layout_constraintVertical_bias="0.111" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout6"
+        android:layout_width="392dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toEndOf="@+id/nextBtn"
-        app:layout_constraintTop_toBottomOf="@+id/nextBtn"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <EditText
-        android:id="@+id/textViewTitle"
-        android:layout_width="326dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/textViewContent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewContent"
-        app:layout_constraintStart_toStartOf="@+id/textViewContent"
-        app:layout_constraintTop_toTopOf="@+id/WhiteView" />
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="31dp"
+            android:enabled="false"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/bottomMenu2"
+
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_weight="0"
+        android:background="@color/bottommenu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:theme="@style/ToolbarTheme">
+
+        <Button
+            android:id="@+id/home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:background="@drawable/home_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_btn"
+            android:text="+"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+        <Button
+            android:id="@+id/stats"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="13dp"
+            android:background="@drawable/statistics_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+    </androidx.appcompat.widget.Toolbar>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
