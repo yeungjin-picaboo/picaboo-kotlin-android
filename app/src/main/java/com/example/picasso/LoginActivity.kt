@@ -1,23 +1,31 @@
+@file:Suppress("OverrideDeprecatedMigration", "OverrideDeprecatedMigration")
+
 package com.example.picasso
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityLoginBinding
+import com.example.picasso.dto.GoogleRegisterDto
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
+@Suppress("OverrideDeprecatedMigration", "OverrideDeprecatedMigration")
 class LoginActivity : AppCompatActivity() {
     //firebase Auth
     private lateinit var firebaseAuth: FirebaseAuth
+
     //google client
     private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -27,10 +35,12 @@ class LoginActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
+
+    private val api = WeatherService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        binding.LoginId.setOnClickListener {signIn()}
+        binding.LoginId.setOnClickListener { signIn() }
 
         //Google 로그인 옵션 구성. requestIdToken 및 Email 요청
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -50,15 +60,36 @@ class LoginActivity : AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        if(account!==null){ // 이미 로그인 되어있을시 바로 메인 액티비티로 이동
+        if (account !== null) { // 이미 로그인 되어있을시 바로 메인 액티비티로 이동
             toMainActivity(firebaseAuth.currentUser)
         }
     } //onStart End
+
     // toMainActivity
     fun toMainActivity(user: FirebaseUser?) {
-        if(user !=null) { // MainActivity 로 이동
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        if (user != null) { // MainActivity 로 이동
+
+            // 로그인과 동시에 서버로 요청 보내면 됨.
+            val userDto =
+                GoogleRegisterDto(user.email.toString(), user.uid, user.displayName.toString())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = api.communicate().registerGoogleUser(userDto)
+
+                    if (response.isSuccessful && response.body() == true) {
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        //현재 코드는 MainActivity로 가는거임 나중에 LoginActivity로 가면 됨.
+                        finish()
+                    } else {
+                        Log.d("Error", "Error")
+                    }
+                } catch (err: Error) {
+                    Log.d("Error in toMainActivity", err.toString())
+                }
+            }
+
+
         }
     } // toMainActivity End
 
