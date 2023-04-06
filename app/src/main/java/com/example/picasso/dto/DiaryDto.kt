@@ -18,7 +18,7 @@ data class DiaryDto (
     @SerializedName("weather")
     val weather:String,
 
-    @SerializedName("diaryId")
-    val diary_id:String,
+    @SerializedName("diary_id")
+    val diary_id:Int,
 
 ):Parcelable

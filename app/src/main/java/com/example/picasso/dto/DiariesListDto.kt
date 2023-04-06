@@ -5,11 +5,8 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class CallDiary(
+data class DiariesListDto(
     @SerializedName("date")
-    val date:String,
+    val date: Array<String>,
 
-    @SerializedName("user_id")
-    val user_id:String
-
-):Parcelable
+    ) : Parcelable
