@@ -1,11 +1,10 @@
 package com.example.picasso
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.example.picasso.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.picasso.databinding.ActivitySignInBinding
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -44,21 +43,23 @@ class signInActivity : AppCompatActivity(),View.OnClickListener {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(this,gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
     override fun onClick(v: View?) {
         var signInIntent = googleSignInClient?.signInIntent
         if (signInIntent != null) {
-            startActivityForResult(signInIntent,GOOGLE_LOGIN_CODE)
+            startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
         }
     }
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == GOOGLE_LOGIN_CODE) {
+        if (requestCode == GOOGLE_LOGIN_CODE) {
             var result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
             if (result != null) {
-                if(result.isSuccess) {
+                if (result.isSuccess) {
                     var account = result.signInAccount
                     firebaseAuthWithGoogle(account)
                 }
