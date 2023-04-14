@@ -40,15 +40,11 @@ import java.io.File
 import java.util.*
 
 
-@Suppress("NAME_SHADOWING")
 class DetailDiaryActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityDetailDiaryBinding.inflate(layoutInflater)
     }
 
-    private val bindingDialog by lazy {
-        CalendarAlterDialogBinding.inflate(layoutInflater)
-    }
     private val api = WeatherService// 통신
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -271,16 +267,12 @@ class DetailDiaryActivity : AppCompatActivity() {
                 ) { _, _ ->
                     Log.d("diaryId", "$diaryId")
                     lifecycleScope.launch {
-                        if(isGoogleUser() != null) {
-                            val result = deleteDiary(diaryId!!, isGoogleUser()?.email.toString())
-                            if (result == true) {
-                                backPressed()
-                                Log.d("OK Btn", "positive")
-                            } else {
-                                Log.d("알수없는 에러", "코드 확인 요망")
-                            }
-                        }else{
-                            // JwtUser
+                        val result = deleteDiary(diaryId!!, isGoogleUser()?.email.toString())
+                        if (result == true) {
+                            backPressed()
+                            Log.d("OK Btn", "positive")
+                        } else {
+                            Log.d("알수없는 에러", "코드 확인 요망")
                         }
                     }
                 }.setNegativeButton(
@@ -383,7 +375,7 @@ class DetailDiaryActivity : AppCompatActivity() {
 
     suspend fun getDiary(params: CallDiaryDto, year: String, month: String): DiaryDto? {
         Log.d("getDiary", "Running")
-        val response = api.communicate().getDiary(year, month, params)
+        val response = api.communicateJwt(this).getDiary(year, month, params)
         Log.d("response : ", response.body().toString())
         return if (response.isSuccessful) response.body() else null// response.body()에는 응답이 포함되어 있음.
     }
@@ -425,7 +417,7 @@ class DetailDiaryActivity : AppCompatActivity() {
 
     private suspend fun deleteDiary(diaryId: Int,userId:String): Boolean? {
         return try {
-            val response = api.communicate().deleteDiary(diaryId,userId)
+            val response = api.communicateJwt(this).deleteDiary(diaryId, userId)
             Log.d("response Body DeleteDiary : ", response.toString())
             if (response.isSuccessful) response.body() else null
         } catch (err: Error) {
@@ -453,7 +445,7 @@ class DetailDiaryActivity : AppCompatActivity() {
 
     private suspend fun getCalendarList(userId: String): DiariesListDto? {
         return try {
-            val response = api.communicate().getDiariesList(userId)
+            val response = api.communicateJwt(this).getDiariesList(userId)
             Log.d("response Body getCalendarList : ", response.body().toString())
             if (response.isSuccessful) response.body() else null
         } catch (err: Error) {
