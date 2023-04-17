@@ -1,9 +1,11 @@
 package com.example.picasso.api
 
+import android.content.Context
 import com.example.picasso.dto.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.github.cdimascio.dotenv.dotenv
+import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
@@ -16,8 +18,8 @@ interface WeatherService {
     fun getWeatherMood(@Body req: MutableMap<String, String>): Call<WeatherDto>
 
     // content로 분석한 날씨, 일기 가져오고 일기 DB에 저장하기
-    @POST("diaries/weather-mood")
-    fun createDiary(@Body req: JSONObject): Call<Boolean>
+    @POST("/api/diary/picture")
+    fun createDiary(@Body req: JSONObject): Call<ResultMessageDto>
 
     // 일기 생성
     // 타입은 email, content
@@ -41,7 +43,7 @@ interface WeatherService {
     // diary의 특정 id 삭제하기
 
     @PUT("diaries/{id}")
-    suspend fun modifyDiary(@Path("id") id: Int, @Body req: JSONObject): Call<Boolean>
+    suspend fun modifyDiary(@Path("id") id: Int, @Body req: JSONObject): Call<ResultMessageDto>
     // 수정될 때는 id로 검색
     // jsonObject의 요소는 email, content, diaryId
 
@@ -50,30 +52,55 @@ interface WeatherService {
     // 매개변수로 email만 주면 됨
 
     @POST("ex")
-    suspend fun registerGoogleUser(googleRegisterDto: GoogleRegisterDto):Response<Boolean>
+    suspend fun registerGoogleUser(googleRegisterDto: GoogleRegisterDto): Response<Boolean>
 
-    companion object { // static 처럼 공유객체로 사용가능함. 모든 인스턴스가 공유하는 객체로서 동작함.
+    @POST("ex2")
+    suspend fun loginGoogleUser(googleLoginDto: GoogleLoginDto): Response<String>
+
+    companion object {
         private val dotenv = dotenv {
             directory = "./assets"
             filename = "env"
             ignoreIfMalformed = true
         }
         private val host = dotenv["HOST"]
-        private val BASE_URL = host // 주소
+        private val BASE_URL = host // address
+
+        private val gson: Gson = GsonBuilder().setLenient().create()
 
         fun communicate(): WeatherService {
-            // companion object 즉 전역적으로 사용 가능한 객체에서 WeatherService의 getWeather를 구현할 수 있음.
-            // 즉 DiaryActivity의 예에서 330행의 api:WeatherService 에서
-            // interface WeatherService가 가지고있는 companion object의 create()를 가져온 다음
-            // create는 WeatherService
-
-            val gson: Gson = GsonBuilder().setLenient().create();
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-//                .client(client)
+//                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(WeatherService::class.java)
+        }
+
+        fun communicateJwt(context: Context): WeatherService {
+            val accessToken = getAccessToken(context)
+
+            val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer $accessToken")
+                        .build()
+                    chain.proceed(request)
+                }
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(WeatherService::class.java)
+        }
+
+        private fun getAccessToken(context: Context): String {
+            val sharedPreferences =
+                context.getSharedPreferences("JWT", Context.MODE_PRIVATE)
+            return sharedPreferences.getString("JWT", "") ?: ""
         }
     }
 }

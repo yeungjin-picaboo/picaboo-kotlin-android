@@ -1,6 +1,7 @@
 package com.example.picasso
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,16 +11,13 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
 import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityWeatherMoodBinding
+import com.example.picasso.dto.ResultMessageDto
 import com.example.picasso.dto.WeatherDto
-import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,21 +26,16 @@ import org.json.JSONObject
 
 class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var dataText: TextView
-    var queue: RequestQueue? = null
-
     var scaleToBig: Animation? = null
     var scaleToSmall: Animation? = null
     var progress: Int? = null
-    var inputDiary: String? = null
     var progressBar: ProgressBar? = null
-    var intentWeather: String? = null
-    var intentMood: String? = null
     var diaryMood: WeatherDto? = null
     var weatherStatus: String? = null
     var moodStatus: String? = null
     var diaryId: Int? = null
     var isModify: Boolean? = null
+    private var diary: MutableMap<String, String>? = null
 
     private val binding by lazy {
         ActivityWeatherMoodBinding.inflate(layoutInflater)
@@ -71,6 +64,7 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
         val sick = binding.imageButtonSick
         val back = binding.imageButtonBack
         val next = binding.nextBtnWeatherMood
+
         progressBar = binding.progressBarWeatherMood
 
         scaleToBig = AnimationUtils.loadAnimation(this, R.anim.btn_to_big_scale)
@@ -81,18 +75,27 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
             isModify = getBooleanExtra(extraKey, defaultValue)
             diaryId = getIntExtra("diaryId", 1)
             progress = getIntExtra("progressBar", 1)
-            diaryMood = intent.extras?.getParcelable<WeatherDto>("weatherMood")
+            val bundle = getBundleExtra("diary")
+            Log.d("bundle", bundle.toString())
+
+            val weatherDto =
+                intent.getParcelableExtra<WeatherDto>("weatherMood") as WeatherDto // deprecated 이지만 대체할 사용법이 없음
+//            diary = bundle?.getSerializable("map") as? MutableMap<String,String> // deprecated
+
+            diary = Gson().fromJson(
+                bundle?.getString("map"), object : TypeToken<MutableMap<String, String>>() {}.type
+            )
+            Log.d("diary : ", diary.toString())
             Log.d("with : ", diaryMood.toString())
-            inputDiary = getStringExtra("inputDiary").toString()
-            intentMood = diaryMood?.mood
-            intentWeather = diaryMood?.weather
-            Log.d("intentMoodWeather", intentWeather.toString())
-            Log.d("intentMoodWeather", intentMood.toString())
+            weatherStatus = getStringExtra("inputDiary").toString()
+            moodStatus = weatherDto.mood
+            weatherStatus = weatherDto.weather
+            Log.d("intentMoodWeather", weatherStatus.toString())
+            Log.d("intentMoodWeather", weatherStatus.toString())
         }
         progressBar!!.progress = 50
-        Log.d("intentMoodWeatherOutside", intentWeather.toString())
-        Log.d("intentMoodWeatherOutside", intentMood.toString())
-        when (intentMood) {
+
+        when (moodStatus) {
             "positive" -> {
                 btnCickedStatus(happy)
                 progressBar!!.progress += 25
@@ -101,22 +104,20 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
             else -> btnCickedStatus(neutral)
         }
 
-        when (intentWeather) {
+        when (weatherStatus) {
             "Wind" -> btnCickedStatus(windy)
             "Clouds" -> btnCickedStatus(cloudy)
             "Rain" -> btnCickedStatus(rainy)
             "Snow" -> btnCickedStatus(snow)
             "Clear" -> btnCickedStatus(sunny)
         }
-        if (intentWeather != null) {
+        if (weatherStatus != null) {
             progressBar!!.progress += 25
-            if (intentMood != null)
-                progressBar!!.progress += 25
+            if (moodStatus != null) progressBar!!.progress += 25
         } else {
-            if (intentMood != null)
-                progressBar!!.progress += 25
+            if (moodStatus != null) progressBar!!.progress += 25
         }
-        if(progressBar!!.progress == 100){
+        if (progressBar!!.progress == 100) {
             binding.nextBtnWeatherMood.isEnabled = true
         }
 
@@ -156,20 +157,18 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun updateWidgets() {
-        Log.d("progress is: ","${progressBar?.progress}")
-        Log.d("progress : ","${binding.progressBarWeatherMood.max}")
+        Log.d("progress is: ", "${progressBar?.progress}")
+        Log.d("progress : ", "${binding.progressBarWeatherMood.max}")
 
         if (progressBar?.progress == 100) {
-            Log.d("asd","asd")
+            Log.d("asd", "asd")
             binding.nextBtnWeatherMood.isEnabled = true
         }
     }
 
 
     private fun isSelected(
-        imageArray: Array<ImageButton>,
-        imageButton: ImageButton,
-        status: String
+        imageArray: Array<ImageButton>, imageButton: ImageButton, status: String
     ) {
 
         for (i in imageArray.indices) {
@@ -178,8 +177,7 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (status == "weather") {
                     progressBar!!.progress += 25
-                    weatherStatus =
-                        imageArray[i].resources.getResourceEntryName(imageArray[i].id)
+                    weatherStatus = imageArray[i].resources.getResourceEntryName(imageArray[i].id)
 
                 } else {
 
@@ -192,9 +190,9 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
                 Log.d("imageBtn", "$imageButton")
                 Log.d("imageBtnStatus : ", status)
                 Log.d(
-                    "weatherStatus = ",
-                    weatherStatus.toString()
+                    "weatherStatus = ", weatherStatus.toString()
                 ) // weatherStatus , moodeStatus를 서버로 보내주기만 하면 됨.
+
                 Log.d("moodStatus = ", moodStatus.toString())
             } else                           // for문을 통해 i번째의 image버튼과 현재 Imagebutton이 다른경우 -> 이경우는 어떻게 해도 4번 돔
                 if (imageArray[i].isSelected) { // 만약 i번째가 선택되어있다면
@@ -234,15 +232,21 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         try {
             val weatherImageArray = arrayOf(
-                binding.imageButtonSnow, binding.imageButtonRainy,
-                binding.imageButtonSunny, binding.imageButtonCloudy,
+                binding.imageButtonSnow,
+                binding.imageButtonRainy,
+                binding.imageButtonSunny,
+                binding.imageButtonCloudy,
                 binding.imageButtonWindy
             )
             val moodImageArray = arrayOf(
-                binding.imageButtonhappy, binding.imageButtonGood,
-                binding.imageButtonNeutral, binding.imageButtonBad,
-                binding.imageButtonConfused, binding.imageButtonAngry,
-                binding.imageButtonNervous, binding.imageButtonSad,
+                binding.imageButtonhappy,
+                binding.imageButtonGood,
+                binding.imageButtonNeutral,
+                binding.imageButtonBad,
+                binding.imageButtonConfused,
+                binding.imageButtonAngry,
+                binding.imageButtonNervous,
+                binding.imageButtonSad,
                 binding.imageButtonSick
             )
             when (v) {
@@ -255,39 +259,38 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 binding.nextBtnWeatherMood -> {
                     Log.d("clicked next btn1", "clicked")
-                    val auth = FirebaseAuth.getInstance().currentUser
-                    if (isModify == true) {
-                        if (auth != null) {
-                            // 수정된 경우 && firebase 유저인 경우
-                            val email = auth.email.toString()
-                            Log.d("firebase email ", email)
 
-                            val jsonObject = JSONObject()
-                            jsonObject.put("email", email)
-                            jsonObject.put("content", inputDiary)
-                            jsonObject.put("diaryId", diaryId)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                val a = sendApiCreate(jsonObject, isModify!!)
-                                Log.d("result결과", "$a")
-                            }
-                        } else {
-                            // 수정된 경우 && JWT유저일 경우
-                        }
-                    } else if (auth != null) {
-                        // 수정되지 않을 경우
-                        val email = auth.email.toString()
-                        Log.d("clicked next btn2", "clicked")
-                        Log.d("firebase email ", email)
+                    if (isModify == true) {
+                        // 수정된 경우
                         val jsonObject = JSONObject()
-                        jsonObject.put("email", email)
-                        jsonObject.put("content", inputDiary)
+                        jsonObject.put("content", diary?.getValue("content"))
+                        jsonObject.put("title", diary?.getValue("title"))
+                        jsonObject.put("diaryId", diaryId)
                         CoroutineScope(Dispatchers.IO).launch {
                             val a = sendApiCreate(jsonObject, isModify!!)
                             Log.d("result결과", "$a")
-                        } // firebase 유저인 경우
+                        }
+
                     } else {
-                        // 웹 로그인유저
+                        Log.d("clicked next btn2", "clicked")
+//                            Log.d("firebase email ", email)
+                        val jsonObject = JSONObject()
+//                            jsonObject.put("email", email) 토큰값에 포함되어 있기 때문에 필요x
+                        jsonObject.put("content", diary?.getValue("content"))
+                        jsonObject.put("title", diary?.getValue("title"))
+                        Log.d("jsonObj", jsonObject.toString())
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val a = sendApiCreate(jsonObject)
+                            Log.d("result결과", "$a")
+                            val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
+                            if (a?.message == "success") {
+                                startActivity(intent)
+                            } else {
+                                Log.d("failed", "failed")
+                            }
+                        }
                     }
+
                 }
             }
         } catch (e: NumberFormatException) {
@@ -295,12 +298,16 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private suspend fun sendApiCreate(jsonObject: JSONObject, isModify: Boolean): Boolean? {
+    private suspend fun sendApiCreate(
+        jsonObject: JSONObject, isModify: Boolean = false
+    ): ResultMessageDto? {
         return withContext(Dispatchers.IO) {
-            val api = api.communicate()
-            val diaryId: Int = jsonObject.get("id") as Int
-            jsonObject.remove("id")
+            val api = api.communicateJwt(this@WeatherMoodActivity)
+
+
             val response = if (isModify) {
+                val diaryId: Int = jsonObject.get("id") as Int
+                jsonObject.remove("id")
                 api.modifyDiary(diaryId, jsonObject).execute()
                 // 수정돨 때
             } else {
@@ -315,5 +322,6 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
 
 }

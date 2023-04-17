@@ -3,6 +3,7 @@ package com.example.picasso
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -27,6 +28,7 @@ import com.example.picasso.dto.WeatherDto
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.gson.Gson
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,8 +64,13 @@ class DiaryActivity : AppCompatActivity() {
         val progressBar = binding.progressBar
         val nextBtn = binding.nextBtn
         var state = true
+        //animation 객체 가져오기
         showCal.bringToFront()
-
+        val fake_animation = AnimationUtils.loadAnimation(this, R.anim.updown)
+        val animation2 = AnimationUtils.loadAnimation(this, R.anim.updonw_reverse)
+        val rolling = AnimationUtils.loadAnimation(this, R.anim.rolling_btn)
+        val rolling2 = AnimationUtils.loadAnimation(this, R.anim.rolling_btn_reverse)
+        val opacity_cal_reverse = AnimationUtils.loadAnimation(this, R.anim.opacity_cal_reverse)
 
         fun updateWidgets() {
             Log.d("what?", "the fuck?")
@@ -88,90 +95,32 @@ class DiaryActivity : AppCompatActivity() {
         textViewContent.addTextChangedListener(textWatcher)
         val arrayTextView = arrayOf(textViewTitle, textViewContent)
 
-        //animation 객체 가져오기
-        val fake_animation = AnimationUtils.loadAnimation(this, R.anim.updown)
-        val animation2 = AnimationUtils.loadAnimation(this, R.anim.updonw_reverse)
-        val rolling = AnimationUtils.loadAnimation(this, R.anim.rolling_btn)
-        val rolling2 = AnimationUtils.loadAnimation(this, R.anim.rolling_btn_reverse)
-        val opacity_cal_reverse = AnimationUtils.loadAnimation(this, R.anim.opacity_cal_reverse)
-
-//        binding.showCal.setOnClickListener {
-//            if (state) {
-//                // code for when state is true
-//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling as AnimationSet)
-//                whiteView.startAnimation(fake_animation)
-//                binding.textViewTitle.startAnimation(opacity_cal_reverse)
-//                textViewContent.startAnimation(opacity_cal_reverse)
-//                Log.d("state", state.toString())
-//                if (textViewTitle.parent != null) {
-//                    (textViewTitle.parent as ViewGroup).removeView(textViewTitle)
-//                }
-//                if (textViewContent.parent != null) {
-//                    (textViewContent.parent as ViewGroup).removeView(textViewContent)
-//                }
-//
-//                // check if binding.textLayout is already attached to a parent
-//                if (binding.textLayout.parent != null) {
-//                    (binding.textLayout.parent as ViewGroup).removeView(binding.textLayout)
-//                }
-//            } else {
-//                // code for when state is false
-//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling2 as AnimationSet)
-//                whiteView.startAnimation(animation2)
-//                Log.d("state2", state.toString())
-//
-//                // check if binding.textLayout is already attached to a parent
-//                if (binding.textLayout.parent == null) {
-//                    binding.root.addView(binding.textLayout)
-//                }
-//                whiteView.visibility = View.VISIBLE
-//            }
-//        }
-//        binding.showCal.setOnClickListener {
-//            if (state) {
-////                var s = AnimationSet(false)
-////                s.addAnimation(opacity)
-////                s.addAnimation(animation)
-////                animationSet객체를 사용하면 xml의 fillAfter이 적용되지 않는 버그가 있음
-//
-//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling as AnimationSet)
-//                whiteView.startAnimation(fake_animation) // 캘린더가 내려오는 것 처럼 보이는 애니메이션
-//                textViewContent.startAnimation(opacity_cal_reverse) // textView를 불투명하게 만들기
-//                binding.root.removeView(binding.textLayout)  // 클릭을 방지하기 위해 textView삭제
-//
-//                Log.d("text : ", "${textViewContent.text.toString().isEmpty()}")
-//            } else {
-//                state = rollingBtn(showCal as AppCompatImageButton, state, rolling2 as AnimationSet)
-//
-//                whiteView.startAnimation(animation2) // 캘린더가 올라가는 것 처럼 보이는 애니메이션
-//                binding.root.removeView(binding.textLayout)  // 클릭을 방지하기 위해 textView삭제
-//                binding.root.addView(binding.textLayout) // textView를 보이게
-//                whiteView.visibility =
-//                    View.VISIBLE // 불투명했던 것을 보이게 하기 opacity값을 주지 않은 이유는 바로 올라간 것 처럼 보이기 위함
-//            }
-//        }
-
         binding.showCal.setOnClickListener {
             // 반응형 뷰를 위한 애니메이션
-            val alphaAnimation = AlphaAnimation(1f, 0f)
-            alphaAnimation.duration = 1000 // 1 second
-            val alpha2Animation = AlphaAnimation(0f,1f)
-            alpha2Animation.duration = 1500
-            state = rollingBtn(showCal as AppCompatImageButton, state, if (state) rolling else rolling2)
+            val alphaAnimation = AlphaAnimation(1f, 0f).apply {
+                duration = 1000
+            }
+            val alpha2Animation = AlphaAnimation(0f, 1f).apply {
+                duration = 1500
+            }
+            state =
+                rollingBtn(showCal as AppCompatImageButton, state, if (state) rolling else rolling2)
             if (state) {
-                whiteView.startAnimation(animation2) // 캘린더가 내려오는 것 처럼 보이는 애니메이션
-                binding.root.removeView(binding.textLayout)
-                binding.root.addView(binding.textLayout)
+                whiteView.startAnimation(animation2)// 캘린더가 내려오는 것 처럼 보이는 애니메이션
+                with(binding.root) {
+                    removeView(binding.textLayout)
+                    addView(binding.textLayout)
+                }
                 whiteView.visibility = View.VISIBLE
                 binding.textLayout.startAnimation(alpha2Animation)
             } else {
                 whiteView.startAnimation(fake_animation)
-                textViewContent.startAnimation(opacity_cal_reverse) // textView를 불투명하게 만들기
+                textViewContent.startAnimation(opacity_cal_reverse)// textView를 불투명하게 만들기
                 binding.textLayout.startAnimation(alphaAnimation)
-                binding.root.removeView(binding.textLayout) // 클릭을 방지하기 위해 textView삭제
-
+                binding.root.removeView(binding.textLayout)// 클릭을 방지하기 위해 textView삭제
             }
         }
+
         if (queue == null) {
             queue = Volley.newRequestQueue(this)
         }
@@ -291,20 +240,26 @@ class DiaryActivity : AppCompatActivity() {
     private suspend fun communicateToNextIntent(
         params: MutableMap<String, String>, isEditing: Boolean, diaryId: Int = 1
     ) {
+        Log.d("isRunning?", "Running")
         val weatherMood: WeatherDto?
         val intent = Intent(this, WeatherMoodActivity::class.java)
         if (isEditing) {
-            weatherMood = requestApi(params)
-            Log.d("weatherMood is ", weatherMood.toString())
-            intent.putExtra("weatherMood", weatherMood)
+
+//            weatherMood = requestApi(params)
+//            Log.d("weatherMood is ", weatherMood.toString())
+//            intent.putExtra("weatherMood", weatherMood)
             intent.putExtra("diaryId", diaryId)
-            intent.putExtra("inputDiary",params["content"])
+            intent.putExtra("inputDiary", params["content"])
             startActivity(intent)
 
         } else {
+            val bundle = Bundle()
+            Log.d("params", params.toString())
+            bundle.putString("map", Gson().toJson(params)) //
             weatherMood = requestApi(params)
             Log.d("weatherMood 는 ", weatherMood.toString())
             intent.putExtra("weatherMood", weatherMood)
+            intent.putExtra("diary", bundle)
             startActivity(intent)
             Log.d("nextBtn", "$params")
         }
@@ -312,7 +267,7 @@ class DiaryActivity : AppCompatActivity() {
 
     private suspend fun requestApi(params: MutableMap<String, String>): WeatherDto? {
         return withContext(Dispatchers.IO) {
-            val response = api.communicate().getWeatherMood(params).execute()
+            val response = api.communicateJwt(this@DiaryActivity).getWeatherMood(params).execute()
             if (response.isSuccessful) {
                 return@withContext response.body()
             } else {
