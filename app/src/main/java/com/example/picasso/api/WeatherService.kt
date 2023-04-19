@@ -14,12 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface WeatherService {
-    @POST("weather/ai-weather-mood")
+    @POST("meta")
     fun getWeatherMood(@Body req: MutableMap<String, String>): Call<WeatherDto>
 
     // content로 분석한 날씨, 일기 가져오고 일기 DB에 저장하기
-    @POST("/api/diary/picture")
-    fun createDiary(@Body req: JSONObject): Call<ResultMessageDto>
+
 
     // 일기 생성
     // 타입은 email, content
@@ -42,14 +41,26 @@ interface WeatherService {
     suspend fun deleteDiary(@Path("id") id: Int, userId: String): Response<Boolean>
     // diary의 특정 id 삭제하기
 
-    @PUT("diaries/{id}")
-    suspend fun modifyDiary(@Path("id") id: Int, @Body req: JSONObject): Call<ResultMessageDto>
+    @POST("api/diary")
+    fun createDiary(@Body req: Any): Call<ResultMessageDto>
+
+    @PUT("api/diary/{id}")
+    suspend fun modifyDiary(@Path("id") id: Int, @Body req: Any): Response<ResultMessageDto>
     // 수정될 때는 id로 검색
-    // jsonObject의 요소는 email, content, diaryId
+
 
     @GET("diaries/diaries-list")
     suspend fun getDiariesList(userId: String): Response<DiariesListDto>
     // 매개변수로 email만 주면 됨
+
+    @POST("auth/signup")
+    suspend fun signup(@Body signUpDto: SignUpDto): Response<ResultMessageDto>
+
+    @POST("auth/signIn")
+    suspend fun signIn(@Body loginDto: SignInDto): Response<ReturnJwtDto>
+
+    @GET("auth")
+    suspend fun validateLogin(): Response<ValidateLogin>
 
     @POST("ex")
     suspend fun registerGoogleUser(googleRegisterDto: GoogleRegisterDto): Response<Boolean>
