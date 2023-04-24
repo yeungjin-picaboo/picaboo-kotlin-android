@@ -5,9 +5,8 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ResultMessageDto(
-    @SerializedName("ok")
-    val ok: Boolean,
+data class ReturnJwtDto(
+    @SerializedName("accessToken")
+    val accessToken: String
 
-    val message: String?
 ) : Parcelable

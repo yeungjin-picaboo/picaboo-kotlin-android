@@ -6,59 +6,85 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ImageView
+        android:id="@+id/imageViewBackground2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:context=".MainActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo_background2"
+        android:scaleType="centerCrop"
+        android:contentDescription="TODO" />
 
-        <TextView
-            android:id="@+id/dataText"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:textSize="20sp" />
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo"
+        android:contentDescription="TODO" />
 
-        <Button
-            android:id="@+id/DiaryBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="일기쓰러가기" />
-
-        <Button
-            android:id="@+id/logout_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="로그아웃" />
-
-        <Button
-            android:id="@+id/importUserInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="유저 정보 가져오기" />
-
-        <Button
-            android:id="@+id/Login2Button"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:text="로그인2" />
-
-        <Button
-            android:id="@+id/LoginBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로그인하러가기" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.918"
+        app:layout_constraintWidth_percent="1.0">
 
         <Button
-            android:id="@+id/requestBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="요청"
-            android:textSize="30sp" />
+            android:id="@+id/button2"
+            android:layout_width="373dp"
+            android:layout_height="89dp"
+            android:layout_marginStart="161dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="162dp"
+            android:layout_marginBottom="9dp"
+            android:text="Button"
+            android:fontFamily="@font/audiowide"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toTopOf="@+id/ButtonRegister"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/ButtonRegister"
+            android:layout_width="373dp"
+            android:layout_height="89dp"
+            android:layout_marginStart="161dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="162dp"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:text="Register"
+            android:fontFamily="@font/audiowide"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

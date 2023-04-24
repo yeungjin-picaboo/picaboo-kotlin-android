@@ -1,6 +1,7 @@
 package com.example.picasso
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.os.Environment
 import android.util.Log
@@ -18,8 +19,8 @@ import com.android.volley.toolbox.Volley
 import java.io.File
 
 
-class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
-    private var data: MutableList<DiaryImage> = mutableListOf()
+class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
+    private var data: MutableList<Diary> = mutableListOf()
     private var queue: RequestQueue? = null
     private var context: Context? = null
 
@@ -27,7 +28,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     private var bitmapData: MutableList<Bitmap?>? = null
 
 
-    fun setData(data: MutableList<DiaryImage>, context: Context) {
+    fun setData(data: MutableList<Diary>, context: Context) {
         this.data = data
         this.context = context
         bitmapData = MutableList<Bitmap?>(data.size, { it -> null })
@@ -48,27 +49,23 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
             queue = Volley.newRequestQueue(context)
         }
 
-        holder.image.setOnClickListener{
+        holder.image.setOnClickListener {
             // 여기다 페이지 이동 구현하면 됨
-            // data[position].DiaryId로 데이터 불러옴
-            val request = JsonObjectRequest(Request.Method.GET, "http://10.0.2.2:8080/testjson", null, { res ->
-
-                try {
-                    Log.d("test", "${res.javaClass.name}")
-                    //intent로 보냄 response 그대로 보내면 듯
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-            }, { error ->
-                Log.e("tes", "RESPONSE IS $error")
-            })
-            queue?.add(request)
-            Log.d("test", "${position}")
+            // data[position]에 있는 데이터를 intent로 보냄
+            val intent = Intent(context, DetailDiaryActivity::class.java)
+            Log.d("id", data[position].toString())
+            intent.putExtra("diaryId", data[position].id)
+            intent.putExtra("title", data[position].title)
+            intent.putExtra("content", data[position].content)
+            intent.putExtra("date", data[position].date)
+            intent.putExtra("emotion", data[position].emotion)
+            intent.putExtra("weather", data[position].weather)
+            intent.putExtra("source", data[position].source)
+            context?.startActivity(intent)
         }
 
         //이미지 불러옴
-        getImage(data[position].ImageURL, holder.image as AppCompatImageView, position)
+        getImage(data[position].source, holder.image as AppCompatImageView, position)
     }
 
     override fun getItemCount(): Int {
@@ -101,7 +98,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
                     ImageURL = url
                 }
 
-                var StringRequest = ImageRequest(url, // + URL 이런식으로 만듬
+                var StringRequest = ImageRequest(ImageURL, // + URL 이런식으로 만듬
                     { bitmap ->
                         bitmapData!![position] = bitmap
                         view.setImageBitmap(bitmap)

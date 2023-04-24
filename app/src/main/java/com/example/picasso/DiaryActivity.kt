@@ -3,37 +3,46 @@ package com.example.picasso
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.content.Context
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityDiaryBinding
+import com.example.picasso.dto.DiariesListDto
 import com.example.picasso.dto.WeatherDto
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.gson.Gson
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.DayViewFacade
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DiaryActivity : AppCompatActivity() {
@@ -52,9 +61,9 @@ class DiaryActivity : AppCompatActivity() {
     private val api = WeatherService
     var latitude: Double = 0.0
     var longitude: Double = 0.0
+    var date: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         val params = mutableMapOf<String, String>()
-
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val showCal = binding.showCal
@@ -71,9 +80,25 @@ class DiaryActivity : AppCompatActivity() {
         val rolling = AnimationUtils.loadAnimation(this, R.anim.rolling_btn)
         val rolling2 = AnimationUtils.loadAnimation(this, R.anim.rolling_btn_reverse)
         val opacity_cal_reverse = AnimationUtils.loadAnimation(this, R.anim.opacity_cal_reverse)
+        //============================================================================================================
 
+        binding.calendarView.setOnDateChangedListener { widget, dates, selected ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(dates.year, dates.month, dates.day)
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val dateString = dateFormat.format(selectedDate.time)
+            Log.d("dateString", dateString)
+            date = dateString // 캘린더에서 선택시 들어가는 날짜
+            Log.d("params : ", params.toString())
+            Toast.makeText(this, dateString, Toast.LENGTH_SHORT).show()
+        }
+
+        lifecycleScope.launch {
+            test(fetchCalendarList(), binding.calendarView)
+        }
+
+        //================================================================================================
         fun updateWidgets() {
-            Log.d("what?", "the fuck?")
             if (textViewContent.text.toString().isNotEmpty()) {
                 progressBar.progress = 50
                 nextBtn.isEnabled = true
@@ -163,8 +188,8 @@ class DiaryActivity : AppCompatActivity() {
         }
 
 
-        val isEdititng: Boolean = intent.getBooleanExtra("isEditing", false)// 수정되었는지 확인하는 intent
-        if (isEdititng) {
+        val isEditing: Boolean = intent.getBooleanExtra("isEditing", false)// 수정되었는지 확인하는 intent
+        if (isEditing) {
             mFusedLocationClient.getCurrentLocation(
                 Priority.PRIORITY_HIGH_ACCURACY, null
             ).addOnSuccessListener {
@@ -177,44 +202,50 @@ class DiaryActivity : AppCompatActivity() {
             }
             val getTitle: String
             val getContent: String
-            val getDate: String
+            val getDate: List<String>
             val getDiaryId: Int
             with(intent) {
                 getTitle = getStringExtra("title").toString()
                 getContent = getStringExtra("content").toString()
-                getDate = getStringExtra("date").toString()
-//            date = SimpleDateFormat("mmmm yyyy eeee").format(getStringExtra("date").toString())
+                date = getStringExtra("date") // 전역변수
+                getDate = getStringExtra("date")?.split("-")!! // 지역변수
+//                date = SimpleDateFormat("mmmm yyyy eeee").format(getStringExtra("date").toString())
                 getDiaryId = getIntExtra("diaryId", 1)
-            } // 이전의 액티비티에서 받아오기
+            } // 이전의 액티비티(Detail Diary)에서 받아오기
+            Log.d(
+                "이전의 엑티비티에서 받아온 값들",
+                "getTitle : $getTitle, getContent : $getContent, getDate : $getDate, getDiaryId : $getDiaryId"
+            )
             val getIntentArray = arrayOf(getTitle, getContent)
 
             for (i in arrayTextView.indices) {
                 arrayTextView[i].setText(getIntentArray[i])
-            }// title content 기본값 설정
+            }// DetailDairyActivity에서 받아온 title content를 삽입
 
             val calView = binding.calendarView
             val calendar = Calendar.getInstance()
-            calendar.set(2023, 2, 20) //!getDate의 데이터를 확인 후에 수정
-            val timeStamp = calendar.timeInMillis
-            calView.setDate(timeStamp, true, true) // 날짜 설정
+
+            calendar.set(
+                getDate[0].toInt(), getDate[1].toInt(), getDate[2].toInt()
+            ) //!getDate의 데이터를 확인 후에 수정
+
+//            val timeStamp = calendar.timeInMillis
+//            calView.setDate(timeStamp, true, true) // 날짜 설정
 
             nextBtn.setOnClickListener {
-                params["title"] = textViewTitle.text.toString()
                 params["content"] = textViewContent.text.toString()
                 CoroutineScope(Dispatchers.IO).launch {
-                    nextBtnClicked(params, isEdititng, getDiaryId)
+                    nextBtnClicked(params, isEditing, getDiaryId)
                 }
             }
         }// 수정되었을때
         else { // 일반 버전
-
             locationPermissionRequest.launch(
                 arrayOf(
                     ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION
                 )
             ) // 권한 요청
             nextBtn.setOnClickListener {
-                params["title"] = textViewTitle.text.toString()
                 params["content"] = textViewContent.text.toString()
                 CoroutineScope(Dispatchers.IO).launch {
                     nextBtnClicked(params)
@@ -230,7 +261,7 @@ class DiaryActivity : AppCompatActivity() {
             if (params.isNotEmpty()) {
                 communicateToNextIntent(params, isEditing, diaryId)
             } else {
-                Log.d("nextBtn", "$params")
+                Log.d("nextBtn", "params가 비었음.")
             }
         } catch (e: NumberFormatException) {
             //error 처리
@@ -241,31 +272,44 @@ class DiaryActivity : AppCompatActivity() {
         params: MutableMap<String, String>, isEditing: Boolean, diaryId: Int = 1
     ) {
         Log.d("isRunning?", "Running")
-        val weatherMood: WeatherDto?
         val intent = Intent(this, WeatherMoodActivity::class.java)
+        val weatherMood: WeatherDto? = requestApi(params) // return is weatherDto
+
+        params["title"] = binding.textViewTitle.text.toString()
+        val bundle = Bundle().apply {
+            putSerializable("map", params as Serializable)
+        } // params를 bundle형식으로 포맷(?)후 키값은 map으로 받는다
+        Log.d("weatherMood 는 ", weatherMood.toString())
+        with(intent) {
+            putExtra("weatherMoodDto", weatherMood)
+            putExtra("diary", bundle)
+            if (date == null) {
+                date = LocalDate.now()
+                    .format(DateTimeFormatter.ISO_LOCAL_DATE) // 유저가 글을 처음 작성했는데 날짜를 선택하지 않았을 때
+                putExtra("date", date)
+            } else
+                putExtra("date", date)
+        }
         if (isEditing) {
+            Log.d("이전 엑티비티에서 받아온 날짜는 ", date.toString())
+            Log.d("파람스는", params.toString())
+            Log.d("번들은", bundle.toString())
+            Log.d("최종 DiaryID는", diaryId.toString())
 
-//            weatherMood = requestApi(params)
-//            Log.d("weatherMood is ", weatherMood.toString())
-//            intent.putExtra("weatherMood", weatherMood)
-            intent.putExtra("diaryId", diaryId)
-            intent.putExtra("inputDiary", params["content"])
-            startActivity(intent)
-
+            with(intent) {
+                putExtra("diaryId", diaryId)
+                putExtra("isModify", true)
+            }
         } else {
-            val bundle = Bundle()
-            Log.d("params", params.toString())
-            bundle.putString("map", Gson().toJson(params)) //
-            weatherMood = requestApi(params)
-            Log.d("weatherMood 는 ", weatherMood.toString())
-            intent.putExtra("weatherMood", weatherMood)
-            intent.putExtra("diary", bundle)
-            startActivity(intent)
+            Log.d("파람스는", params.toString())
+            Log.d("번들은", bundle.toString())
             Log.d("nextBtn", "$params")
         }
+        startActivity(intent)
     }
 
     private suspend fun requestApi(params: MutableMap<String, String>): WeatherDto? {
+        Log.e("requestApi In function", params.toString())
         return withContext(Dispatchers.IO) {
             val response = api.communicateJwt(this@DiaryActivity).getWeatherMood(params).execute()
             if (response.isSuccessful) {
@@ -297,5 +341,32 @@ class DiaryActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun fetchCalendarList(): List<DiariesListDto>? {
+        return try {
+//            binding.calendarButton.isEnabled = false // disable the button
+            //로딩이 되기 전까지는 색이 다름
+            val calendarList = getCalendarList()
+            Log.d("캘린더리스트", calendarList.toString())
+//            if (calendarList != null) {
+//                binding.calendarButton.isEnabled = true // enable the button again
+//                binding.calendarButton.setColorFilter(Color.parseColor("#000000"))
+//            }
+            calendarList
+        } catch (e: Exception) {
+            Log.e(ContentValues.TAG, "Failed to fetch calendar list", e)
+            null
+        }
+    }
+
+    private suspend fun getCalendarList(): List<DiariesListDto>? {
+        return try {
+            val response = api.communicateJwt(this).getDiariesList()
+            Log.d("response Body getCalendarList : ", response.body().toString())
+            if (response.isSuccessful) response.body() else null
+        } catch (err: Error) {
+            Log.d("whereError : getCalendarList / ", err.toString())
+            null
+        }
+    }
 }
 

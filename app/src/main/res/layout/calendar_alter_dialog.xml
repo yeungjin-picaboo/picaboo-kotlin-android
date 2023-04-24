@@ -21,18 +21,6 @@
         app:mcv_selectionColor="#696D75"
         app:mcv_showOtherDates="all" />
 
-    <!--    <CalendarView-->
-    <!--        android:id="@+id/dialogCalendar"-->
-    <!--        android:layout_width="351dp"-->
-    <!--        android:layout_height="293dp"-->
-    <!--        android:layout_marginStart="35dp"-->
-    <!--        android:layout_marginEnd="35dp"-->
-    <!--        android:layout_marginBottom="4dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/ButtonConfirm"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.0"-->
-    <!--        app:layout_constraintStart_toStartOf="parent" />-->
-
     <Button
         android:id="@+id/ButtonConfirm"
         android:layout_width="wrap_content"

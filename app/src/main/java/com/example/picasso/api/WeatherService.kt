@@ -1,12 +1,12 @@
 package com.example.picasso.api
 
 import android.content.Context
+import com.example.picasso.Diary
 import com.example.picasso.dto.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.github.cdimascio.dotenv.dotenv
 import okhttp3.OkHttpClient
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -24,21 +24,28 @@ interface WeatherService {
     // 타입은 email, content
     // 만약 한번에 할시엔
     // email content mood weather
-    fun getUser(@Body req: String): Call<MoodDto>
+//    fun getUser(@Body req: String): Call<MoodDto>
 
-    @GET("diaries/years/{year}/month/{month}")
-    suspend fun getDiary(
+    @GET("api/diary/years/{year}/months/{month}")
+    suspend fun getAllDiary(
         @Path("year") year: String,
         @Path("month") month: String,
-        @Body req: CallDiaryDto
+    ): Response<MutableList<Diary>>
+
+    @GET("api/diary/{id}")
+    suspend fun getDetailedDiary(@Path("id") id: Int): Response<DiaryDto>
+
+    @GET("diary/years/date")
+    suspend fun getDiary(
+        @Body date: String
     ): Response<DiaryDto>
 
     // 다이어리 다시 받아오기.
     // 세부 내용에서 다이어리 클릭 시 다이어리 가져오기
     // 보내는 데이터는 eamil , date
     // 받는 데이터는 title, content, mood, weather, diaryId
-    @DELETE("diaries/{id}")
-    suspend fun deleteDiary(@Path("id") id: Int, userId: String): Response<Boolean>
+    @DELETE("api/diary/{id}")
+    suspend fun deleteDiary(@Path("id") id: Int): Response<ResultMessageDto>
     // diary의 특정 id 삭제하기
 
     @POST("api/diary")
@@ -49,24 +56,21 @@ interface WeatherService {
     // 수정될 때는 id로 검색
 
 
-    @GET("diaries/diaries-list")
-    suspend fun getDiariesList(userId: String): Response<DiariesListDto>
+    @GET("api/diary/dates")
+    suspend fun getDiariesList(): Response<List<DiariesListDto>>
     // 매개변수로 email만 주면 됨
 
-    @POST("auth/signup")
+    @POST("api/signup")
     suspend fun signup(@Body signUpDto: SignUpDto): Response<ResultMessageDto>
 
-    @POST("auth/signIn")
+    @POST("api/login")
     suspend fun signIn(@Body loginDto: SignInDto): Response<ReturnJwtDto>
 
-    @GET("auth")
+    @GET("api")
     suspend fun validateLogin(): Response<ValidateLogin>
 
     @POST("ex")
     suspend fun registerGoogleUser(googleRegisterDto: GoogleRegisterDto): Response<Boolean>
-
-    @POST("ex2")
-    suspend fun loginGoogleUser(googleLoginDto: GoogleLoginDto): Response<String>
 
     companion object {
         private val dotenv = dotenv {

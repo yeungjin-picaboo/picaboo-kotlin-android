@@ -5,9 +5,12 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ResultMessageDto(
-    @SerializedName("ok")
-    val ok: Boolean,
+data class SignInDto(
+    @SerializedName("email")
+    val email: String,
 
-    val message: String?
-) : Parcelable
+    @SerializedName("password")
+    val password: String,
+
+    ) : Parcelable
+

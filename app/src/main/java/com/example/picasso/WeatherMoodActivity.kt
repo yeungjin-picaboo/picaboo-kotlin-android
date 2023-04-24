@@ -17,7 +17,6 @@ import com.example.picasso.databinding.ActivityWeatherMoodBinding
 import com.example.picasso.dto.ResultMessageDto
 import com.example.picasso.dto.WeatherDto
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,6 +34,7 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
     var moodStatus: String? = null
     var diaryId: Int? = null
     var isModify: Boolean? = null
+    var date: String? = null
     private var diary: MutableMap<String, String>? = null
 
     private val binding by lazy {
@@ -70,27 +70,31 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
         scaleToBig = AnimationUtils.loadAnimation(this, R.anim.btn_to_big_scale)
         scaleToSmall = AnimationUtils.loadAnimation(this, R.anim.btn_to_small_scale)
         with(intent) {
-            val defaultValue = false // a default value to use if the extra is not found
-            val extraKey = "isModify" // the key used to pass the boolean extra
-            isModify = getBooleanExtra(extraKey, defaultValue)
-            diaryId = getIntExtra("diaryId", 1)
+            isModify = getBooleanExtra("isModify", false)
+            Log.d("수정됬나? 74줄", isModify.toString())
+            // null값이 올 수도 있기 때문에 타입을 바꿔줘야함
+            if (isModify as Boolean) {
+                //수정되었을 경우
+                val bundle = intent.getBundleExtra("diary")
+                diary = bundle?.getSerializable("map") as? MutableMap<String, String>
+                Log.d("diary", diary.toString())
+                diaryId = getIntExtra("diaryId", 1)
+
+            } else {
+                //수정되지 않았을 경우
+                val bundle = intent.getBundleExtra("diary")
+                diary = bundle?.getSerializable("map") as? MutableMap<String, String>
+                Log.d("diary", diary.toString())
+            }
+            date = getStringExtra("date")
+            Log.d("date", date.toString())
             progress = getIntExtra("progressBar", 1)
-            val bundle = getBundleExtra("diary")
-            Log.d("bundle", bundle.toString())
 
-            val weatherDto =
-                intent.getParcelableExtra<WeatherDto>("weatherMood") as WeatherDto // deprecated 이지만 대체할 사용법이 없음
-//            diary = bundle?.getSerializable("map") as? MutableMap<String,String> // deprecated
+            val weatherMoodDto =
+                intent.getParcelableExtra<WeatherDto>("weatherMoodDto") as WeatherDto // deprecated 이지만 대체할 사용법이 없음
 
-            diary = Gson().fromJson(
-                bundle?.getString("map"), object : TypeToken<MutableMap<String, String>>() {}.type
-            )
-            Log.d("diary : ", diary.toString())
-            Log.d("with : ", diaryMood.toString())
-            weatherStatus = getStringExtra("inputDiary").toString()
-            moodStatus = weatherDto.mood
-            weatherStatus = weatherDto.weather
-            Log.d("intentMoodWeather", weatherStatus.toString())
+            moodStatus = weatherMoodDto.mood
+            weatherStatus = weatherMoodDto.weather
             Log.d("intentMoodWeather", weatherStatus.toString())
         }
         progressBar!!.progress = 50
@@ -177,12 +181,14 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (status == "weather") {
                     progressBar!!.progress += 25
-                    weatherStatus = imageArray[i].resources.getResourceEntryName(imageArray[i].id)
+                    weatherStatus =
+                        imageArray[i].resources.getResourceEntryName(imageArray[i].id).substring(11)
 
                 } else {
 
                     progressBar!!.progress += 25
-                    moodStatus = imageArray[i].resources.getResourceEntryName(imageArray[i].id)
+                    moodStatus =
+                        imageArray[i].resources.getResourceEntryName(imageArray[i].id).substring(11)
                 }
                 imageArray[i].isSelected = true
                 imageArray[i].startAnimation(scaleToBig)
@@ -259,31 +265,45 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 binding.nextBtnWeatherMood -> {
                     Log.d("clicked next btn1", "clicked")
-
+                    val params = mutableMapOf<String, String>()
+                    Log.d("diary : ", diary.toString())
+                    params["title"] = diary?.getValue("title")!!
+                    params["content"] = diary?.getValue("content")!!
+                    params["emotion"] = moodStatus!!
+                    params["weather"] = weatherStatus!!
                     if (isModify == true) {
                         // 수정된 경우
-                        val jsonObject = JSONObject()
-                        jsonObject.put("content", diary?.getValue("content"))
-                        jsonObject.put("title", diary?.getValue("title"))
-                        jsonObject.put("diaryId", diaryId)
+
+                        params["diaryId"] = diaryId.toString()
+                        Log.d("넥스트 버튼을 눌렀을 때 ", params.toString())
+//                        val jsonObject = JSONObject()
+//                        jsonObject.put("content", diary?.getValue("content"))
+//                        jsonObject.put("title", diary?.getValue("title"))
+//                        jsonObject.put("diaryId", diaryId)
                         CoroutineScope(Dispatchers.IO).launch {
-                            val a = sendApiCreate(jsonObject, isModify!!)
+                            val a = sendApiCreate(params, isModify!!)
                             Log.d("result결과", "$a")
+                            val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
+                            if (a?.ok == true) {
+                                startActivity(intent)
+                            } else {
+                                Log.d("failed", "failed")
+                            }
                         }
 
                     } else {
                         Log.d("clicked next btn2", "clicked")
 //                            Log.d("firebase email ", email)
-                        val jsonObject = JSONObject()
+                        params["date"] = date!!
 //                            jsonObject.put("email", email) 토큰값에 포함되어 있기 때문에 필요x
-                        jsonObject.put("content", diary?.getValue("content"))
-                        jsonObject.put("title", diary?.getValue("title"))
-                        Log.d("jsonObj", jsonObject.toString())
+                        Log.d("jsonObj diary", diary.toString())
+
+                        Log.d("jsonObj", params.toString())
                         CoroutineScope(Dispatchers.IO).launch {
-                            val a = sendApiCreate(jsonObject)
+                            val a = sendApiCreate(params)
                             Log.d("result결과", "$a")
                             val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
-                            if (a?.message == "success") {
+                            if (a?.ok == true) {
                                 startActivity(intent)
                             } else {
                                 Log.d("failed", "failed")
@@ -299,19 +319,20 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private suspend fun sendApiCreate(
-        jsonObject: JSONObject, isModify: Boolean = false
+        params: MutableMap<String, String>, isModify: Boolean = false
     ): ResultMessageDto? {
         return withContext(Dispatchers.IO) {
             val api = api.communicateJwt(this@WeatherMoodActivity)
-
-
+            Log.d("sendApiCreate의 params는", params.toString())
             val response = if (isModify) {
-                val diaryId: Int = jsonObject.get("id") as Int
-                jsonObject.remove("id")
-                api.modifyDiary(diaryId, jsonObject).execute()
+                Log.e("다이어리 아이디", params["diaryId"].toString())
+                val diaryId: Int = params["diaryId"]!!.toInt()
+
+                params.remove("diaryId")
+                api.modifyDiary(diaryId, params)
                 // 수정돨 때
             } else {
-                api.createDiary(jsonObject).execute()
+                api.createDiary(params).execute()
                 // 그냥 생성할 때
             }
             response.body().also {

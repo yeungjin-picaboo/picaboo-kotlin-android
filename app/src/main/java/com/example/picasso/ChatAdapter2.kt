@@ -18,8 +18,8 @@ import com.android.volley.toolbox.Volley
 import java.io.File
 
 
-class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
-    private var data: MutableList<DiaryImage> = mutableListOf()
+class ChatAdapter2 : RecyclerView.Adapter<ChatAdapter2.ChatViewHolder>() {
+    private var data: MutableList<String> = mutableListOf()
     private var queue: RequestQueue? = null
     private var context: Context? = null
 
@@ -27,7 +27,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     private var bitmapData: MutableList<Bitmap?>? = null
 
 
-    fun setData(data: MutableList<DiaryImage>, context: Context) {
+    fun setData(data: MutableList<String>, context: Context) {
         this.data = data
         this.context = context
         bitmapData = MutableList<Bitmap?>(data.size, { it -> null })
@@ -48,41 +48,43 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
             queue = Volley.newRequestQueue(context)
         }
 
-        holder.image.setOnClickListener{
+        holder.image.setOnClickListener {
             // 여기다 페이지 이동 구현하면 됨
-            // data[position].DiaryId로 데이터 불러옴
-            val request = JsonObjectRequest(Request.Method.GET, "http://10.0.2.2:8080/testjson", null, { res ->
+            val request = JsonObjectRequest(
+                Request.Method.GET,
+                "http://10.0.2.2:8080/testjson",
+                null,
+                { res ->
 
-                try {
-                    Log.d("test", "${res.javaClass.name}")
-                    //intent로 보냄 response 그대로 보내면 듯
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                    try {
+                        Log.d("test", "${res.javaClass.name}")
+                        //intent로 보냄 response 그대로 보내면 듯
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
 
-            }, { error ->
-                Log.e("tes", "RESPONSE IS $error")
-            })
+                },
+                { error ->
+                    Log.e("tes", "RESPONSE IS $error")
+                })
             queue?.add(request)
             Log.d("test", "${position}")
         }
 
         //이미지 불러옴
-        getImage(data[position].ImageURL, holder.image as AppCompatImageView, position)
+        getImage(data[position], holder.image as AppCompatImageView, position)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    private fun getImage(url: String?, view: AppCompatImageView, position: Int) {
+    private fun getImage(url: String, view: AppCompatImageView, position: Int) {
         //이거 url이미지 이름으로 그거 ㅎ한다
-        //이미지이름만  가져오게 할려고 split으로 쪼갠다
-        val filenamefromURL: String? = url?.split("/")?.get(3)
 
         //aixos를 쓰던 해서 비동기처리를 해보아라
         val path = Environment.getExternalStorageDirectory().path
-        val imgFile = File(path + "/Download/" + filenamefromURL.toString())   // 이미지URL + url 해서 넣음
+        val imgFile = File(path + "/Download/test.png")  // 이미지URL + url 해서 넣음
         if (imgFile.exists()) {
             //이미지 라운드 처리
             view.setImageBitmap(createRoundedImageBitmap(imgFile))
@@ -94,14 +96,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
             if (bitmapData!![position] == null) {
                 Log.d("test", "통신으로 받아옴")
-                var ImageURL: String = ""
-                if (url == null) {
-                    ImageURL = "https://picaboonftimage.s3.ap-northeast-2.amazonaws.com/null.jpg"
-                } else {
-                    ImageURL = url
-                }
-
-                var StringRequest = ImageRequest(url, // + URL 이런식으로 만듬
+                var StringRequest = ImageRequest("http:10.0.2.2:8080/NFTtest", // + URL 이런식으로 만듬
                     { bitmap ->
                         bitmapData!![position] = bitmap
                         view.setImageBitmap(bitmap)

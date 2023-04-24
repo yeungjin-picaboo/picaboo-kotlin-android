@@ -1,85 +1,212 @@
 package com.example.picasso
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.support.v4.os.IResultReceiver._Parcel
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.picasso.databinding.ActivitySignInBinding
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.picasso.api.WeatherService
+import com.example.picasso.databinding.ActivityLoginPageBinding
+import com.example.picasso.dto.SignInDto
+import kotlinx.coroutines.launch
 
-class signInActivity : AppCompatActivity(),View.OnClickListener {
-
-    // FireBase인증을 위한 변수
-    var auth : FirebaseAuth ?= null
-
-    // 구글 로그인 연동에 필요한 변수
-    var googleSignInClient : GoogleSignInClient ?= null
-    var GOOGLE_LOGIN_CODE = 9001
-
+class SignInActivity : AppCompatActivity() {
     private val binding by lazy {
-        ActivitySignInBinding.inflate(layoutInflater)
+        ActivityLoginPageBinding.inflate(layoutInflater)
     }
+    private val api = WeatherService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // firebaseauth를 사용하기 위한 인스턴스 get
-        auth = FirebaseAuth.getInstance()
+        val email = binding.editTextEmailAddress.text
+        val password = binding.editTextPassword.text
 
-        // 구글 로그인 버튼 가져오기
-        var google_sign_in_button = binding.googleSignInButton
+        binding.login.setOnClickListener {
 
-        google_sign_in_button.setOnClickListener(this)
+            lifecycleScope.launch {
+                if (login(email.toString(), password.toString())) {
+                    val myValue = getSharedPreferences("JWT", 0)
+                    Log.d("myValue : ", myValue.getString("JWT", "false")!!)
 
-        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+                    // 로그인에 성공했을 때
+                    Toast.makeText(applicationContext, "Login Success!!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@SignInActivity, gallery::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                } else {
+                    // 로그인에 실패했을 때
+                    Toast.makeText(applicationContext, "Login Failed!!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+
+        binding.gotoRegister1.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+        }
+//        binding.login2.setOnClickListener { test(firebaseAuth.currentUser) }
     }
 
-    override fun onClick(v: View?) {
-        var signInIntent = googleSignInClient?.signInIntent
-        if (signInIntent != null) {
-            startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+
+//    fun test(user: FirebaseUser?) {
+//        if (user != null) {
+//            val userDto = GoogleLoginDto(user.email.toString(), user.uid)
+//            CoroutineScope(Dispatchers.IO).launch {
+//                try {
+//                    val response = api.communicate().loginGoogleUser(userDto)
+//
+//                    if (response.isSuccessful && !response.body().isNullOrEmpty()) {
+//                        val sharedPreferences = applicationContext.getSharedPreferences(
+//                            "JWT", Context.MODE_PRIVATE
+//                        )
+//                        val editor = sharedPreferences.edit().also {
+//                            it.putString("JWT", response.body().toString())
+//                            it.apply() // JWT를 저장
+//                        }
+//                        startActivity(Intent(this@LoginPage, MainActivity::class.java))
+//                        //현재 코드는 MainActivity로 가는거임 나중에 LoginActivity로 가면 됨.
+//                        finish()
+//                    } else {
+//                        Log.d("Error", "Error")
+//                    }
+//                } catch (err: Error) {
+//                    Log.d("Error in toMainActivity", err.toString())
+//                }
+//            }
+//        } else {
+//            Toast.makeText(this, "구글 회원가입이 되어있지 않습니다.", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//    public override fun onStart() {
+//        super.onStart()
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+//        if (account !== null) { // 이미 로그인 되어있을시 바로 메인 액티비티로 이동
+//            toMainActivity(firebaseAuth.currentUser)
+//        }
+//    } //onStart End
+//    fun toMainActivity(user: FirebaseUser?) {
+//        if (user != null) { // MainActivity 로 이동
+//
+//            // 로그인과 동시에 서버로 요청 보내면 됨.
+//            val userDto =
+//                GoogleRegisterDto(user.email.toString(), user.uid, user.displayName.toString())
+//
+//            CoroutineScope(Dispatchers.IO).launch {
+//                try {
+//                    val response = api.communicate().registerGoogleUser(userDto)
+//
+//                    if (response.isSuccessful && response.body() == true) {
+//                        startActivity(Intent(this@LoginPage, MainActivity::class.java))
+//                        //현재 코드는 MainActivity로 가는거임 나중에 LoginActivity로 가면 됨.
+//                        finish()
+//                    } else {
+//                        Log.d("Error", "Error")
+//                    }
+//                } catch (err: Error) {
+//                    Log.d("Error in toMainActivity", err.toString())
+//                }
+//            }
+//
+//
+//        }
+//    } // toMainActivity End
+//
+//    // onActivityResult
+//    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+//        if (requestCode == RC_SIGN_IN) {
+//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+//            try {
+//                // Google Sign In was successful, authenticate with Firebase
+//                val account = task.getResult(ApiException::class.java)
+//                firebaseAuthWithGoogle(account!!)
+//
+//            } catch (e: ApiException) {
+//                // Google Sign In failed, update UI appropriately
+//                Log.w("LoginActivity", "Google sign in failed", e)
+//            }
+//        }
+//    } // onActivityResult End
+
+    // firebaseAuthWithGoogle
+//    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+//        Log.d("LoginActivity", "firebaseAuthWithGoogle:" + acct.id!!)
+//
+//        //Google SignInAccount 객체에서 ID 토큰을 가져와서 Firebase Auth로 교환하고 Firebase에 인증
+//        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+//        firebaseAuth.signInWithCredential(credential)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    Log.w("LoginActivity", "firebaseAuthWithGoogle 성공", task.exception)
+//                    toMainActivity(firebaseAuth?.currentUser)
+//                } else {
+//                    Log.w("LoginActivity", "firebaseAuthWithGoogle 실패", task.exception)
+////                    Snackbar.make(login_layout, "로그인에 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
+//                }
+//            }
+//    }// firebaseAuthWithGoogle END
+
+
+    //    private fun signIn() {
+//        val signInIntent = googleSignInClient.signInIntent
+//        startActivityForResult(signInIntent, RC_SIGN_IN)
+//    }
+    // 로그인 함수
+    private suspend fun login(email: String, password: String): Boolean {
+        return try {
+            val response = api.communicate().signIn(SignInDto(email, password))
+            Log.d("Jwt", response.body()?.accessToken.toString())
+            Log.d("email", SignInDto(email, password).email)
+            Log.d("response", response.body().toString())
+
+            if (response.body()?.accessToken.toString().isEmpty()) {
+                //실패했을 경우
+                return false
+            } else {
+                // 성공했을 경우
+                val sharedPreferences =
+                    applicationContext.getSharedPreferences("JWT", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putString("JWT", response.body()?.accessToken).apply()
+                return true
+            }
+
+        } catch (err: Error) {
+            Log.d("error", "Error")
+            return false
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == GOOGLE_LOGIN_CODE) {
-            var result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
-            if (result != null) {
-                if (result.isSuccess) {
-                    var account = result.signInAccount
-                    firebaseAuthWithGoogle(account)
-                }
-            }
-        } //if
-    } // onActivityResult
-
-    fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
-        var credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener {
-                    task ->
-                if(task.isSuccessful) {
-                    // 로그인 성공 시
-                    Toast.makeText(this,  "success", Toast.LENGTH_LONG).show()
-                    startActivity(Intent (this, MainActivity::class.java))
-                } else {
-                    // 로그인 실패 시
-                    Toast.makeText(this,  task.exception?.message, Toast.LENGTH_LONG).show()
-                }
-            }
-    } //firebaseAuthWithGoogle
+//    private fun postConnection(email: String, password: String) {
+//        val url: String = "http://10.0.2.2:8080/post"
+//
+//        val request = object : StringRequest(
+//            Method.POST,
+//            url,
+//            Response.Listener { response ->
+//                //dataText.text = "Response: $response"
+//                Log.d("test", "success")
+//            }, Response.ErrorListener { error ->
+//                Log.d("test", "${error}")
+//            }) {
+//            // request 시 key, value 보낼 때
+//            override fun getParams(): Map<String, String> {
+//                val params = mutableMapOf<String,String>()
+//                params["email"] = email
+//                params["password"] = password
+//                return params
+//            }
+//
+//        }
+//
+//        queue?.add(request)
+//    }
 }

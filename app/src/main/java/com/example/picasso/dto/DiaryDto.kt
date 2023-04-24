@@ -10,15 +10,21 @@ data class DiaryDto (
     val title:String,
 
     @SerializedName("content")
-    val content:String,
+    val content: String,
 
     @SerializedName("mood")
-    val mood:String,
+    val mood: String,
 
     @SerializedName("weather")
-    val weather:String,
+    val weather: String,
 
-    @SerializedName("diary_id")
-    val diary_id:Int,
+    @SerializedName("source")
+    val source: String,
+
+    @SerializedName("id")
+    val diary_id: Int,
+
+    @SerializedName("date")
+    val date: String
 
 ):Parcelable

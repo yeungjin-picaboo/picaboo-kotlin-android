@@ -40,7 +40,6 @@
         android:id="@+id/showCal"
         android:layout_width="41dp"
         android:layout_height="44dp"
-        android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/angle_small_up_18"
@@ -63,10 +62,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
-    <CalendarView
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="332dp"
         android:layout_height="321dp"
+        android:layout_marginTop="10dp"
+        android:padding="1dp"
         android:layout_marginBottom="340dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +81,6 @@
         android:layout_height="357dp"
         android:layout_marginTop="72dp"
         android:background="#FBFBFB"
-        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
@@ -88,14 +88,15 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="39dp"
+        android:layout_height="43dp"
         android:background="@android:color/transparent"
+        android:padding="7dp"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toStartOf="@+id/calendarView"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="@id/calendarView"
         app:srcCompat="@drawable/ic_iconmonstr_x_mark_8" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
