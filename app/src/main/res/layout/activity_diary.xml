@@ -6,54 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".DiaryActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/toolbar2"
+        layout="@layout/layout_navbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:theme="@style/ToolbarTheme"
-        app:title=" ">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/barriecito_regular"
-            android:text="Picaboo"
-            android:textColor="@color/black"
-            android:textSize="30dp" />
-    </androidx.appcompat.widget.Toolbar>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="60dp" />
 
 
     <ImageButton
         android:id="@+id/showCal"
-        android:layout_width="41dp"
-        android:layout_height="44dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="90dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/angle_small_up_18"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
-        app:layout_constraintHorizontal_bias="0.439"
-        app:layout_constraintStart_toEndOf="@+id/calendarView"
         app:layout_constraintTop_toTopOf="@+id/calendarView" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCancel"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/transparent"
+        android:padding="7dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/calendarView"
+        app:srcCompat="@drawable/ic_iconmonstr_x_mark_8" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="334dp"
+        android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="28dp"
         android:progressBackgroundTint="#EEEEEE"
         android:progressDrawable="@drawable/progressbar"
         android:progressTint="#696D75"
@@ -66,14 +58,11 @@
         android:id="@+id/calendarView"
         android:layout_width="332dp"
         android:layout_height="321dp"
-        android:layout_marginTop="10dp"
-        android:padding="1dp"
-        android:layout_marginBottom="340dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
+        android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <View
         android:id="@+id/WhiteView"
@@ -86,23 +75,14 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="39dp"
-        android:layout_height="43dp"
-        android:background="@android:color/transparent"
-        android:padding="7dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toStartOf="@+id/calendarView"
-        app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toStartOf="@+id/progressBar"
-        app:layout_constraintTop_toTopOf="@id/calendarView"
-        app:srcCompat="@drawable/ic_iconmonstr_x_mark_8" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/textLayout"
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="28dp"
+
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="28dp"
         android:background="@drawable/layout_border"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +91,7 @@
 
         <EditText
             android:id="@+id/textViewTitle"
-            android:layout_width="364dp"
+            android:layout_width="match_parent"
             android:layout_height="39dp"
             android:layout_marginTop="16dp"
             android:background="@android:color/transparent"
@@ -129,10 +109,9 @@
         <EditText
             android:id="@+id/textViewContent"
 
-            android:layout_width="363dp"
+            android:layout_width="match_parent"
             android:layout_height="342dp"
 
-            android:layout_marginBottom="28dp"
             android:background="@android:color/transparent"
             android:gravity="top|left"
             android:hint="please input content"
@@ -143,22 +122,21 @@
             android:padding="10dp"
             android:scrollHorizontally="false"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textViewTitle"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textViewTitle"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            app:layout_constraintVertical_bias="0.111" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout6"
-        android:layout_width="392dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMenu2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
@@ -166,67 +144,28 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="31dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="31dp"
+            android:background="@color/disableButtonColor"
             android:enabled="false"
-            android:text="Button"
+            android:fontFamily="@font/ubuntu"
+            android:padding="18dp"
+            android:text="Done"
+            android:textAllCaps="false"
+            android:textColor="@color/disableButtonFontColor"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/bottomMenu2"
-
+        layout="@layout/layout_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_weight="0"
-        android:background="@color/bottommenu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:theme="@style/ToolbarTheme">
-
-        <Button
-            android:id="@+id/home"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:background="@drawable/home_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
-            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="@drawable/round_btn"
-            android:text="+"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
-            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
-        <Button
-            android:id="@+id/stats"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="13dp"
-            android:background="@drawable/statistics_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
-            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="60dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

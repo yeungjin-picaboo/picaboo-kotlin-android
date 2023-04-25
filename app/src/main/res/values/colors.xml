@@ -5,10 +5,14 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="ic_toolbar_userinfo">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mainDark">#373A40</color>
     <color name="gray">#CCCCCC</color>
-    <color name="bottommenu">#373A40</color>
+    <color name="bottommenu">#D9000000</color>
     <color name="red">#ff0000</color>
+    <color name="disableButtonFontColor">#BABABA</color>
+    <color name="disableButtonColor">#EEEEEE</color>
+    <color name="ableButtonColor">#373A40</color>
+    <color name="ableButtonFontColor">#FFFFFF</color>
 </resources>

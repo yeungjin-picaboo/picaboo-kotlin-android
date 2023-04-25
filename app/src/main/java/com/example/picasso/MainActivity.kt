@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
+        TODO("Not yet implemented")
     }
+
 }

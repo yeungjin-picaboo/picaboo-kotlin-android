@@ -9,12 +9,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar4"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+        android:layout_height="60dp"
+        android:layout_weight="0"
+        android:background="#373A40"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/ToolbarTheme"
@@ -23,9 +21,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/barriecito_regular"
+            android:fontFamily="@font/comforterbrush_regular"
             android:text="Picaboo"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="30dp" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -33,6 +31,7 @@
         android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
         android:layout_height="49dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,30 +40,31 @@
 
         <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="44dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="16dp"
             android:background="#FBFBFB"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.50"
+            app:layout_constraintVertical_bias="0.578"
             app:srcCompat="@drawable/btn_left_arrow" />
 
         <ImageButton
             android:id="@+id/calendarButton"
-            android:layout_width="44dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="180dp"
+            android:layout_width="30dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="10dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/writeButton"
-            app:layout_constraintStart_toEndOf="@+id/backButton"
+            app:layout_constraintEnd_toStartOf="@+id/writeButton"
             app:layout_constraintTop_toTopOf="@+id/writeButton"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_calendar"
@@ -72,29 +72,27 @@
 
         <ImageButton
             android:id="@+id/writeButton"
-            android:layout_width="44dp"
+            android:layout_width="30dp"
             android:layout_height="34dp"
+            android:layout_marginEnd="10dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/calendarButton"
+            app:layout_constraintEnd_toStartOf="@+id/trashButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_write" />
 
         <ImageButton
             android:id="@+id/trashButton"
-            android:layout_width="44dp"
-            android:layout_height="34dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="28dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/writeButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/writeButton"
             app:layout_constraintTop_toTopOf="@+id/writeButton"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_trashbag2" />
@@ -103,8 +101,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout5"
-        android:layout_width="413dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="357dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.5
 "
@@ -113,15 +112,13 @@
 
         <ImageView
             android:id="@+id/imageViewPicture"
-            android:layout_width="0dp"
+            android:layout_width="357dp"
             android:layout_height="0dp"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="44dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/round_img"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -132,7 +129,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="412dp"
-        android:layout_height="400dp"
+        android:layout_height="260dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -145,9 +142,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout8"
                     android:layout_width="408dp"
                     android:layout_height="52dp"
                     android:layout_marginTop="1dp"
@@ -156,39 +154,22 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textViewDiaryId"
-                        android:layout_width="33dp"
-                        android:layout_height="29dp"
-                        android:layout_marginStart="36dp"
+                        android:id="@+id/textViewDate"
+                        android:layout_width="149dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="30dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="3dp"
-                        android:gravity="left"
-                        android:text="1"
-                        android:textSize="18dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="TextView"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textViewDate"
-                        android:layout_width="149dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="TextView"
-                        android:textSize="18dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageViewMood"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/textViewDiaryId"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.666" />
-
                     <ImageView
                         android:id="@+id/imageViewMood"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginEnd="12dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imageViewWeather"
@@ -197,10 +178,10 @@
 
                     <ImageView
                         android:id="@+id/imageViewWeather"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginTop="3dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="28dp"
                         android:layout_marginBottom="2dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -212,26 +193,21 @@
                     android:id="@+id/TitleTextView"
                     android:layout_width="229dp"
                     android:layout_height="33dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginEnd="130dp"
+                    android:layout_marginStart="30dp"
                     android:text="TextView"
-                    android:textSize="20dp"
+                    android:textSize="24dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 
                 <TextView
                     android:id="@+id/ContentTextView"
                     android:layout_width="260dp"
                     android:layout_height="179dp"
 
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="30dp"
 
                     android:layout_marginTop="12dp"
-
-                    android:layout_marginEnd="78dp"
 
                     android:layout_marginBottom="5dp"
                     android:gravity="top|left"
@@ -239,9 +215,8 @@
                     android:maxWidth="5.0dip"
                     android:minWidth="10.0dip"
                     android:scrollHorizontally="false"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.321"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TitleTextView"
                     app:layout_constraintVertical_bias="0.0" />
@@ -252,22 +227,22 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bottomMenu4"
-
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_weight="0"
         android:background="@color/bottommenu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:theme="@style/ToolbarTheme">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/home"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="left"
-            android:background="@drawable/home_icon"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_toolbar_book"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"
@@ -275,9 +250,10 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/round_btn"
             android:text="+"
             android:textColor="@color/white"
@@ -288,11 +264,23 @@
 
         <Button
             android:id="@+id/stats"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="13dp"
-            android:background="@drawable/statistics_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_toolbar_pie_chart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
+            app:layout_constraintStart_toStartOf="@+id/bottomMenu"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+        <Button
+            android:id="@+id/userInfo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:background="@drawable/ic_toolbar_userinfo"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bottomMenu"
             app:layout_constraintStart_toStartOf="@+id/bottomMenu"

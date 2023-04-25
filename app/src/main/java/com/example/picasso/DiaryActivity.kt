@@ -6,8 +6,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
@@ -31,9 +30,6 @@ import com.example.picasso.dto.WeatherDto
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
-import com.prolificinteractive.materialcalendarview.DayViewFacade
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -84,7 +80,7 @@ class DiaryActivity : AppCompatActivity() {
 
         binding.calendarView.setOnDateChangedListener { widget, dates, selected ->
             val selectedDate = Calendar.getInstance()
-            selectedDate.set(dates.year, dates.month, dates.day)
+            selectedDate.set(dates.year, dates.month - 1, dates.day)
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val dateString = dateFormat.format(selectedDate.time)
             Log.d("dateString", dateString)
@@ -102,9 +98,34 @@ class DiaryActivity : AppCompatActivity() {
             if (textViewContent.text.toString().isNotEmpty()) {
                 progressBar.progress = 50
                 nextBtn.isEnabled = true
+                nextBtn.setTextColor(
+                    ContextCompat.getColor(
+                        this@DiaryActivity,
+                        R.color.ableButtonFontColor
+                    )
+                )
+                nextBtn.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this@DiaryActivity,
+                        R.color.ableButtonColor
+                    )
+                )
+                Log.e("isRun?", "running")
             } else {
                 progressBar.progress = -50
                 nextBtn.isEnabled = false
+                nextBtn.setTextColor(
+                    ContextCompat.getColor(
+                        this@DiaryActivity,
+                        R.color.disableButtonFontColor
+                    )
+                )
+                nextBtn.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this@DiaryActivity,
+                        R.color.disableButtonColor
+                    )
+                )
             }
         }
 
@@ -190,6 +211,7 @@ class DiaryActivity : AppCompatActivity() {
 
         val isEditing: Boolean = intent.getBooleanExtra("isEditing", false)// 수정되었는지 확인하는 intent
         if (isEditing) {
+            binding.showCal.isEnabled = false
             mFusedLocationClient.getCurrentLocation(
                 Priority.PRIORITY_HIGH_ACCURACY, null
             ).addOnSuccessListener {

@@ -8,23 +8,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <NumberPicker
             android:id="@+id/picker_year"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
-            android:layout_margin="10dp"
-            >
-        </NumberPicker>
+            android:layout_margin="10dp"></NumberPicker>
 
         <NumberPicker
             android:id="@+id/picker_month"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
-            android:layout_margin="10dp"
-            >
-        </NumberPicker>
+            android:layout_margin="10dp"></NumberPicker>
 
     </LinearLayout>
 
@@ -33,27 +30,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        >
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#373A40"
+            android:text="confirm"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#EEEEEE"
             android:text="cancel"
-            android:layout_weight="1"
             android:textAllCaps="false"
-            />
-
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="confirm"
-            android:textAllCaps="false"
-            />
+            android:textColor="#BABABA" />
 
     </LinearLayout>
 </LinearLayout>

@@ -7,30 +7,15 @@
     tools:context=".SignupActivity">
 
 
-    <com.developer.gbuttons.GoogleSignInButton
-        android:id="@+id/loginId"
-        android:layout_width="204dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="28dp"
-        android:text="Sign up with Google"
-        app:isDarkTheme="true"
-        app:layout_constraintBottom_toTopOf="@+id/gotoLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup"
-        app:layout_constraintVertical_bias="0.0" />
-
     <TextView
         android:id="@+id/title"
-        android:fontFamily="@font/audiowide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="48dp"
-        android:text="Sign up"
-        android:textColor="@color/black"
+        android:fontFamily="@font/ubuntu"
+        android:text="Register"
+        android:textColor="@color/ic_toolbar_userinfo"
         android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +27,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="53dp"
         android:layout_marginEnd="20dp"
+        android:textColorHint="#BABABA"
         android:ems="10"
         android:hint="Email address"
         android:inputType="textEmailAddress"
@@ -56,7 +42,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="10dp"
         android:text="Email"
-        android:textColor="@color/black"
+        android:textColorHint="#BABABA"
+        android:textColor="@color/ic_toolbar_userinfo"
         app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -69,7 +56,8 @@
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="Nickname"
-        android:inputType="textPassword"
+        android:textColorHint="#BABABA"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
@@ -82,12 +70,13 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="8dp"
         android:text="Nickname"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         app:layout_constraintBottom_toTopOf="@+id/editTextNickname"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextPasswordConfirm"
+        android:textColorHint="#BABABA"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -108,7 +97,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="8dp"
         android:text="Password"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         app:layout_constraintBottom_toTopOf="@+id/editTextPasswordConfirm"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -119,7 +108,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="8dp"
         android:text="Password"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -129,6 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
+        android:textColorHint="#BABABA"
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:hint="Password"
@@ -145,8 +135,14 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:fontFamily="@font/audiowide"
-        android:text="Signup"
+        android:backgroundTint="#686d76"
+        android:fontFamily="@font/ubuntu"
+
+        android:padding="18dp"
+        android:text="Register"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -166,14 +162,19 @@
             android:id="@+id/gotoLogin1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account?" />
+            android:text="Already have an account?"
+            android:textColor="#BABABA"
+            android:textSize="16sp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:id="@+id/gotoLogin2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:textColor="@color/black" />
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#6C6C6C" />
     </LinearLayout>
 
 

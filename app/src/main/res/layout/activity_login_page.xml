@@ -9,13 +9,13 @@
 
     <TextView
         android:id="@+id/title"
-        android:fontFamily="@font/audiowide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="48dp"
+        android:fontFamily="@font/ubuntu"
         android:text="Login"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +23,7 @@
     <EditText
         android:id="@+id/editTextEmailAddress"
         android:layout_width="0dp"
+        android:textColorHint="#BABABA"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
@@ -41,7 +42,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="10dp"
         android:text="Email"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -53,6 +54,7 @@
         android:layout_marginTop="53dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
+        android:textColorHint="#BABABA"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,18 +68,20 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="10dp"
         android:text="Password"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/forgotpassword"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="30dp"
         android:text="Forgot password?"
-        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textColor="#6C6C6C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
@@ -86,23 +90,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:backgroundTint="#686d76"
+
+        android:fontFamily="@font/ubuntu"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        android:padding="18dp"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotpassword" />
-
-    <Button
-        android:id="@+id/login2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="20dp"
-        android:text="LOGIN IN GOOGLE"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgotpassword" />
 
@@ -119,15 +118,20 @@
         <TextView
             android:id="@+id/gotoRegister1"
             android:layout_width="wrap_content"
+            android:textColor="#BABABA"
             android:layout_height="wrap_content"
-            android:text="Don't have an account?" />
+            android:text="Don't have an account?"
+            android:textSize="16sp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:id="@+id/gotoRegister2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register"
-            android:textColor="@color/black" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#6C6C6C" />
     </LinearLayout>
 
 

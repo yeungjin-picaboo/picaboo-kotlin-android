@@ -15,7 +15,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="이름들어갈자리"
-        android:textColor="@color/black"
+        android:textColor="@color/ic_toolbar_userinfo"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
