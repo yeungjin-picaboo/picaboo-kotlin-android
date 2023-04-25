@@ -49,19 +49,19 @@ class StatisticsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val tb: androidx.appcompat.widget.Toolbar = binding.toolbar
+        val tb: androidx.appcompat.widget.Toolbar = binding.toolbars.toolbarMenu
         setSupportActionBar(tb)
 
 
         binding.weather.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.mood.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
-        binding.stats.setOnClickListener{
+        binding.toolbars.stats.setOnClickListener {
             var intent = Intent(this, gallery::class.java)
             startActivity(intent)
         }
 
-        binding.home.setOnClickListener{
+        binding.toolbars.home.setOnClickListener {
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

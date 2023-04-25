@@ -24,21 +24,35 @@ class gallery : AppCompatActivity() {
         ActivityGalleryBinding.inflate(layoutInflater)
     }
 
-    //val nameOfMonth = arrayOf("January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December")
     val nameOfMonth = arrayOf(
-        "Jan. ",
-        "Feb. ",
-        "Mar. ",
-        "Apr. ",
-        "May. ",
-        "Jun. ",
-        "Jul. ",
-        "Aug. ",
-        "Sep. ",
-        "Oct. ",
-        "Nov. ",
-        "Dec. "
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
     )
+
+    //    val nameOfMonth = arrayOf(
+//        "Jan. ",
+//        "Feb. ",
+//        "Mar. ",
+//        "Apr. ",
+//        "May. ",
+//        "Jun. ",
+//        "Jul. ",
+//        "Aug. ",
+//        "Sep. ",
+//        "Oct. ",
+//        "Nov. ",
+//        "Dec. "
+//    )
     private val adapter = ChatAdapter3()
 
     val api = WeatherService
@@ -71,6 +85,8 @@ class gallery : AppCompatActivity() {
         monthTextView.text = nameOfMonth[currentDate.monthValue - 1] + " "
         yearTextView.text = currentDate.year.toString()
 
+
+
         binding.stats.setOnClickListener {
             var intent = Intent(this, StatisticsActivity::class.java)
             startActivity(intent)
@@ -98,11 +114,11 @@ class gallery : AppCompatActivity() {
             Log.d("연도", binding.year.text.toString())
             Log.d("월", month)
 
-            Log.e(
-                "에러내용",
-                api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "$month")
-                    .body()!!.toString()
-            )
+//            Log.e(
+//                "에러내용",
+//                api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "$month")
+//                    .body()!!.toString()
+//            )
             adapter.setData(
                 api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "${month}")
                     .body()!!, this@gallery
@@ -123,7 +139,7 @@ class gallery : AppCompatActivity() {
         }
         //------------------------------------------
 
-        val imagebutton = binding.imageButton
+        val imagebutton = binding.imageButtonCancel
         imagebutton.setOnClickListener{
             if(currentSpan >= 3){
                 currentSpan = 1
