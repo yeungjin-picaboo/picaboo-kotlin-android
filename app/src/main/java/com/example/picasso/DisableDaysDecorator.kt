@@ -26,13 +26,9 @@ class DisabledDaysDecorator(private val disabledDates: List<CalendarDay>) :
 }
 
 fun test(callback: List<DiariesListDto>?, view: MaterialCalendarView) {
-    CoroutineScope(Dispatchers.Main).launch {
-
-        // 일반유저 로그인
-        val result = callback
-        if (result != null) {
+        if (callback != null) {
             Log.d("OK Btn", "positive")
-            result.forEach { dateString ->
+            callback.forEach { dateString ->
                 Log.e("dateString", dateString.date)
                 val dateComponents = dateString.date.split("-")
                 val (year, month, day) = dateComponents.map { it.toInt() }
@@ -43,5 +39,5 @@ fun test(callback: List<DiariesListDto>?, view: MaterialCalendarView) {
             Log.d("알수없는 에러", "코드 확인 요망")
         }
 
-    }
+
 }

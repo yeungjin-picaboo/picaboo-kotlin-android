@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -28,12 +27,7 @@ import com.android.volley.toolbox.Volley
 import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityDetailDiaryBinding
 import com.example.picasso.dto.DiariesListDto
-import com.example.picasso.dto.DiaryDto
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
-import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,19 +74,22 @@ class DetailDiaryActivity : AppCompatActivity() {
             content = getStringExtra("content").toString()
             date = getStringExtra("date").toString()
 //            date = SimpleDateFormat("mmmm yyyy eeee").format(getStringExtra("date").toString())
-            mood = getStringExtra("mood").toString()
+            mood = getStringExtra("emotion").toString()
             weather = getStringExtra("weather").toString()
             diaryId = getIntExtra("diaryId", 26)
             source = getStringExtra("source").toString()
+            Log.d("Mood는", mood.toString())
             getMood(getMoodDrawable(mood!!))
             getWeather(getWeatherDrawable(weather!!))
         } // 이전의 액티비티에서 받아오기
         binding.ContentTextView.text = content
         binding.TitleTextView.text = title
-        binding.textViewDiaryId.text = diaryId.toString()
 
+
+        binding.imageViewPicture.clipToOutline = true
 
         Log.d("test", "통신으로 받아옴")
+
         var StringRequest = ImageRequest(source, // + URL 이런식으로 만듬
             { bitmap ->
                 binding.imageViewPicture.setImageBitmap(bitmap)
@@ -111,7 +108,6 @@ class DetailDiaryActivity : AppCompatActivity() {
         }
 
         binding.textViewDate.text = date
-
         var result: List<DiariesListDto>? = null
         lifecycleScope.launch {
 
@@ -147,16 +143,7 @@ class DetailDiaryActivity : AppCompatActivity() {
             binding.imageViewPicture.setImageBitmap(myBitmap)
         }
         //이미지 라운드 처리
-        class DisabledDaysDecorator(private val disabledDates: List<CalendarDay>) :
-            DayViewDecorator {
-            override fun shouldDecorate(day: CalendarDay?): Boolean {
-                return day != null && disabledDates.contains(day)
-            }
 
-            override fun decorate(view: DayViewFacade?) {
-                view?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#EEEEEE")))
-            }
-        }
 
         calendarBtn.setOnClickListener {
             val dialogView = LayoutInflater.from(this).inflate(R.layout.calendar_alter_dialog, null)
@@ -173,7 +160,6 @@ class DetailDiaryActivity : AppCompatActivity() {
                 Log.d("selectedDate", selectedDate.toString())
             }
 
-            // Decorate disabled dates in calendar
             result?.forEach { dateString ->
                 Log.e("dateString", dateString.date)
                 val dateComponents = dateString.date.split("-")
@@ -181,14 +167,13 @@ class DetailDiaryActivity : AppCompatActivity() {
                 val dates = listOf(CalendarDay.from(year, month, day))
                 calendarView.addDecorator(DisabledDaysDecorator(dates))
             }
-//            calendarView.addDecorator(SundayDecorator)
-            // Initialize and show alert dialog
             val alertDialog =
                 AlertDialog.Builder(this).setView(dialogView).setCancelable(true).create()
 
             buttonInDialog.setOnClickListener {
                 // Launch coroutine to handle selected date
                 lifecycleScope.launch(Dispatchers.Default) {
+
                     Log.d("buttonInDialog Btn", "clicked")
                     result?.forEach {
                         if (it.date == selectedDate.toString()) {
@@ -202,8 +187,8 @@ class DetailDiaryActivity : AppCompatActivity() {
                                 api.communicateJwt(this@DetailDiaryActivity).getDetailedDiary(it.id)
                                     .body().toString()
                             )
+                            Log.d("Id는", it.id.toString())
                             calendar(it.id, selectedDate!!)
-
                         }
                     }
                     Log.d("선택한 날", selectedDate.toString())
@@ -266,12 +251,10 @@ class DetailDiaryActivity : AppCompatActivity() {
 
     // 캘린더에서 확인 눌렀을 때
     private suspend fun calendar(id: Int, date: LocalDate) {
-
         val imgArrayDiary =
-            arrayOf(binding.textViewDiaryId, binding.TitleTextView, binding.ContentTextView)
+            arrayOf(binding.TitleTextView, binding.ContentTextView)
 
         // Local user login implementation
-
         try {
             val diary = api.communicateJwt(this@DetailDiaryActivity).getDetailedDiary(id).body()
             diary.let {
@@ -284,6 +267,7 @@ class DetailDiaryActivity : AppCompatActivity() {
                         DateTimeFormatter.ofPattern("MMMM-yyyy-dd").format(date)  // 사용자가 클릭한 날짜
                     Log.d("dataFormat", dateFormat)
                     binding.textViewDate.text = dateFormat //date
+                    Log.d("mood는", it.weather)
                     val moodDrawable = getMoodDrawable(it.mood)
                     val weatherDrawable = getWeatherDrawable(it.weather)
                     getPicture(it.source)
@@ -317,14 +301,6 @@ class DetailDiaryActivity : AppCompatActivity() {
             else -> R.drawable.weather_ic_sun
         }
     }
-
-    suspend fun getDiary(date: String): DiaryDto? {
-        Log.d("getDiary", "Running")
-        val response = api.communicateJwt(this).getDiary(date)
-        Log.d("response : ", response.body().toString())
-        return if (response.isSuccessful) response.body() else null// response.body()에는 응답이 포함되어 있음.
-    }
-
     private fun updateText(textView: TextView, newText: Any) { // 텍스트 업데이트하기
         Log.d("updateText", "Running")
         textView.text = newText.toString()
@@ -365,11 +341,6 @@ class DetailDiaryActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun editContent() {
-
-    }
-
     private suspend fun deleteDiary(diaryId: Int): Boolean? {
         return try {
             val response = api.communicateJwt(this).deleteDiary(diaryId)
