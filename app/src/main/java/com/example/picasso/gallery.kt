@@ -3,10 +3,13 @@ package com.example.picasso
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
@@ -84,7 +87,7 @@ class gallery : AppCompatActivity() {
         val yearTextView = binding.year
         monthTextView.text = nameOfMonth[currentDate.monthValue - 1] + " "
         yearTextView.text = currentDate.year.toString()
-
+//        binding.bottomMenu.
 
 
         binding.stats.setOnClickListener {
@@ -97,7 +100,7 @@ class gallery : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.writeButton2.setOnClickListener {
+        binding.buttonWrite.setOnClickListener {
             val intent = Intent(this, DiaryActivity::class.java)
             startActivity(intent)
         }
@@ -167,8 +170,12 @@ class gallery : AppCompatActivity() {
         }
     }
 
-    private fun setLayoutManager(recyclerView: RecyclerView, NumOfSpan: Int){
+    private fun setLayoutManager(recyclerView: RecyclerView, NumOfSpan: Int) {
         recyclerView.layoutManager = GridLayoutManager(this, NumOfSpan)
+        val spanCount = NumOfSpan
+        val spacing = 30 //px
+        val includeEdge = false
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
     }
 
 
@@ -179,7 +186,62 @@ class gallery : AppCompatActivity() {
         if (menu is MenuBuilder) {
             menu.setOptionalIconsVisible(true)
         }
-
+        if (menu != null) {
+            onOptionsItemSelected(menu.findItem(R.id.logout))
+        }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> {
+                // Handle logout button click
+                val sharedPreferences =
+                    getSharedPreferences("MY_APP_PREFERENCES", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.remove("JWT")
+                editor.apply()
+                // Navigate to the login screen or any other appropriate screen
+                return true
+            }
+            // Handle other menu items as needed
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    class GridSpacingItemDecoration(
+        private val spanCount: Int,
+        private val spacing: Int,
+        private val includeEdge: Boolean
+    ) : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view) // item position
+            val column = position % spanCount // item column
+
+            if (includeEdge) {
+                outRect.left =
+                    spacing - column * spacing / spanCount // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right =
+                    (column + 1) * spacing / spanCount // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing
+                }
+                outRect.bottom = spacing // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount // column * ((1f / spanCount) * spacing)
+                outRect.right =
+                    spacing - (column + 1) * spacing / spanCount // spacing - (column + 1) * ((1f / spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing // item top
+                }
+            }
+        }
     }
 }

@@ -54,17 +54,21 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
             // data[position]에 있는 데이터를 intent로 보냄
             val intent = Intent(context, DetailDiaryActivity::class.java)
             Log.d("id", data[position].toString())
-            intent.putExtra("diaryId", data[position].id)
+            intent.putExtra("diaryId", data[position].diary_id)
             intent.putExtra("title", data[position].title)
             intent.putExtra("content", data[position].content)
             intent.putExtra("date", data[position].date)
             intent.putExtra("emotion", data[position].emotion)
             intent.putExtra("weather", data[position].weather)
-            intent.putExtra("source", data[position].source)
+            intent.putExtra(
+                "source",
+                "https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/${data[position].source}"
+            )
             context?.startActivity(intent)
         }
 
         //이미지 불러옴
+        Log.e("데이터 ", data.toString())
         getImage(data[position].source, holder.image as AppCompatImageView, position)
     }
 
@@ -75,14 +79,15 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
     private fun getImage(url: String?, view: AppCompatImageView, position: Int) {
         //이거 url이미지 이름으로 그거 ㅎ한다
         //이미지이름만  가져오게 할려고 split으로 쪼갠다
-        val filenamefromURL: String? = url?.split("/")?.get(3)
+//        val filenamefromURL: String? = url?.split("/")?.get(3)
 
         //aixos를 쓰던 해서 비동기처리를 해보아라
         val path = Environment.getExternalStorageDirectory().path
-        val imgFile = File(path + "/Download/" + filenamefromURL.toString())   // 이미지URL + url 해서 넣음
+        val imgFile = File(path + "/Download/" + url.toString())   // 이미지URL + url 해서 넣음
         if (imgFile.exists()) {
             //이미지 라운드 처리
-            view.setImageBitmap(createRoundedImageBitmap(imgFile))
+//            view.setImageBitmap(createRoundedImageBitmap(imgFile))
+            view.setImageBitmap(createRoundedImageBitmap(convertImageFileToBitmap(imgFile)))
         } else {
 
             Log.d("test", "저장된 이미지 없음 서버에서 받아옴")
@@ -95,13 +100,24 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
                 if (url == null) {
                     ImageURL = "https://picaboonftimage.s3.ap-northeast-2.amazonaws.com/null.jpg"
                 } else {
-                    ImageURL = url
+                    ImageURL = "https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/$url"
                 }
 
                 var StringRequest = ImageRequest(ImageURL, // + URL 이런식으로 만듬
                     { bitmap ->
                         bitmapData!![position] = bitmap
-                        view.setImageBitmap(bitmap)
+//                        view.setImageBitmap(bitmap)
+                        view.setImageBitmap(
+                            createRoundedImageBitmap(
+                                Bitmap.createBitmap(
+                                    bitmap,
+                                    view.left,
+                                    view.top,
+                                    view.width,
+                                    view.height
+                                )
+                            )
+                        )
                     },
                     0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888,
                     { err ->
@@ -111,26 +127,43 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
                 queue?.add(StringRequest)
 
             } else {
-                view.setImageBitmap(bitmapData!![position])
+//                view.setImageBitmap(bitmapData!![position])
+                view.setImageBitmap(
+                    createRoundedImageBitmap(
+                        Bitmap.createBitmap(
+                            bitmapData!![position]!!,
+                            view.left,
+                            view.top,
+                            view.width,
+                            view.height
+                        )
+                    )
+                )
             }
+
         }
     }
 
-    private fun createRoundedImageBitmap(imgFile: File): Bitmap {
-        val mbitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+    private fun convertImageFileToBitmap(imgFile: File): Bitmap {
+        return BitmapFactory.decodeFile(imgFile.absolutePath)
+    }
+
+
+    private fun createRoundedImageBitmap(img: Bitmap): Bitmap {
+        //val mbitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
         val RADIUS = 30
-        val imageRounded = Bitmap.createBitmap(mbitmap.width, mbitmap.height, mbitmap.config)
+        val imageRounded = Bitmap.createBitmap(img.width, img.height, img.config)
 
         val canvas = Canvas(imageRounded)
         val mpaint = Paint()
         mpaint.isAntiAlias = true
-        mpaint.shader = BitmapShader(mbitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        mpaint.shader = BitmapShader(img, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         canvas.drawRoundRect(
             RectF(
                 (0).toFloat(),
                 (0).toFloat(),
-                mbitmap.width.toFloat(),
-                mbitmap.height.toFloat()
+                img.width.toFloat(),
+                img.height.toFloat()
             ),
             RADIUS.toFloat(),
             RADIUS.toFloat(),

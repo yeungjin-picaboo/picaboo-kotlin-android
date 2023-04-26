@@ -16,6 +16,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.developer.kalert.KAlertDialog
 import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityDiaryBinding
 import com.example.picasso.dto.DiariesListDto
@@ -58,6 +60,7 @@ class DiaryActivity : AppCompatActivity() {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var date: String? = null
+    var diaryDto: List<DiariesListDto>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         val params = mutableMapOf<String, String>()
         super.onCreate(savedInstanceState)
@@ -85,12 +88,25 @@ class DiaryActivity : AppCompatActivity() {
             val dateString = dateFormat.format(selectedDate.time)
             Log.d("dateString", dateString)
             date = dateString // 캘린더에서 선택시 들어가는 날짜
+            val builder = KAlertDialog(this, KAlertDialog.ERROR_TYPE)
+            diaryDto?.forEach {
+                if (date == it.date) {
+                    builder.setTitleText("잘못된 입력").setContentText("해당 날에는 일기가 있습니다 다른 날자를 선택해 주세요.")
+                        .setConfirmClickListener(
+                            "예"
+                        ) {
+                            date = null
+                            it.cancel()
+                        }
+                        .show()
+                }
+            }
             Log.d("params : ", params.toString())
             Toast.makeText(this, dateString, Toast.LENGTH_SHORT).show()
         }
 
         lifecycleScope.launch {
-            test(fetchCalendarList(), binding.calendarView)
+            diaryDto = returnTest(fetchCalendarList(), binding.calendarView)
         }
 
         //================================================================================================

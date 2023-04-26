@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 data class Diary(
-    val id: Int,
+    val diary_id: Int,
     val title: String,
     val content: String,
     val date: String,

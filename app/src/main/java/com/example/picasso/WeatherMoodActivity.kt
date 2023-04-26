@@ -10,26 +10,22 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityWeatherMoodBinding
 import com.example.picasso.dto.ResultMessageDto
 import com.example.picasso.dto.WeatherDto
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
+import okhttp3.*
+import java.io.IOException
 
 class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
     var scaleToBig: Animation? = null
     var scaleToSmall: Animation? = null
-    var progress: Int? = null
-    var progressBar: ProgressBar? = null
-    var diaryMood: WeatherDto? = null
     var weatherStatus: String? = null
     var moodStatus: String? = null
     var diaryId: Int? = null
@@ -65,7 +61,7 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
         val back = binding.imageButtonBack
         val next = binding.nextBtnWeatherMood
 
-        progressBar = binding.progressBarWeatherMood
+        val progressBar = binding.progressBarWeatherMood
 
         scaleToBig = AnimationUtils.loadAnimation(this, R.anim.btn_to_big_scale)
         scaleToSmall = AnimationUtils.loadAnimation(this, R.anim.btn_to_small_scale)
@@ -88,40 +84,46 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
             }
             date = getStringExtra("date")
             Log.d("date", date.toString())
-            progress = getIntExtra("progressBar", 1)
 
             val weatherMoodDto =
                 intent.getParcelableExtra<WeatherDto>("weatherMoodDto") as WeatherDto // deprecated 이지만 대체할 사용법이 없음
 
-            moodStatus = weatherMoodDto.mood
+            moodStatus = weatherMoodDto.emotion
             weatherStatus = weatherMoodDto.weather
             Log.d("intentMoodWeather", weatherStatus.toString())
         }
-        progressBar!!.progress = 50
+        progressBar.progress = 50
 
-        when (moodStatus) {
-            "positive" -> {
-                btnCickedStatus(happy)
-                progressBar!!.progress += 25
-            }
-            "negative" -> btnCickedStatus(bad)
-            else -> btnCickedStatus(neutral)
-        }
+
+        val moodToStatusMap = mapOf(
+            "happy" to happy,
+            "good" to good,
+            "bad" to bad,
+            "neutral" to neutral,
+            "confused" to confused,
+            "angry" to angry,
+            "nervous" to nervous,
+            "sad" to sad,
+            "sick" to sick
+        )
+        val clickedStatus = moodToStatusMap.getOrDefault(moodStatus, sad)
+        btnCickedStatus(clickedStatus)
+        progressBar.progress += 25
 
         when (weatherStatus) {
-            "Wind" -> btnCickedStatus(windy)
-            "Clouds" -> btnCickedStatus(cloudy)
-            "Rain" -> btnCickedStatus(rainy)
-            "Snow" -> btnCickedStatus(snow)
-            "Clear" -> btnCickedStatus(sunny)
+            "windy" -> btnCickedStatus(windy)
+            "cloudy" -> btnCickedStatus(cloudy)
+            "rainy" -> btnCickedStatus(rainy)
+            "snowy" -> btnCickedStatus(snow)
+            "sunny" -> btnCickedStatus(sunny)
         }
         if (weatherStatus != null) {
-            progressBar!!.progress += 25
-            if (moodStatus != null) progressBar!!.progress += 25
+            progressBar.progress += 25
+            if (moodStatus != null) progressBar.progress += 25
         } else {
-            if (moodStatus != null) progressBar!!.progress += 25
+            if (moodStatus != null) progressBar.progress += 25
         }
-        if (progressBar!!.progress == 100) {
+        if (progressBar.progress == 100) {
             binding.nextBtnWeatherMood.isEnabled = true
         }
 
@@ -161,10 +163,10 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun updateWidgets() {
-        Log.d("progress is: ", "${progressBar?.progress}")
+        Log.d("progress is: ", "${binding.progressBarWeatherMood.progress}")
         Log.d("progress : ", "${binding.progressBarWeatherMood.max}")
 
-        if (progressBar?.progress == 100) {
+        if (binding.progressBarWeatherMood.progress == 100) {
             Log.d("asd", "asd")
             binding.nextBtnWeatherMood.isEnabled = true
         }
@@ -180,13 +182,13 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
             if (imageArray[i] == imageButton) { // for문을 통해 i번째의 image버튼과 현재 Imagebutton이 같은경우
 
                 if (status == "weather") {
-                    progressBar!!.progress += 25
+                    binding.progressBarWeatherMood.progress += 25
                     weatherStatus =
                         imageArray[i].resources.getResourceEntryName(imageArray[i].id).substring(11)
 
                 } else {
 
-                    progressBar!!.progress += 25
+                    binding.progressBarWeatherMood.progress += 25
                     moodStatus =
                         imageArray[i].resources.getResourceEntryName(imageArray[i].id).substring(11)
                 }
@@ -281,14 +283,10 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 //                        jsonObject.put("title", diary?.getValue("title"))
 //                        jsonObject.put("diaryId", diaryId)
                         CoroutineScope(Dispatchers.IO).launch {
-                            val a = sendApiCreate(params, isModify!!)
-                            Log.d("result결과", "$a")
+                            sendApiCreate(params, isModify!!)
                             val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
-                            if (a?.ok == true) {
-                                startActivity(intent)
-                            } else {
-                                Log.d("failed", "failed")
-                            }
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
                         }
 
                     } else {
@@ -300,14 +298,10 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
                         Log.d("jsonObj", params.toString())
                         CoroutineScope(Dispatchers.IO).launch {
-                            val a = sendApiCreate(params)
-                            Log.d("result결과", "$a")
+                            sendApiCreate(params)
                             val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
-                            if (a?.ok == true) {
-                                startActivity(intent)
-                            } else {
-                                Log.d("failed", "failed")
-                            }
+                            
+                            startActivity(intent)
                         }
                     }
 
@@ -320,29 +314,22 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
     private suspend fun sendApiCreate(
         params: MutableMap<String, String>, isModify: Boolean = false
-    ): ResultMessageDto? {
-        return withContext(Dispatchers.IO) {
+    ) {
+        withContext(Dispatchers.IO) {
             val api = api.communicateJwt(this@WeatherMoodActivity)
             Log.d("sendApiCreate의 params는", params.toString())
-            val response = if (isModify) {
+            if (isModify) {
                 Log.e("다이어리 아이디", params["diaryId"].toString())
                 val diaryId: Int = params["diaryId"]!!.toInt()
 
                 params.remove("diaryId")
-                api.modifyDiary(diaryId, params)
+                api.modifyDiary(diaryId, params).execute()
                 // 수정돨 때
             } else {
                 api.createDiary(params).execute()
-                // 그냥 생성할 때
-            }
-            response.body().also {
-                if (!response.isSuccessful) {
-                    // Log the error code for debugging purposes
-                    Log.d("requestapi", "failed with error code ${response.code()}")
-                }
             }
         }
+
+
     }
-
-
 }

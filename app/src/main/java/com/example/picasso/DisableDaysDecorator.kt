@@ -38,6 +38,21 @@ fun test(callback: List<DiariesListDto>?, view: MaterialCalendarView) {
         } else {
             Log.d("알수없는 에러", "코드 확인 요망")
         }
+}
 
-
+fun returnTest(callback: List<DiariesListDto>?, view: MaterialCalendarView): List<DiariesListDto>? {
+    return if (callback != null) {
+        Log.d("OK Btn", "positive")
+        callback.forEach { dateString ->
+            Log.e("dateString", dateString.date)
+            val dateComponents = dateString.date.split("-")
+            val (year, month, day) = dateComponents.map { it.toInt() }
+            val dates = listOf(CalendarDay.from(year, month, day))
+            view.addDecorator(DisabledDaysDecorator(dates))
+        }
+        callback
+    } else {
+        Log.d("알수없는 에러", "코드 확인 요망")
+        null
+    }
 }

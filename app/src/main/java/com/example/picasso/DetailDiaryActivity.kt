@@ -207,6 +207,7 @@ class DetailDiaryActivity : AppCompatActivity() {
                 putExtra("content", binding.ContentTextView.text)
                 putExtra("date", binding.textViewDate.text)
                 putExtra("diaryId", diaryId)
+                Log.d("디테일 페이지의 다이어리 아이디", diaryId.toString())
                 putExtra("isEditing", true)
             }
             startActivity(intent)
@@ -270,7 +271,7 @@ class DetailDiaryActivity : AppCompatActivity() {
                     Log.d("mood는", it.weather)
                     val moodDrawable = getMoodDrawable(it.mood)
                     val weatherDrawable = getWeatherDrawable(it.weather)
-                    getPicture(it.source)
+                    getPicture("https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/${it.source}")
                     getMood(moodDrawable)
                     getWeather(weatherDrawable)
                 }

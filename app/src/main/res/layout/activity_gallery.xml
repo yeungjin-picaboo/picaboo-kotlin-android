@@ -42,20 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <ImageButton
-            android:id="@+id/writeButton2"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButtonCancel"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.32999998"
-            app:srcCompat="@drawable/ic_write" />
-
         <TextView
             android:id="@+id/month"
             android:layout_width="wrap_content"
@@ -100,7 +86,7 @@
         android:layout_weight="0">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonWrite"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="end"

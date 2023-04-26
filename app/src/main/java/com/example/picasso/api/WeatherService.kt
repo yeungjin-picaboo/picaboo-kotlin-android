@@ -1,12 +1,14 @@
 package com.example.picasso.api
 
 import android.content.Context
+import android.database.Observable
 import com.example.picasso.Diary
 import com.example.picasso.dto.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.github.cdimascio.dotenv.dotenv
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -14,9 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface WeatherService {
-    @POST("meta")
+    @POST("api/diary/meta")
     fun getWeatherMood(@Body req: MutableMap<String, String>): Call<WeatherDto>
-
     // content로 분석한 날씨, 일기 가져오고 일기 DB에 저장하기
 
 
@@ -49,10 +50,10 @@ interface WeatherService {
     // diary의 특정 id 삭제하기
 
     @POST("api/diary")
-    fun createDiary(@Body req: Any): Call<ResultMessageDto>
+    fun createDiary(@Body req: Any): Call<Unit>
 
     @PUT("api/diary/{id}")
-    suspend fun modifyDiary(@Path("id") id: Int, @Body req: Any): Response<ResultMessageDto>
+    fun modifyDiary(@Path("id") id: Int, @Body req: Any): Call<Unit>
     // 수정될 때는 id로 검색
 
 

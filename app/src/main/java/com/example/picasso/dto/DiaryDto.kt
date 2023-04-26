@@ -21,7 +21,7 @@ data class DiaryDto (
     @SerializedName("source")
     val source: String,
 
-    @SerializedName("id")
+    @SerializedName("diary_id")
     val diary_id: Int,
 
     @SerializedName("date")
