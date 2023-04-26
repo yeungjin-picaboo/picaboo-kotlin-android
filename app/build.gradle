@@ -87,4 +87,7 @@ dependencies {
     //alterDialog
     implementation 'io.github.tutorialsandroid:kalertdialog:20.3.6'
     implementation 'com.github.TutorialsAndroid:progressx:v6.0.19' //required for kalertdialog lib
+
+    //image loader
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 }

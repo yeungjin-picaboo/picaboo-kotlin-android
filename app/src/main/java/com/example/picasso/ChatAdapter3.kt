@@ -9,12 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.ImageRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import java.io.File
 
@@ -27,11 +26,15 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
     //이거 받아온 데이터 저장  한번 불러온 것은 같은 페이지에서 또 불러오지 않음
     private var bitmapData: MutableList<Bitmap?>? = null
 
+    //
+    private var progressbarList: MutableList<ProgressBar?>? = null
 
     fun setData(data: MutableList<Diary>, context: Context) {
         this.data = data
         this.context = context
         bitmapData = MutableList<Bitmap?>(data.size, { it -> null })
+        //
+        progressbarList = MutableList<ProgressBar?>(data.size, { it -> null })
         notifyDataSetChanged()
     }
 
@@ -43,6 +46,23 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
         return ChatViewHolder(view)
     }
+
+//    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+//        //Log.e("test", "${holder.adapterPosition}")
+//
+//        if(holder.adapterPosition == -1){
+//            progressbarList?.map {
+//                Log.d("it","$it")
+//                if(it != null){
+//                    Log.d("it","$it")
+//                    it.alpha = 0.0f
+//                }
+//            }
+//        }else{
+//            progressbarList!![holder.adapterPosition]?.visibility = View.INVISIBLE
+//        }
+//        super.onDetachedFromRecyclerView(recyclerView)
+//    }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         if (queue == null) {
@@ -68,7 +88,6 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
         }
 
         //이미지 불러옴
-        Log.e("데이터 ", data.toString())
         getImage(data[position].source, holder.image as AppCompatImageView, position)
     }
 
@@ -97,12 +116,25 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
             if (bitmapData!![position] == null) {
                 Log.d("test", "통신으로 받아옴")
                 var ImageURL: String = ""
+//                val progressBar =
+//                    ProgressBar(context, null, android.R.attr.progressBarStyleInverse)
+
                 if (url == null) {
                     ImageURL = "https://picaboonftimage.s3.ap-northeast-2.amazonaws.com/null.jpg"
+                    // 스피너 처리
+//                    progressbarList!![position] = progressBar
+//                    Log.d("progressBarList", progressbarList.toString())
+//
+//                    progressBar.layoutParams = ViewGroup.LayoutParams(
+//                        ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT
+//                    )
+//                    progressBar.alpha = 1.0f
+//                    (view.parent as ViewGroup).addView(progressBar)
                 } else {
                     ImageURL = "https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/$url"
+//                    progressBar.alpha = 0.0f
                 }
-
                 var StringRequest = ImageRequest(ImageURL, // + URL 이런식으로 만듬
                     { bitmap ->
                         bitmapData!![position] = bitmap

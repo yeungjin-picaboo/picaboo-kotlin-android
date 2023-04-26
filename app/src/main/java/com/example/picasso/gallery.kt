@@ -62,13 +62,32 @@ class gallery : AppCompatActivity() {
 
     var dateSetListener: OnDateSetListener =
         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            findViewById<TextView>(R.id.month).text = nameOfMonth[monthOfYear - 1] + " "
-            findViewById<TextView>(R.id.year).text = year.toString()
-            //통신하는 로직 추가한다
-            adapter.setData(
-                DataGenerator3.get("${binding.month.text} + ${binding.year.text}"),
-                this@gallery
-            )
+//            findViewById<TextView>(R.id.month).text = nameOfMonth[monthOfYear - 1] + " "
+//            findViewById<TextView>(R.id.year).text = year.toString()
+//            //통신하는 로직 추가한다
+//            adapter.setData(
+//                DataGenerator3.get("${binding.month.text} + ${binding.year.text}"),
+//                this@gallery
+//            )
+            lifecycleScope.launch {
+                var month = monthOfYear.toString()
+                if (month.length == 1) {
+                    month = "0" + month
+                }
+                Log.d("연도", binding.year.text.toString())
+                Log.d("월", month)
+
+//            Log.e(
+//                "에러내용",
+//                api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "$month")
+//                    .body()!!.toString()
+//            )
+                adapter.setData(
+                    api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "${month}")
+                        .body()!!, this@gallery
+                )
+
+            }
         }
 
     private val sharedPreference by lazy {

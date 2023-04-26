@@ -15,10 +15,7 @@ import com.example.picasso.api.WeatherService
 import com.example.picasso.databinding.ActivityWeatherMoodBinding
 import com.example.picasso.dto.ResultMessageDto
 import com.example.picasso.dto.WeatherDto
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.*
 import java.io.IOException
 
@@ -237,6 +234,7 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
         //여기에서는 어떤 버튼이 선택되어있는지 return해주기
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onClick(v: View?) {
         try {
             val weatherImageArray = arrayOf(
@@ -284,10 +282,8 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 //                        jsonObject.put("diaryId", diaryId)
                         CoroutineScope(Dispatchers.IO).launch {
                             sendApiCreate(params, isModify!!)
-                            val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            startActivity(intent)
                         }
+
 
                     } else {
                         Log.d("clicked next btn2", "clicked")
@@ -297,12 +293,18 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
                         Log.d("jsonObj diary", diary.toString())
 
                         Log.d("jsonObj", params.toString())
+                        Log.i("asd", "1")
                         CoroutineScope(Dispatchers.IO).launch {
                             sendApiCreate(params)
-                            val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
-                            
-                            startActivity(intent)
                         }
+
+                        Log.i("asd", "2")
+                    }
+                    val intent = Intent(this@WeatherMoodActivity, gallery::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    GlobalScope.launch {
+                        delay(1000)
+                        startActivity(intent)
                     }
 
                 }

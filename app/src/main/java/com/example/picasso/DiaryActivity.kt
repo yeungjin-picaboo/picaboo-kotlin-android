@@ -126,7 +126,7 @@ class DiaryActivity : AppCompatActivity() {
                         R.color.ableButtonColor
                     )
                 )
-                Log.e("isRun?", "running")
+
             } else {
                 progressBar.progress = -50
                 nextBtn.isEnabled = false
@@ -309,7 +309,6 @@ class DiaryActivity : AppCompatActivity() {
     private suspend fun communicateToNextIntent(
         params: MutableMap<String, String>, isEditing: Boolean, diaryId: Int = 1
     ) {
-        Log.d("isRunning?", "Running")
         val intent = Intent(this, WeatherMoodActivity::class.java)
         val weatherMood: WeatherDto? = requestApi(params) // return is weatherDto
 
@@ -343,6 +342,7 @@ class DiaryActivity : AppCompatActivity() {
             Log.d("번들은", bundle.toString())
             Log.d("nextBtn", "$params")
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
 

@@ -161,7 +161,6 @@ class DetailDiaryActivity : AppCompatActivity() {
             }
 
             result?.forEach { dateString ->
-                Log.e("dateString", dateString.date)
                 val dateComponents = dateString.date.split("-")
                 val (year, month, day) = dateComponents.map { it.toInt() }
                 val dates = listOf(CalendarDay.from(year, month, day))

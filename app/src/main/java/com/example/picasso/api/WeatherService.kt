@@ -70,9 +70,6 @@ interface WeatherService {
     @GET("api")
     suspend fun validateLogin(): Response<ValidateLogin>
 
-    @POST("ex")
-    suspend fun registerGoogleUser(googleRegisterDto: GoogleRegisterDto): Response<Boolean>
-
     companion object {
         private val dotenv = dotenv {
             directory = "./assets"

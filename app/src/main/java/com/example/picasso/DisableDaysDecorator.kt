@@ -44,8 +44,8 @@ fun returnTest(callback: List<DiariesListDto>?, view: MaterialCalendarView): Lis
     return if (callback != null) {
         Log.d("OK Btn", "positive")
         callback.forEach { dateString ->
-            Log.e("dateString", dateString.date)
-            val dateComponents = dateString.date.split("-")
+
+        val dateComponents = dateString.date.split("-")
             val (year, month, day) = dateComponents.map { it.toInt() }
             val dates = listOf(CalendarDay.from(year, month, day))
             view.addDecorator(DisabledDaysDecorator(dates))
