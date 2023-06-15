@@ -1,16 +1,19 @@
-package com.example.picasso.dto
+package com.example.picasso.dto.sign
 
 import android.os.Parcelable
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class SignInDto(
+data class SignUpDto(
     @SerializedName("email")
     val email: String,
 
     @SerializedName("password")
     val password: String,
 
-    ) : Parcelable
+    @SerializedName("nickname")
+    val nickname: String
+) : Parcelable
 

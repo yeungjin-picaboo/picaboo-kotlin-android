@@ -1,11 +1,13 @@
-package com.example.picasso.dto
+package com.example.picasso.dto.message
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DeleteDairyDto(
-    @SerializedName("result")
-    val result: Boolean
+data class ResultMessageDto(
+    @SerializedName("ok")
+    val ok: Boolean,
+
+    val message: String?
 ) : Parcelable

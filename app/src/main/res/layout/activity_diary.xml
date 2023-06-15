@@ -62,7 +62,7 @@
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"></com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
     <View
         android:id="@+id/WhiteView"
@@ -86,8 +86,10 @@
         android:background="@drawable/layout_border"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showCal">
+        app:layout_constraintTop_toBottomOf="@+id/showCal"
+        app:layout_constraintVertical_bias="1.0">
 
         <EditText
             android:id="@+id/textViewTitle"
@@ -106,27 +108,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/textViewContent"
-
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="342dp"
+            android:layout_height="361dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle">
 
-            android:background="@android:color/transparent"
-            android:gravity="top|left"
-            android:hint="please input content"
-            android:inputType="textMultiLine"
-            android:lines="5"
-            android:maxWidth="5.0dip"
-            android:minWidth="10.0dip"
-            android:padding="10dp"
-            android:scrollHorizontally="false"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textViewTitle"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textViewTitle"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+            <EditText
+                android:id="@+id/textViewContent"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="top|left"
+                android:hint="please input content"
+                android:inputType="textMultiLine"
+                android:maxLines="@integer/material_motion_duration_medium_1"
+                android:padding="10dp"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textViewTitle"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

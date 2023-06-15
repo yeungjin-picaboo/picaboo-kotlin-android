@@ -1,4 +1,4 @@
-package com.example.picasso.dto
+package com.example.picasso.dto.sign
 
 
 import android.os.Parcelable

@@ -14,7 +14,7 @@ class PicturesActivity : AppCompatActivity() {
         getSharedPreferences("image", Context.MODE_PRIVATE)
     }
 
-    private val adapter = ChatAdapter2()
+    private val adapter = ChatAdapter3()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

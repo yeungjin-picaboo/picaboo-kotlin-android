@@ -5,81 +5,76 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.picasso.api.WeatherService
+import com.example.picasso.api.ApiService
 import com.example.picasso.databinding.ActivitySignupPageBinding
-import com.example.picasso.dto.SignUpDto
+import com.example.picasso.dto.sign.SignUpDto
 import kotlinx.coroutines.launch
 
 class SignupActivity : AppCompatActivity() {
+    // bindingは遅延評価（lazy）で初期化します。
+    // これはActivitySignupPageBindingのインスタンスを生成します。
     private val binding by lazy {
         ActivitySignupPageBinding.inflate(layoutInflater)
     }
 
-    val api = WeatherService
+    val api = ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // レイアウトを設定します。
         setContentView(binding.root)
 
+        // SignInActivityへのIntentを作成します。
         val intent: Intent = Intent(this, SignInActivity::class.java)
 
+        // ログイン画面へ移動するボタンのクリックイベントを設定します。
         binding.gotoLogin.setOnClickListener {
             startActivity(intent)
         }
 
-
-
+        // サインアップボタンのクリックイベントを設定します。
         binding.signup.setOnClickListener {
+            // 入力値を取得してSignUpDtoを作成します。
             val signUpDto = SignUpDto(
                 binding.editTextEmailAddress.text.toString(),
                 binding.editTextPassword.text.toString(),
                 binding.editTextNickname.text.toString()
             )
+            // 非同期処理を行います。
             lifecycleScope.launch {
                 if (signup(signUpDto)) {
-                    // 성공
+                    // サインアップ成功
+                    // タスクを新規に作成し、以前のタスクを全てクリアしてからSignInActivityを開始します。
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
                 } else {
-                    // 실패
+                    // サインアップ失敗
                 }
             }
-
         }
     }
-//    private fun validation(): validationResult{
-//        val pwd = binding.editTextTextPassword
-//        val pwdConfirm = binding.editTextTextPasswordConfirm
-//
-//        val email = binding.editTextTextEmailAddress
-//        if(pwd != pwdConfirm){
-//            return  validationResult(false, "비밀번호가 서로 다릅니다.")
-//        }
-//        // validation 조건 추가
-//
-//
-//        return validationResult(true, "성공")
-//    }
 
-    //회원가입 함수
+    // signupメソッドはサインアップ処理を行います。
     private suspend fun signup(signUpDto: SignUpDto): Boolean {
-        //회원가입 로직
+        // サインアップリクエストを送信します。
         val response = api.communicate().signup(signUpDto)
-        //무결성 검사를 해야함.
+        // 成功したかどうかを判定します。
         return if (response.isSuccessful) {
             Log.d("body : ", response.body().toString())
             if (response.body()?.message == "Success Create user!") {
+                // サインアップ成功
                 Log.d("SignUp success", "success")
                 true
             } else {
+                // サインアップ失敗
                 Log.d("SignUp false", "false")
                 false
             }
         } else {
-            Log.d("실패함 : ", response.body().toString())
+            // リクエスト自体が失敗した場合
+            Log.d("失敗 : ", response.body().toString())
             false
         }
-
     }
 }

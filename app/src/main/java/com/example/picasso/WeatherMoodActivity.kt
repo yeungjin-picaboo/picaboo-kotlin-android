@@ -11,13 +11,11 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.example.picasso.api.WeatherService
+import com.example.picasso.api.ApiService
 import com.example.picasso.databinding.ActivityWeatherMoodBinding
-import com.example.picasso.dto.ResultMessageDto
-import com.example.picasso.dto.WeatherDto
+import com.example.picasso.dto.diary.make.WeatherDto
 import kotlinx.coroutines.*
 import okhttp3.*
-import java.io.IOException
 
 class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -33,7 +31,7 @@ class WeatherMoodActivity : AppCompatActivity(), View.OnClickListener {
     private val binding by lazy {
         ActivityWeatherMoodBinding.inflate(layoutInflater)
     }
-    private val api = WeatherService
+    private val api = ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

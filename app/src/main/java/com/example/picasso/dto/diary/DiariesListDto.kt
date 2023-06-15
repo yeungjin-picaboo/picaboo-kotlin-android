@@ -1,4 +1,4 @@
-package com.example.picasso.dto
+package com.example.picasso.dto.diary
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

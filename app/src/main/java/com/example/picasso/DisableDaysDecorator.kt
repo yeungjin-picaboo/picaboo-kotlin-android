@@ -3,16 +3,11 @@ package com.example.picasso
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
-import android.view.View
-import androidx.lifecycle.lifecycleScope
-import com.example.picasso.dto.DiariesListDto
+import com.example.picasso.dto.diary.DiariesListDto
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class DisabledDaysDecorator(private val disabledDates: List<CalendarDay>) :
     DayViewDecorator {

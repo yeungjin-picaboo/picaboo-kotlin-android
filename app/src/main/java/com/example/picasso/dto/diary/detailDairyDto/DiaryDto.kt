@@ -1,4 +1,4 @@
-package com.example.picasso.dto
+package com.example.picasso.dto.diary.detailDairyDto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -12,7 +12,7 @@ data class DiaryDto (
     @SerializedName("content")
     val content: String,
 
-    @SerializedName("mood")
+    @SerializedName("emotion")
     val mood: String,
 
     @SerializedName("weather")
@@ -25,6 +25,8 @@ data class DiaryDto (
     val diary_id: Int,
 
     @SerializedName("date")
-    val date: String
+    val date: String,
 
+    @SerializedName("rate")
+    val rate: Float?
 ):Parcelable

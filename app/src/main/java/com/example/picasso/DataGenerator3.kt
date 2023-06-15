@@ -1,11 +1,6 @@
 package com.example.picasso
 
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import com.example.picasso.api.WeatherService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 data class Diary(
     val diary_id: Int,
@@ -14,7 +9,8 @@ data class Diary(
     val date: String,
     val emotion: String,
     val weather: String,
-    val source: String?
+    val source: String?,
+    val rate: Float
 )
 
 class DataGenerator3 {
@@ -33,7 +29,8 @@ class DataGenerator3 {
                     "2023-04-13",
                     "positive",
                     "Clear",
-                    "https://picaboonftimage.s3.ap-northeast-2.amazonaws.com/avocado.jpg"
+                    "https://picaboonftimage.s3.ap-northeast-2.amazonaws.com/avocado.jpg",
+                    2.5F
                 )
             }
 

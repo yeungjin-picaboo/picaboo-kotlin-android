@@ -10,23 +10,24 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.picasso.api.WeatherService
+import com.example.picasso.api.ApiService
 import com.example.picasso.databinding.ActivityGalleryBinding
+import com.example.picasso.publicClass.detailDiaryFun.showThanks
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-
+import java.util.*
 
 class gallery : AppCompatActivity() {
     private val binding by lazy {
         ActivityGalleryBinding.inflate(layoutInflater)
     }
 
+    // 月の名前の配列
     val nameOfMonth = arrayOf(
         "January",
         "February",
@@ -42,58 +43,69 @@ class gallery : AppCompatActivity() {
         "December"
     )
 
-    //    val nameOfMonth = arrayOf(
-//        "Jan. ",
-//        "Feb. ",
-//        "Mar. ",
-//        "Apr. ",
-//        "May. ",
-//        "Jun. ",
-//        "Jul. ",
-//        "Aug. ",
-//        "Sep. ",
-//        "Oct. ",
-//        "Nov. ",
-//        "Dec. "
-//    )
     private val adapter = ChatAdapter3()
 
-    val api = WeatherService
+    // APIサービスのインスタンス
+    val api = ApiService
 
+    // DatePickerDialogのリスナー
     var dateSetListener: OnDateSetListener =
         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-//            findViewById<TextView>(R.id.month).text = nameOfMonth[monthOfYear - 1] + " "
-//            findViewById<TextView>(R.id.year).text = year.toString()
-//            //통신하는 로직 추가한다
-//            adapter.setData(
-//                DataGenerator3.get("${binding.month.text} + ${binding.year.text}"),
-//                this@gallery
-//            )
-            lifecycleScope.launch {
-                var month = monthOfYear.toString()
-                if (month.length == 1) {
-                    month = "0" + month
-                }
-                Log.d("연도", binding.year.text.toString())
-                Log.d("월", month)
+            var isSourceNull = false
 
-//            Log.e(
-//                "에러내용",
-//                api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "$month")
-//                    .body()!!.toString()
-//            )
-                adapter.setData(
-                    api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "${month}")
-                        .body()!!, this@gallery
-                )
-
+            // 選択された月を2桁に変換する
+            var month = monthOfYear.toString()
+            if (month.length == 1) {
+                month = "0$month"
             }
+
+            // 年と月をログに出力する
+            Log.d("年", binding.year.text.toString())
+            Log.d("月", month)
+            var diaryData: MutableList<Diary>? = null
+            // 初回ローディング
+
+            lifecycleScope.launch {
+                diaryData = api.communicateJwt(this@gallery).getAllDiary(
+                    "${binding.year.text}", month
+                ).body()!!
+                adapter.setData(diaryData!!, this@gallery)
+            }
+
+            val timer = Timer()
+            var isFirstRun = true
+            val task = object : TimerTask() {
+                override fun run() {
+                    lifecycleScope.launch {
+                        val nullSourceId = diaryData?.find { it.source == null }?.diary_id
+                        if (nullSourceId == null && isFirstRun) {
+                            cancel()
+                            timer.cancel()
+                        }
+                        if (nullSourceId == null && !isFirstRun) {
+                            adapter.setData(diaryData!!, this@gallery)
+                            cancel()
+                            timer.cancel()
+                        } else {
+                            diaryData = api.communicateJwt(this@gallery).getAllDiary(
+                                "${binding.year.text}", month
+                            ).body()!!
+                            if (diaryData!!.any { it.diary_id == nullSourceId && it.source != null }) {
+                                adapter.setData(diaryData!!, this@gallery)
+                                cancel()
+                                timer.cancel()
+                            }
+                        }
+                        isFirstRun = false
+                    }
+                }
+            }
+            timer.scheduleAtFixedRate(task, 1500L, 3000L)
         }
 
     private val sharedPreference by lazy {
         getSharedPreferences("image", Context.MODE_PRIVATE)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,8 +118,12 @@ class gallery : AppCompatActivity() {
         val yearTextView = binding.year
         monthTextView.text = nameOfMonth[currentDate.monthValue - 1] + " "
         yearTextView.text = currentDate.year.toString()
-//        binding.bottomMenu.
 
+        // ギャラリー画面のボタンリスナーを設定する
+        binding.userInfo.setOnClickListener {
+            val intent = Intent(this, UserInfoActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.stats.setOnClickListener {
             var intent = Intent(this, StatisticsActivity::class.java)
@@ -127,32 +143,63 @@ class gallery : AppCompatActivity() {
         var currentSpan = sharedPreference.getInt("NumOfSpan", 2)
         setLayoutManager(galleryRecyclerView, currentSpan)
 
-
+        // 初回ローディング
         lifecycleScope.launch {
+            var isSourceNull = false
+
             var month = currentDate.monthValue.toString()
             if (month.length == 1) {
                 month = "0" + month
             }
-            Log.d("연도", binding.year.text.toString())
-            Log.d("월", month)
+            Log.d("年", binding.year.text.toString())
+            Log.d("月", month)
+            var diaryData: MutableList<Diary>? = null
 
-//            Log.e(
-//                "에러내용",
-//                api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "$month")
-//                    .body()!!.toString()
-//            )
-            adapter.setData(
-                api.communicateJwt(this@gallery).getAllDiary("${binding.year.text}", "${month}")
-                    .body()!!, this@gallery
-            )
+            lifecycleScope.launch {
+                diaryData = api.communicateJwt(this@gallery).getAllDiary(
+                    "${binding.year.text}", month
+                ).body()!!
+                adapter.setData(diaryData!!, this@gallery)
+            }
 
+            val timer = Timer()
+
+            val task = object : TimerTask() {
+                override fun run() {
+                    lifecycleScope.launch {
+                        Log.e("runnings2", "runnings2")
+                        for (diary in diaryData!!)
+                            if (diary.source == null) {
+                                Log.e("runnings3", "runnings3")
+                                Log.e("フラグをfalseに", "フラグをfalseに")
+                                isSourceNull = true
+                                break
+                            } else {
+                                Log.e("フラグをtrueに", "フラグをtrueに")
+                                isSourceNull = false
+                            }
+                        if (!isSourceNull) {
+                            Log.e("実行", "実行")
+                            adapter.setData(diaryData!!, this@gallery)
+                            cancel()
+                            timer.cancel()
+                        }
+                        Log.e("取得中", "取得中")
+                        diaryData = api.communicateJwt(this@gallery).getAllDiary(
+                            "${binding.year.text}", month
+                        ).body()!!
+                        Log.e("diaryData", diaryData.toString())
+                    }
+                    Log.e("running", "running")
+                }
+            }
+            timer.scheduleAtFixedRate(task, 1500L, 3000L)
         }
-
 
         galleryRecyclerView.adapter = adapter
 
         //---------------------------------------
-        // datePicker 꺼내는 함수
+        // DatePickerを表示する関数
         monthTextView.setOnClickListener {
             showDatePicker(dateSetListener)
         }
@@ -162,42 +209,53 @@ class gallery : AppCompatActivity() {
         //------------------------------------------
 
         val imagebutton = binding.imageButtonCancel
-        imagebutton.setOnClickListener{
-            if(currentSpan >= 3){
+        imagebutton.setOnClickListener {
+            if (currentSpan >= 3) {
                 currentSpan = 1
                 setNumOfSpan(currentSpan)
                 setLayoutManager(galleryRecyclerView, currentSpan)
-            }else{
+            } else {
                 currentSpan += 1
                 setNumOfSpan(currentSpan)
                 setLayoutManager(galleryRecyclerView, currentSpan)
             }
         }
 
+        // -------------------評価を入力した場合--------------------
+        if (intent.getBooleanExtra("isRating", false)) {
+            showThanks(this)
+        }
     }
 
-    private fun showDatePicker(listenerFun:OnDateSetListener){
+    // DatePickerを表示する関数
+    private fun showDatePicker(listenerFun: OnDateSetListener) {
         val pd = YearMonthPickerDialog()
         pd.setListener(listenerFun)
         pd.show(supportFragmentManager, "YearMonthPickerTest")
     }
 
-    private fun setNumOfSpan(NumOfSpan: Int){
-        with(sharedPreference.edit()){
+    // 1行の数を設定する関数
+    private fun setNumOfSpan(NumOfSpan: Int) {
+        with(sharedPreference.edit()) {
             putInt("NumOfSpan", NumOfSpan)
             apply()
         }
     }
 
+    // RecyclerViewのレイアウトマネージャーを設定する関数
     private fun setLayoutManager(recyclerView: RecyclerView, NumOfSpan: Int) {
         recyclerView.layoutManager = GridLayoutManager(this, NumOfSpan)
         val spanCount = NumOfSpan
-        val spacing = 30 //px
+        val spacing = 30 // px
         val includeEdge = false
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+        recyclerView.addItemDecoration(
+            GridSpacingItemDecoration(
+                spanCount, spacing, includeEdge
+            )
+        )
     }
 
-
+    // オプションメニューを作成する関数
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflate: MenuInflater = menuInflater
         inflate.inflate(R.menu.hamburger, menu)
@@ -211,23 +269,25 @@ class gallery : AppCompatActivity() {
         return true
     }
 
+    // オプションメニューのアイテムが選択された時の処理
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-                // Handle logout button click
+                // ログアウトボタンがクリックされた場合の処理
                 val sharedPreferences =
                     getSharedPreferences("MY_APP_PREFERENCES", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.remove("JWT")
                 editor.apply()
-                // Navigate to the login screen or any other appropriate screen
+                // ログイン画面または適切な画面に遷移する
                 return true
             }
-            // Handle other menu items as needed
+            // その他のメニューアイテムの処理
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
+    // GridSpacingItemDecorationクラス
     class GridSpacingItemDecoration(
         private val spanCount: Int,
         private val spacing: Int,
@@ -240,8 +300,8 @@ class gallery : AppCompatActivity() {
             parent: RecyclerView,
             state: RecyclerView.State
         ) {
-            val position = parent.getChildAdapterPosition(view) // item position
-            val column = position % spanCount // item column
+            val position = parent.getChildAdapterPosition(view) // アイテムの位置
+            val column = position % spanCount // アイテムの列
 
             if (includeEdge) {
                 outRect.left =
@@ -249,16 +309,16 @@ class gallery : AppCompatActivity() {
                 outRect.right =
                     (column + 1) * spacing / spanCount // (column + 1) * ((1f / spanCount) * spacing)
 
-                if (position < spanCount) { // top edge
+                if (position < spanCount) { // 上部エッジ
                     outRect.top = spacing
                 }
-                outRect.bottom = spacing // item bottom
+                outRect.bottom = spacing // アイテムの下部
             } else {
                 outRect.left = column * spacing / spanCount // column * ((1f / spanCount) * spacing)
                 outRect.right =
                     spacing - (column + 1) * spacing / spanCount // spacing - (column + 1) * ((1f / spanCount) * spacing)
                 if (position >= spanCount) {
-                    outRect.top = spacing // item top
+                    outRect.top = spacing // アイテムの上部
                 }
             }
         }

@@ -1,11 +1,11 @@
 package com.example.picasso.retorfit
 
-import com.example.picasso.api.WeatherService
+import com.example.picasso.api.ApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitObj {
-    var api : WeatherService
+    var api: ApiService
     private const val URL = "https://172.21.1.160:3000" // 예시 : "https://0.0.0.1:8080"
 
     init {
@@ -13,7 +13,7 @@ object RetrofitObj {
             .baseUrl(URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        api = retrofit.create(WeatherService::class.java)
+        api = retrofit.create(ApiService::class.java)
     }
 
 

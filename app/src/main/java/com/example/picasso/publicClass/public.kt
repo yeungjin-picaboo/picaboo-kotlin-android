@@ -1,9 +1,7 @@
 package com.example.picasso.publicClass
 
-import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
-import com.example.picasso.dto.ResultMessageDto
+import com.example.picasso.dto.message.ResultMessageDto
 
 class Public {
 

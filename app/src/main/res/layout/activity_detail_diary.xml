@@ -31,7 +31,7 @@
         android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
         android:layout_height="49dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintHorizontal_bias="0.0"
@@ -112,7 +112,7 @@
 
         <ImageView
             android:id="@+id/imageViewPicture"
-            android:layout_width="357dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="28dp"
             android:layout_marginEnd="28dp"
@@ -120,110 +120,146 @@
             android:background="@drawable/round_img"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_constraintHeight_percent="1"
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMenu4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout8"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="52dp"
+            android:layout_marginTop="1dp">
+
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="TextView"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageViewMood"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewWeather"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/imageViewWeather"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/TitleTextView"
+            android:layout_width="229dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="8dp"
+            android:text="TextView"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout8"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="1dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/textViewDate"
-                        android:layout_width="149dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="TextView"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imageViewMood"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="12dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageViewWeather"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@tools:sample/avatars" />
-
-                    <ImageView
-                        android:id="@+id/imageViewWeather"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginEnd="28dp"
-                        android:layout_marginBottom="2dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@tools:sample/avatars" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/TitleTextView"
-                    android:layout_width="229dp"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="30dp"
-                    android:text="TextView"
-                    android:textSize="24dp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/ContentTextView"
-                    android:layout_width="260dp"
-                    android:layout_height="179dp"
-
-                    android:layout_marginStart="30dp"
-
-                    android:layout_marginTop="12dp"
-
-                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginEnd="28dp"
                     android:gravity="top|left"
-                    android:lines="5"
                     android:maxWidth="5.0dip"
                     android:minWidth="10.0dip"
                     android:scrollHorizontally="false"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TitleTextView"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/audiowide"
+                    android:text="Please rate picture"
+                    android:textColor="#BABABA"
+                    app:layout_constraintEnd_toEndOf="@+id/RatingBarDetailDiary"
+                    app:layout_constraintStart_toStartOf="@+id/RatingBarDetailDiary"
+                    app:layout_constraintTop_toBottomOf="@+id/RatingBarDetailDiary"
+                    tools:fontFamily="@font/audiowide" />
+
+                <com.willy.ratingbar.ScaleRatingBar
+                    android:id="@+id/RatingBarDetailDiary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@+id/ContentTextView"
+                    app:layout_constraintStart_toStartOf="@+id/ContentTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/ContentTextView"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/ic_ratingstar_blank"
+                    app:srb_drawableFilled="@drawable/ic_ratingstar_filled"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="2.5"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="30dp"
+                    app:srb_starPadding="5dp"
+                    app:srb_starWidth="30dp"
+                    app:srb_stepSize="0.5">
+
+                </com.willy.ratingbar.ScaleRatingBar>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bottomMenu4"

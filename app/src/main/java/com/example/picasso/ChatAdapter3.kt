@@ -47,23 +47,6 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
         return ChatViewHolder(view)
     }
 
-//    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-//        //Log.e("test", "${holder.adapterPosition}")
-//
-//        if(holder.adapterPosition == -1){
-//            progressbarList?.map {
-//                Log.d("it","$it")
-//                if(it != null){
-//                    Log.d("it","$it")
-//                    it.alpha = 0.0f
-//                }
-//            }
-//        }else{
-//            progressbarList!![holder.adapterPosition]?.visibility = View.INVISIBLE
-//        }
-//        super.onDetachedFromRecyclerView(recyclerView)
-//    }
-
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         if (queue == null) {
             queue = Volley.newRequestQueue(context)
@@ -84,6 +67,7 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
                 "source",
                 "https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/${data[position].source}"
             )
+            intent.putExtra("rate", data[position].rate)
             context?.startActivity(intent)
         }
 
@@ -116,8 +100,7 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
             if (bitmapData!![position] == null) {
                 Log.d("test", "통신으로 받아옴")
                 var ImageURL: String = ""
-//                val progressBar =
-//                    ProgressBar(context, null, android.R.attr.progressBarStyleInverse)
+                val progressBar = ProgressBar(context, null, android.R.attr.progressBarStyleInverse)
 
                 if (url == null) {
                     ImageURL = "https://picaboonftimage.s3.ap-northeast-2.amazonaws.com/null.jpg"
@@ -133,21 +116,13 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
 //                    (view.parent as ViewGroup).addView(progressBar)
                 } else {
                     ImageURL = "https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/$url"
-//                    progressBar.alpha = 0.0f
                 }
                 var StringRequest = ImageRequest(ImageURL, // + URL 이런식으로 만듬
                     { bitmap ->
                         bitmapData!![position] = bitmap
-//                        view.setImageBitmap(bitmap)
                         view.setImageBitmap(
                             createRoundedImageBitmap(
-                                Bitmap.createBitmap(
-                                    bitmap,
-                                    view.left,
-                                    view.top,
-                                    view.width,
-                                    view.height
-                                )
+                                bitmap
                             )
                         )
                     },
@@ -162,13 +137,7 @@ class ChatAdapter3 : RecyclerView.Adapter<ChatAdapter3.ChatViewHolder>() {
 //                view.setImageBitmap(bitmapData!![position])
                 view.setImageBitmap(
                     createRoundedImageBitmap(
-                        Bitmap.createBitmap(
-                            bitmapData!![position]!!,
-                            view.left,
-                            view.top,
-                            view.width,
-                            view.height
-                        )
+                        bitmapData!![position]!!
                     )
                 )
             }

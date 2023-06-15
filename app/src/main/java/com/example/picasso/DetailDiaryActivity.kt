@@ -24,11 +24,15 @@ import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.Volley
-import com.example.picasso.api.WeatherService
+import com.example.picasso.api.ApiService
 import com.example.picasso.databinding.ActivityDetailDiaryBinding
-import com.example.picasso.dto.DiariesListDto
+import com.example.picasso.dto.diary.DiariesListDto
+import com.example.picasso.dto.diary.detailDairyDto.RatingStarDto
+import com.example.picasso.publicClass.detailDiaryFun.backPressRating
+import com.example.picasso.publicClass.detailDiaryFun.transDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
@@ -41,7 +45,7 @@ class DetailDiaryActivity : AppCompatActivity() {
         ActivityDetailDiaryBinding.inflate(layoutInflater)
     }
 
-    private val api = WeatherService// 통신
+    private val api = ApiService// 통신
     private var queue: RequestQueue? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,29 +72,43 @@ class DetailDiaryActivity : AppCompatActivity() {
         var date: String?
         var diaryId: Int?
         var source: String
+        var rate: Float?
 
         with(intent) {
             title = getStringExtra("title").toString()
             content = getStringExtra("content").toString()
-            date = getStringExtra("date").toString()
+            date = transDate(getStringExtra("date").toString())
 //            date = SimpleDateFormat("mmmm yyyy eeee").format(getStringExtra("date").toString())
             mood = getStringExtra("emotion").toString()
             weather = getStringExtra("weather").toString()
             diaryId = getIntExtra("diaryId", 26)
             source = getStringExtra("source").toString()
+            rate = getFloatExtra("rate", 2.5F)
+            Log.d("Rate는", rate.toString())
             Log.d("Mood는", mood.toString())
             getMood(getMoodDrawable(mood!!))
             getWeather(getWeatherDrawable(weather!!))
+            binding.RatingBarDetailDiary.rating = rate as Float
+
         } // 이전의 액티비티에서 받아오기
+
         binding.ContentTextView.text = content
         binding.TitleTextView.text = title
+
+        val textView = binding.ContentTextView
+        // 텍스트뷰가 그려진 이후에 실행하도록
+        if (textView.isLaidOut) {
+            val maxLines = if (textView.lineCount > 5) 5 else textView.lineCount
+            Log.d("MaxLines", maxLines.toString())
+            binding.ContentTextView.maxLines = maxLines
+        }
 
 
         binding.imageViewPicture.clipToOutline = true
 
         Log.d("test", "통신으로 받아옴")
 
-        var StringRequest = ImageRequest(source, // + URL 이런식으로 만듬
+        val StringRequest = ImageRequest(source, // + URL 이런식으로 만듬
             { bitmap ->
                 binding.imageViewPicture.setImageBitmap(bitmap)
             }, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.ARGB_8888, { err ->
@@ -103,14 +121,13 @@ class DetailDiaryActivity : AppCompatActivity() {
         val editBtn = binding.writeButton
         val deleteBtn = binding.trashButton
 
-        backBtn.setOnClickListener {
-            backPressed()
-        }
+
+
 
         binding.textViewDate.text = date
+
         var result: List<DiariesListDto>? = null
         lifecycleScope.launch {
-
             // 일반유저 로그인
             if (fetchCalendarList() != null) {
                 result = fetchCalendarList()
@@ -142,7 +159,7 @@ class DetailDiaryActivity : AppCompatActivity() {
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             binding.imageViewPicture.setImageBitmap(myBitmap)
         }
-        //이미지 라운드 처리
+
 
 
         calendarBtn.setOnClickListener {
@@ -171,8 +188,8 @@ class DetailDiaryActivity : AppCompatActivity() {
 
             buttonInDialog.setOnClickListener {
                 // Launch coroutine to handle selected date
-                lifecycleScope.launch(Dispatchers.Default) {
 
+                CoroutineScope(Dispatchers.Main).launch {
                     Log.d("buttonInDialog Btn", "clicked")
                     result?.forEach {
                         if (it.date == selectedDate.toString()) {
@@ -224,8 +241,7 @@ class DetailDiaryActivity : AppCompatActivity() {
                         val result = deleteDiary(diaryId!!)
                         Log.e("결과", result.toString())
                         if (result == true) {
-//                            backPressed()
-                            intent = Intent(this@DetailDiaryActivity, gallery::class.java)
+                            val intent = Intent(this@DetailDiaryActivity, gallery::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
                             Log.d("OK Btn", "positive")
@@ -241,19 +257,38 @@ class DetailDiaryActivity : AppCompatActivity() {
                 }
             builder.show()
         }
+
+
+        binding.RatingBarDetailDiary.setOnRatingChangeListener { ratingBar, rating, fromUser ->
+            rate = rating
+        }
+        backBtn.setOnClickListener {
+            val intent = Intent(this@DetailDiaryActivity, gallery::class.java)
+            if (rate != null) lifecycleScope.launch {
+                if (backPressRating(RatingStarDto(rate!!, diaryId!!), this@DetailDiaryActivity)) {
+                    intent.putExtra("isRating", true)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent) // 인텐트로 넘기는 방법
+                }
+            } else {
+                intent.putExtra("isRating", false)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent) // 인텐트로 넘기는 방법
+            }
+            // back버튼을 눌렀을 때 서버와 통신하기
+        }
     }
 
     // 내가 현재 만들고 싶은 함수
-    fun backPressed() {
+    private fun backPressed() {
         setResult(Activity.RESULT_OK)
-        finish()
+        super.finish()
     } // 뒤로가기 버튼
 
     // 캘린더에서 확인 눌렀을 때
     private suspend fun calendar(id: Int, date: LocalDate) {
         val imgArrayDiary =
             arrayOf(binding.TitleTextView, binding.ContentTextView)
-
         // Local user login implementation
         try {
             val diary = api.communicateJwt(this@DetailDiaryActivity).getDetailedDiary(id).body()
@@ -264,12 +299,18 @@ class DetailDiaryActivity : AppCompatActivity() {
                         updateText(imgArrayDiary[i], diaryArray[i])
                     }
                     val dateFormat: String =
-                        DateTimeFormatter.ofPattern("MMMM-yyyy-dd").format(date)  // 사용자가 클릭한 날짜
+                        DateTimeFormatter.ofPattern("MMMM yyyy EEEE").format(date)  // 사용자가 클릭한 날짜
                     Log.d("dataFormat", dateFormat)
                     binding.textViewDate.text = dateFormat //date
                     Log.d("mood는", it.weather)
                     val moodDrawable = getMoodDrawable(it.mood)
                     val weatherDrawable = getWeatherDrawable(it.weather)
+                    binding.ContentTextView.text = it.content
+                    binding.TitleTextView.text = it.title
+                    if (it.rate != null)
+                        binding.RatingBarDetailDiary.rating = it.rate
+                    else
+                        binding.RatingBarDetailDiary.rating = 2.5F
                     getPicture("https://picaboodiaryimage.s3.ap-northeast-2.amazonaws.com/${it.source}")
                     getMood(moodDrawable)
                     getWeather(weatherDrawable)
@@ -285,8 +326,15 @@ class DetailDiaryActivity : AppCompatActivity() {
 
     private fun getMoodDrawable(mood: String): Int {
         return when (mood) {
-            "positive" -> R.drawable.ic_emotion_good
-            "negative" -> R.drawable.ic_emotion_bad
+            "happy" -> R.drawable.ic_emotion_happy
+            "good" -> R.drawable.ic_emotion_good
+            "bad" -> R.drawable.ic_emotion_bad
+            "neutral" -> R.drawable.ic_emotion_netural
+            "confused" -> R.drawable.ic_emotion_confused
+            "angry" -> R.drawable.ic_emotion_angry
+            "nervous" -> R.drawable.ic_emotion_nervous
+            "sad" -> R.drawable.ic_emotion_sad
+            "sick" -> R.drawable.ic_emotion_sick
             else -> R.drawable.ic_emotion_netural
         }
     }
@@ -304,10 +352,6 @@ class DetailDiaryActivity : AppCompatActivity() {
     private fun updateText(textView: TextView, newText: Any) { // 텍스트 업데이트하기
         Log.d("updateText", "Running")
         textView.text = newText.toString()
-    }
-
-    private fun updateImg(imageView: ImageView, imgUrl: Int) {
-        imageView.setImageResource(imgUrl)
     }
 
     private fun getMood(mood: Int) {
